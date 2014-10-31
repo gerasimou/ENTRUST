@@ -1,0 +1,313 @@
+//-------------------------------------------------
+// NAME: Simos Gerasimou
+// FILE: spy.moos
+//-------------------------------------------------
+
+ServerHost = localhost
+ServerPort = 9000
+Community  = alpha
+
+MOOSTimeWarp = 1
+TERM_REPORTING = true
+
+// Forest Lake
+LatOrigin  = 43.825300 
+LongOrigin = -70.330400 
+
+// MIT Sailing Pavilion (use this one)
+// LatOrigin  = 42.358456 
+// LongOrigin = -71.087589
+
+
+//------------------------------------------
+// Antler configuration  block
+ProcessConfig = ANTLER
+{
+  MSBetweenLaunches = 200
+
+  Run = MOOSDB			           @ NewConsole = false
+//  Run = pLogger                 @ NewConsole = false
+  Run = uSimMarine		          @ NewConsole = false
+  Run = pMarinePID		          @ NewConsole = false
+  Run = pHelmIvP		            @ NewConsole = false
+  Run = pMarineViewer	          @ NewConsole = false
+  Run = uProcessWatch	          @ NewConsole = false
+  Run = pNodeReporter	          @ NewConsole = false
+
+  Run = sRQVMOOS_ActivForms 	 @ NewConsole = false
+  Run = sSonarSensor_AF 	     @ NewConsole = false ~ SONAR1
+  Run = sSonarSensor_AF 	     @ NewConsole = false ~ SONAR2
+  Run = sSonarSensor_AF 	     @ NewConsole = false ~ SONAR3
+  
+  //Run = uTimerScript 	@ NewConsole = false ~ AutoStartScript
+}
+
+//------------------------------------------
+// uProcessWatch config block
+
+ProcessConfig = uProcessWatch
+{
+	AppTick 	= 2
+	CommsTick	= 2
+
+
+  summary_wait = 5
+
+  nowatch   = uXMS*
+  nowatch   = uMAC*
+  nowatch   = uPokeDB*
+  nowatch   = uTermCommand*
+  watch_all = true
+}
+
+
+//------------------------------------------
+// pLogger config block
+
+ProcessConfig = pLogger
+{
+	AppTick 	= 2
+	CommsTick	= 2
+
+
+  
+  File 		= logfile 		// all file names begin with this
+  Path		= ./			// the root log directory
+  FileTimeStamp = true		// append each created log directory with a timestamp
+  AsyncLog = true 			// 
+  SyncLog  = true @ 0.2 	//
+  
+//	LogAuxSrc = true
+//  WildCardLogging = false
+  
+  DoublePrecision = 4 		//Precision of floating point data
+  	Log = DESIRED_SENSOR_CONFIGURATION @ 0.2
+  	Log = DESIRED_UUV_SPEED @ 0.2
+  	Log = DESIRED_CONFIGURATION_COST @ 0.2
+}
+
+
+
+//------------------------------------------
+// uSimMarine config block
+
+ProcessConfig = uSimMarine
+{
+	AppTick 	= 2
+	CommsTick	= 2
+
+
+  start_x       = 0
+  start_y       = -10
+  start_speed   = 0
+  start_heading = 180
+
+  prefix        = NAV
+
+  turn_rate     = 40
+  thrust_map    = 0:0, 20:1, 40:2, 60:3, 80:4, 100:6
+}
+
+
+
+//------------------------------------------
+// pHelmIvP config block
+
+ProcessConfig = pHelmIvP
+{
+  MaxAppTick = 10
+	AppTick 	= 2
+	CommsTick	= 2
+
+  term_report_interval=0
+
+  bhv_dir_not_found_ok = true
+  behaviors  = spy.bhv
+  domain     = course:0:359:360
+  domain     = speed:0:8:21
+  domain     = depth:0:100:101
+}
+
+
+
+//------------------------------------------
+// pMarinePID config block
+
+ProcessConfig = pMarinePID
+{
+	AppTick 	= 2
+	CommsTick	= 2
+
+
+  VERBOSE       = true
+  DEPTH_CONTROL = false
+
+  // SIM_INSTABILITY = 20
+
+  // Yaw PID controller
+  YAW_PID_KP		 = 1.2
+  YAW_PID_KD		 = 0.0
+  YAW_PID_KI		 = 0.3
+  YAW_PID_INTEGRAL_LIMIT = 0.07
+
+  // Speed PID controller
+  SPEED_PID_KP		 = 1.0
+  SPEED_PID_KD		 = 0.0
+  SPEED_PID_KI		 = 0.0
+  SPEED_PID_INTEGRAL_LIMIT = 0.07
+
+  //MAXIMUMS
+  MAXRUDDER    = 100
+  MAXTHRUST    = 100
+
+  // A non-zero SPEED_FACTOR overrides use of SPEED_PID
+  // Will set DESIRED_THRUST = DESIRED_SPEED * SPEED_FACTOR
+  SPEED_FACTOR = 20
+}
+
+
+
+//------------------------------------------
+// pMarineViewer config block
+
+ProcessConfig = pMarineViewer
+{
+  AppTick    = 2
+  CommsTick  = 2
+
+  tiff_file            = forrest19.tif
+
+  set_pan_x            = -90
+  set_pan_y            = -280
+  zoom                 = 0.65
+  vehicle_shape_scale  = 1.5
+  hash_delta           = 50
+  hash_shade           = 0.4
+  hash_viewable        = true
+
+  trails_point_size   = 1
+
+  // Appcast configuration
+  appcast_height       = 75
+  appcast_width        = 30
+  appcast_viewable     = true
+  appcast_color_scheme = indigo
+  nodes_font_size      = medium
+  procs_font_size      = medium
+  appcast_font_size    = small
+  
+  //datum_viewable = true
+  //datum_size     = 18
+  //gui_size = small
+
+  left_context[survey-point] = DEPLOY=true
+  left_context[survey-point] = MOOS_MANUAL_OVERIDE=false
+  left_context[survey-point] = RETURN=false
+
+  right_context[return] = DEPLOY=true
+  right_context[return] = MOOS_MANUAL_OVERIDE=false
+  right_context[return] = RETURN=false
+
+  left_context[polyvert] = POLY_VERT=x=$(XPOS),y=$(YPOS)
+
+//  scope  = RETURN
+//  scope  = WPT_STAT
+//  scope  = VIEW_SEGLIST
+//  scope  = VIEW_POINT
+//  scope  = VIEW_POLYGON
+//  scope  = MVIEWER_LCLICK
+//  scope  = MVIEWER_RCLICK
+  scope = SENSORS_RATES
+  scope = LOOP_TIME
+  scope = TOTAL_DISTANCE
+
+
+  button_one = DEPLOY # DEPLOY=true
+  button_one = MOOS_MANUAL_OVERIDE=false # RETURN=false
+  button_two = RETURN:T # RETURN=true
+  button_three = Region:A # REGION=REGIONA
+  button_four = Region:B # REGION=REGIONB
+
+  action  = MENU_KEY=deploy # DEPLOY = true # RETURN = false
+  action+ = MENU_KEY=deploy # MOOS_MANUAL_OVERIDE=false
+  action  = RETURN=true
+  action  = UPDATES_RETURN=speed=1.4
+}
+
+
+
+//------------------------------------------
+// pNodeReporter config block
+
+ProcessConfig = pNodeReporter
+{
+  MaxAppTick    = 2
+  AppTick	= 2
+  CommsTick	= 2
+
+  platform_type   = KAYAK
+  platform_length = 4
+}
+
+
+
+ProcessConfig = sRQVMOOS_ActivForms
+{
+	AppTick 	= 2
+	CommsTick	= 2
+	
+	SPEED_THRESHOLD 	     = 3.8
+	SPEED_MAXIMUM		       = 4.0
+	COOLING_OFF_PERIOD	   = 10
+	MIN_SUCC_READINGS	     = 20
+	MAX_POWER_CONSUMPTION	 = 120;
+}
+
+
+ProcessConfig = SONAR1
+{
+  AppTick   = 5
+  CommsTick = 5
+  
+  SPEED_THRESHOLD   = 3.5
+  SPEED_MAXIMUM     = 4.0
+  NAME              = SONAR_SENSOR_SONAR1
+  FAIL_PATTERN      = 
+  DEGRADATION_VALUE =
+}
+
+ProcessConfig = SONAR2
+{
+  AppTick     = 4
+  CommsTick   = 4
+  
+  SPEED_THRESHOLD   = 3.0
+  SPEED_MAXIMUM     = 4.0
+  NAME              = SONAR_SENSOR_SONAR2
+  FAIL_PATTERN      = 
+  DEGRADATION_VALUE =
+}
+
+
+ProcessConfig = SONAR3
+{
+  AppTick         = 4
+  CommsTick       = 4
+  
+  SPEED_THRESHOLD   = 2.5
+  SPEED_MAXIMUM     = 4.0
+  NAME              = SONAR_SENSOR_SONAR3
+  FAIL_PATTERN      = 
+  DEGRADATION_VALUE =
+} 
+
+
+ProcessConfig = AutoStartScript
+{
+	AppTick 	= 2
+	CommsTick	= 2
+
+	event = var=MOOS_MANUAL_OVERIDE, val=false
+	event = var=DEPLOY, val=true
+	event = quit, time=20:30
+}

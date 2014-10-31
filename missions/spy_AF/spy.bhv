@@ -1,0 +1,130 @@
+//--------    FILE: alpha.bhv   -------------
+
+initialize   DEPLOY = false
+initialize   RETURN = false
+initialize   REGION = REGIONA
+
+set MODE = ACTIVE{
+	DEPLOY = true
+} INACTIVE
+
+set MODE = SURVEY{
+	MODE = ACTIVE
+	RETURN = false
+} RETURNING
+
+set MODE = SURVEYA{
+	MODE = ACTIVE:SURVEY
+	REGION = REGIONA
+} SURVEYB
+
+
+
+//----------------------------------------------
+Behavior = BHV_Waypoint
+{ 
+  name      = waypt_survey_regionA
+  pwt       = 100
+  condition = (MODE==SURVEYA)
+  endflag   = RETURN = TRUE
+  endflag   =  BHV_CONSTANT_SPEED_UPDATES=speed=3.0
+  wptflag   = WPT_HIT = $(X),$(Y)
+  perpetual = true
+
+            lead = 8
+     lead_damper = 1
+           speed = 3  // meters per second
+    capture_line = true
+  capture_radius = 5.0
+     slip_radius = 15.0
+//     	  points = -50,-50 : -65,-100 : -50,-150 : -25,-125 : 0,-150 : 50,-150 : 100,-160 : 150,-150 : 200,-200 //: 210,-200 : 207,-186 : 203,-177 : 200,-168 : 198,-158 : 196,-152 : 194,-140 : 191,-133 : 190,-128 : 189,-115 : 191,-107 : 194,-99 : 199,-92 : 206,-80 : 214,-72 : 220,-65// : 200,-50 : 200,0 : 150,0 : 100,30 : 50,30 
+//          points = 60,-40 : 60,-160 : 150,-160 : 180,-100 : 150,-40
+		 polygon = label=mission, format=radial, x=80, y=-120, radius=100, pts=15, snap=1 
+//		  points = pts={0,-50 : -50,-75 : -50,-100 : -75,-125 : -75,-200: -100,-250: 0,-300: 100,-250: 200,-250: 150,-150: 200,-100: 175,-50: 150,0: 100,50: 50,75: 40,50: 50,25: 25,0: 0,15}, label=mission, label_color=red, source=alpha2, type=waypoint, active=true, vertex_size=2.5, vertex_color=blue, edge_size=5, edge_color=yellow, msg=RQV
+          repeat = 5
+         updates = SURVEY_UPDATES_REGION_A
+
+    visual_hints = nextpt_color=red, nextpt_lcolor=green
+    visual_hints = vertex_color=blue, edge_color=pink
+    visual_hints = vertex_size=4, edge_size=1
+}
+
+
+//----------------------------------------------
+Behavior = BHV_Waypoint
+{ 
+  name      = waypt_survey_regionB
+  pwt       = 100
+  condition = (MODE==SURVEYB)
+  endflag   = REGION = REGIONA
+  endflag   =  BHV_CONSTANT_SPEED_UPDATES=speed=6.0
+  wptflag   = WPT_HIT = $(X),$(Y)
+  perpetual = true
+
+            lead = 8
+     lead_damper = 1
+           speed = 3   // meters per second
+    capture_line = true
+  capture_radius = 5.0
+     slip_radius = 15.0
+//     	  points = -50,-50 : -65,-100 : -50,-150 : -25,-125 : 0,-150 : 50,-150 : 100,-160 : 150,-150 : 200,-200 : 210,-200 : 207,-186 : 203,-177 : 200,-168 : 198,-158 : 196,-152 : 194,-140 : 191,-133 : 190,-128 : 189,-115 : 191,-107 : 194,-99 : 199,-92 : 206,-80 : 214,-72 : 220,-65 : 200,-50 : 200,0 : 150,0 : 100,30 : 50,30 
+          points = 200,-200 : 210,-200 : 207,-186 : 203,-177 : 200,-168 : 198,-158 : 196,-152 : 194,-140 : 191,-133 : 190,-128 : 189,-115 : 191,-107 : 194,-99 : 199,-92 : 206,-80 : 214,-72 : 220,-65
+//		 polygon = label=mission, format=radial, x=80, y=-120, radius=100, pts=15, snap=1 
+//		  points = pts={0,-50 : -50,-75 : -50,-100 : -75,-125 : -75,-200: -100,-250: 0,-300: 100,-250: 200,-250: 150,-150: 200,-100: 175,-50: 150,0: 100,50: 50,75: 40,50: 50,25: 25,0: 0,15}, label=mission, label_color=red, source=alpha2, type=waypoint, active=true, vertex_size=2.5, vertex_color=blue, edge_size=5, edge_color=yellow, msg=RQV
+          repeat = 5
+         updates = SURVEY_UPDATES
+
+    visual_hints = nextpt_color=red, nextpt_lcolor=green
+    visual_hints = vertex_color=blue, edge_color=pink
+    visual_hints = vertex_size=4, edge_size=1
+}
+
+//----------------------------------------------
+Behavior=BHV_Waypoint
+{
+  name       = waypt_return
+  pwt        = 100
+  condition  = RETURN = true
+  condition  = DEPLOY = true
+  perpetual  = true
+  endflag    = RETURN = false
+  endflag    = DEPLOY = false
+  endflag    = MISSION = complete
+
+           speed = 2.0
+  capture_radius = 2.0
+     slip_radius = 8.0
+          points = 0,0
+}
+
+
+
+
+//----------------------------------------------
+Behavior=BHV_ConstantSpeed
+{
+  name      = constant_speed
+  pwt       = 600
+  condition = (MODE==SURVEY)
+  updates   = UPDATES_BHV_CONSTANT_SPEED
+  duration  = no-time-limit
+  endflag   = CONSTANT_SPEED_FLAG = END
+  speed     = 6
+}
+
+
+//----------------------------------------------
+Behavior = BHV_ConstantDepth
+{
+  name      = bhv_const_depth
+  pwt       = 100
+  condition = MODE==SURVEY
+  updates   = DEPTH_VALUE
+  duration  = no-time-limit
+
+        depth = 50
+    peakwidth = 8
+    basewidth = 12
+  summitdelta = 10
+}
+
