@@ -1,0 +1,18 @@
+%!TEX root = ../ENTRUST_TR.tex
+
+%This section will explain what are we going to do, which is combining two technologies ActivFORMS + Prism.
+\simos{References needed}
+Since the advent of autonomous computing and the vision of autonomous systems the engineering of self-managing software systems has been a research challenge. Self-managing systems are expected not only to operate with minimal administrator intervention throughout their lifetime, but also to adapt while providing service in response to environment changes, evolving requirements and unexpected failures. As a result, a lot of research has been devoted in developing frameworks, methodologies and architectures that support the engineering of systems enhanced with self-* capabilities( e.g., self-adaptive, self-managing, self-healing). 
+
+Despite the research progress achieved within the last few years, the engineering of trustworthy self-managing systems remains a major research challenge. This barrier constrains the applicability of self-managing systems in safety-critical and business-critical applications, as for example, in healthcare, e-commerce, and defence. Systems deployed in these application areas should work dependably and must be characterised by high-integrity runtime operation as defined by NIST: ``High integrity software is software that must be trusted to work dependably in some critical function, and whose failure to do so may have catastrophic results, such as serious injury, loss of life or property, business failure or breach of security."
+
+%be chara where dependable system operation is of paramount importance. In particular, systems deployed in these application areas 
+
+The software engineering community classified the provision of assurances that a system operates dependably among the most important research objectives for self-managing systems. In fact, assurances was amid the research threads highlighted in the most recent roadmaps for self-adaptive systems. We adopt the following definition for assurances: \textit{``Assurances is providing evidence that the software system fulfils its functional and non-functional requirements throughout its lifetime".}
+
+In this work, we extend the current practices on the provision of assurances for self-managing systems. To this end, we introduce the first tool-supported methodology for assuring the safety of the closed control loops of self-managing systems using established industry practices. Our framework for the ENgineering of TRUstworthy Self-managing sysTems (\approach) integrates:
+\squishlist
+	\item an extended version of our approach to developing formally verified monitor-analysis-planning-execution (MAPE) autonomic control loops;
+	\item our runtime quantitative verification technique for the analysis stage of these loops;
+	\item an industry-adopted approach to arguing security based on the widely used Goal Structuring Notation (GSN) for safety arguments.
+\squishend
