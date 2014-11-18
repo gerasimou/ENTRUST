@@ -1,54 +1,53 @@
 %!TEX root = ../ENTRUST_TR.tex
-This section will explain how we achieved our goal.
-
-\subsection{Managed System}
-Details about managed system
+%This section will explain how we achieved our goal.
+To illustrate how \approach\ is capable of assuring runtime compliance of a self-adaptive system with its non-functional Quality-of-Service (QoS) requirements,  we developed a simulator for the  unmanned underwater vehicle embedded system (Section~\ref{sec:example}), using the open-source framework MOOS-IvP\footnote{\url{http://oceanai.mit.edu/moos-ivp}}. Note that  in \approach\ self-adaptive systems there is separation of concerns between the managed system (i.e., the UUV and how it works) and the managing system (i.e., the autonomic component that enables a system to adapt). This consideration is in line with the autonomic computing vision~\cite{Kephart2003:Comp}. In this realisation of \approach, the focus is on the managing element; we omit any details about how the actual  UUV operates.
 
 \subsection{Managing System}
-In this section, we briefly describe the managing system automata. 
+The managing system adopts the MAPE (Monitor--Analyse--Plan--Execute) autonomic control loop proposed by Kephart and Chess~\cite{Kephart2003:Comp}. Also, the managing system uses probes and effectors to receive input from and send instructions to the managed system, respectively. In the following paragraphs we describe briefly the automata we developed for realising \approach\ in the UUV embedded system.
 
-\subsubsection{Monitor}
-Monitor automaton receives the sensors rates from probes. After that, the monitor automaton checks that whether received sensor rates are equal to previously measured sensor rates. If both rates are equal, then there is no need to analyze because an analysis already have been applied to these sensor rates. If sensor rates are different then analysis is required and the monitor automaton will invoke the analyze automaton by sending an \textit{start\_analysis!} signal as shown in Fig.~\ref{fig:monitor-automaton}. 
+\subsubsection{Monitor.}
+Monitor automaton receives sensors rates from probes. After that, the monitor automaton checks whether the received sensor rates are equal to the previously measured sensor rates. If both rates are equal, there is no need for adaptation; hence \approach\ terminates and does not continue with the remaining MAPE-control loop steps. If the sensor rates are different, then analysis is required and the monitor automaton invokes the analyse automaton sending an \textit{start\_analysis!} signal as shown in Figure~\ref{fig:monitor-automaton}. 
 
-\begin{figure}[t]
+\begin{figure}[h!]
 	\centering
-	\includegraphics[width=0.5\textwidth]{figures/Monitor}
-	\caption{Monitor automaton of UUV}\label{fig:monitor-automaton}
+	\includegraphics[trim = 10mm 100mm 0mm 125mm, clip, width=0.5\linewidth]{figures/Monitor.pdf}
+	\caption{Monitor automaton of our UUV embedded system}\label{fig:monitor-automaton}
 	
 	\vspace*{-2mm}
 \end{figure}
 
-\subsubsection{Analyze}
-Analyze automaton takes the current measured rates of sensors and try to find the best configuration which fulfills the requirement R1, R2 and R3. Fig.~\ref{fig:analysis-automaton} shows the analyze automaton of feedback loop. The analyze automaton starts the analysis when received the signal \textit{start\_analysis?} from monitor automaton. After receiving the signal from monitor automaton, the analyze automaton sends the sensor rates to RQV by sending the signal ~\textit{calcProbability}.
-When the RQV receive the signal it creates a set of possible configurations and send back to the analyze automaton through ~\textit{recvProbability?} channel. After that the analyze automaton analyzes the set of configurations and try to find a best configuration which holds the R1, R2 and R3. Once the best configuration is found, the analyze automaton compares the current configuration of UUV to the best configuration. If both configurations are equal, then there is no need to plan anything. If the best configuration is not equal to the current configuration of UUV, the analyze automaton recognize that this is the time to do an adaptation, and send the signal ~\textit{planning!} to invoke the planner. Fig.~\ref{fig:analysis-automaton} shows the analyze automaton of the UUV.
+\subsubsection{Analyze.}
 
-
-\begin{figure}[t]
+\begin{figure}[b]
 	\centering
-	\includegraphics[width=0.7\textwidth]{figures/Analyzer}
-	\caption{Analyze automaton of UUV}\label{fig:analysis-automaton}
+	\includegraphics[trim = 5mm 95mm 0mm 105mm, clip, width=0.8\textwidth]{figures/Analyzer}
+	\caption{Analyze automaton of our UUV embedded system}\label{fig:analysis-automaton}
 	
 	\vspace*{-2mm}
 \end{figure}
 
+Analyse automaton takes the current measured rates of sensors and tries to find the best configuration which satisfies requirements R1, R2 and R3. Figure~\ref{fig:analysis-automaton} depicts the analyse automaton. The automaton starts the analysis as soon as it receives the signal \textit{start\_analysis?} from the monitor automaton. It then
+sends the signal \textit{calcProbability} along with the sensor rates and invokes RQV to carry out quantitative analysis. For this operation we use an embedded instance of the probabilistic model checker PRISM~\cite{Kwiatkowska2011:CAV}. This analysis evaluates all the possible system configurations for the current environment state (i.e., rates of sensors). The analyse automaton receives the quantitative verification results through the \textit{recvProbability?} channel. Next, it examines the received set of configurations and determines the configuration that satisfies requirements R1 and R2, and optimises requirement R3. Once the best configuration is found, the automaton compares the new configuration to the current best configuration. If the configurations are the same, there is no need to proceed to planning. If adaptation is required, the analyse automaton invokes the planner sending the signal~\textit{planning!}.
 
-\subsubsection{Plan}
-Plan automaton creates the plans for adaptation. The plan automaton starts the planning when the signal ~\textit{planning?} is received. The plan automaton starts first with creating the plan steps for sensor configuration, i.e., whether a sensor should be turned on or off. To do that, the plan automaton checks the current sensor configuration with the best configuration for each sensor to determine whether there is a need to turn on the sensor or off. If the sensor configuration is same as in the best configuration, then there is no need to create a plan step. Otherwise, if sensor configurations are not matched then the plan automaton creates the plan step, according to the best configuration. When all sensors are checked, then the plan automaton checks the current speed of the UUV with the UUV speed in best configuration. Similarly, if the current UUV speed doesn't match with the speed in best configuration, the plan automaton creates a new plan step to change the speed of UUV, otherwise the plan automaton continues. After checking the UUV speed, the plan automaton invokes the execute automaton by sending the ~\textit{execute!} signal. Fig.~\ref{fig:plan-automaton} shows the plan automaton of the UUV.
-\begin{figure}[t]
+
+\subsubsection{Planner.}
+The plan automaton is responsible for establishing an adaptation policy. It starts running when the signal ~\textit{planning?} is received. First, it  creates the plan steps for the new configuration of sensors, i.e., whether a sensor should be turned on or off. To this end, the plan automaton checks the current sensor configuration with the new configuration for each sensor to determine whether there is a need to make a change to one or more sensors. If the current sensor configuration is same as in the new configuration, there is no need to create a plan step. Otherwise, if the sensor configurations do not match, then the plan automaton creates the plan step, according to the new configuration. When all sensors are checked, the plan automaton checks  if the current UUV speed is different to the new UUV speed and if this true, it creates a new plan step to change the speed of the UUV. Finally, the plan automaton invokes the execute automaton by sending the~\textit{execute!} signal. Figure~\ref{fig:plan-automaton} shows the plan automaton of the UUV.
+
+\begin{figure}[h!]
 	\centering
-	\includegraphics[width=1\textwidth]{figures/Planner}
-	\caption{Plan automaton}\label{fig:plan-automaton}
+	\includegraphics[trim = 5mm 80mm 0mm 90mm, clip, width=\linewidth]{figures/Planner.pdf}
+	\caption{Plan automaton of our UUV embedded system}\label{fig:plan-automaton}
 	
 	\vspace*{-2mm}
 \end{figure}
 
 
 \subsubsection{Execute}
-The execute automaton starts by the signal ~\textit{execute?} sent from the plan automaton. After receiving the signal the execute automaton goes through all the plan steps one by one and execute them. The plan automaton is presented in the Fig.~\ref{fig:execute-automaton}.
+The execute automaton starts after receiving the signal ~\textit{execute?} from the plan automaton. It then goes through all the plan steps, one-by-one, and executes them. The plan automaton is presented in the Figure~\ref{fig:execute-automaton}.
 
 \begin{figure}[t]
 	\centering
-	\includegraphics[width=1\textwidth]{figures/Executor}
+	\includegraphics[trim = 10mm 95mm 5mm 105mm, clip, width=\textwidth]{figures/Executor}
 	\caption{Execute automaton}\label{fig:execute-automaton}
 	
 	\vspace*{-2mm}

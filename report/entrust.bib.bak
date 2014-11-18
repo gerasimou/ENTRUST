@@ -2,6 +2,36 @@
 % Encoding: ISO8859_1
 
 
+@InCollection{Alur1990,
+  Title                    = {Automata for modeling real-time systems},
+  Author                   = {Alur, Rajeev and Dill, David},
+  Booktitle                = {Automata, Languages and Programming},
+  Publisher                = {Springer Berlin Heidelberg},
+  Year                     = {1990},
+  Editor                   = {Paterson, MichaelS.},
+  Pages                    = {322-335},
+  Series                   = {Lecture Notes in Computer Science},
+  Volume                   = {443},
+
+  Doi                      = {10.1007/BFb0032042},
+  ISBN                     = {978-3-540-52826-5},
+  Language                 = {English},
+  Owner                    = {Usman},
+  Timestamp                = {2014.11.09},
+  Url                      = {http://dx.doi.org/10.1007/BFb0032042}
+}
+
+@InProceedings{Behrmann2004,
+  Title                    = {A tutorial on uppaal},
+  Author                   = {Gerd Behrmann and Re David and Kim G. Larsen},
+  Year                     = {2004},
+  Pages                    = {200--236},
+  Publisher                = {Springer},
+
+  Owner                    = {Usman},
+  Timestamp                = {2014.11.09}
+}
+
 @Article{Calinescu2012:CACM,
   Title                    = {Self-adaptive software needs quantitative verification at runtime},
   Author                   = {Calinescu, Radu and Ghezzi, Carlo and Kwiatkowska, Marta and Mirandola, Raffaela},
@@ -101,6 +131,34 @@
   Timestamp                = {2014.11.04}
 }
 
+@InProceedings{Filieri2011:ICSE,
+  Title                    = {Run-time Efficient Probabilistic Model Checking},
+  Author                   = {Filieri, Antonio and Ghezzi, Carlo and Tamburrelli, Giordano},
+  Booktitle                = {Proceedings of the 33rd International Conference on Software Engineering},
+  Year                     = {2011},
+
+  Address                  = {New York, NY, USA},
+  Pages                    = {341--350},
+  Publisher                = {ACM},
+  Series                   = {ICSE '11},
+
+  Abstract                 = {Unpredictable changes continuously affect software systems and may have a severe impact on their quality of service, potentially jeopardizing the system's ability to meet the desired requirements. Changes may occur in critical components of the system, clients' operational profiles, requirements, or deployment environments.
+
+The adoption of software models and model checking techniques at run time may support automatic reasoning about such changes, detect harmful configurations, and potentially enable appropriate (self-)reactions. However, traditional model checking techniques and tools may not be simply applied as they are at run time, since they hardly meet the constraints imposed by on-the-fly analysis, in terms of execution time and memory occupation.
+
+This paper precisely addresses this issue and focuses on reliability models, given in terms of Discrete Time Markov Chains, and probabilistic model checking. It develops a mathematical framework for run-time probabilistic model checking that, given a reliability model and a set of requirements, statically generates a set of expressions, which can be efficiently used at run-time to verify system requirements. An experimental comparison of our approach with existing probabilistic model checkers shows its practical applicability in run-time verification.},
+  Acmid                    = {1985840},
+  Comment                  = {Working Mom},
+  Doi                      = {10.1145/1985793.1985840},
+  ISBN                     = {978-1-4503-0445-0},
+  Keywords                 = {discrete time markov chains, run-time model checking},
+  Location                 = {Waikiki, Honolulu, HI, USA},
+  Numpages                 = {10},
+  Owner                    = {sgerasimou},
+  Timestamp                = {2014.11.04},
+  Url                      = {http://doi.acm.org/10.1145/1985793.1985840}
+}
+
 @Article{Ganek2003:IBM,
   Title                    = {The dawning of the autonomic computing era},
   Author                   = {Ganek, A.G. and Corbi, T. A.},
@@ -185,6 +243,29 @@
   Url                      = {http://doi.acm.org/10.1145/2593929.2593944}
 }
 
+@InProceedings{Johnson2013:CBSE,
+  Title                    = {An Incremental Verification Framework for Component-based Software Systems},
+  Author                   = {Johnson, Kenneth and Calinescu, Radu and Kikuchi, Shinji},
+  Booktitle                = {Proceedings of the 16th International ACM Sigsoft Symposium on Component-based Software Engineering},
+  Year                     = {2013},
+
+  Address                  = {New York, NY, USA},
+  Pages                    = {33--42},
+  Publisher                = {ACM},
+  Series                   = {CBSE '13},
+
+  Acmid                    = {2465456},
+  Comment                  = {INVEST},
+  Doi                      = {10.1145/2465449.2465456},
+  ISBN                     = {978-1-4503-2122-8},
+  Keywords                 = {domain-specific languages, incremental verification, probabilistic assume-guarantee verification},
+  Location                 = {Vancouver, British Columbia, Canada},
+  Numpages                 = {10},
+  Owner                    = {sgerasimou},
+  Timestamp                = {2014.11.04},
+  Url                      = {http://doi.acm.org/10.1145/2465449.2465456}
+}
+
 @InProceedings{Kelly2004:DSN,
   Title                    = {The Goal Structuring Notation -- A Safety Argument Notation},
   Author                   = {Tim Kelly and Rob Weaver},
@@ -207,6 +288,24 @@
   Keywords                 = {DP industry;autonomic computing;corporate-wide computing systems;self-managing computing systems;software complexity crisis;Biology computing;Computer industry;Computer vision;Crisis management;Environmental management;Humans;Internet;LAN interconnection;Pervasive computing;Technological innovation},
   Owner                    = {sgerasimou},
   Timestamp                = {2014.11.04}
+}
+
+@InProceedings{Kramer2007:FOSE,
+  Title                    = {Self-Managed Systems: An Architectural Challenge},
+  Author                   = {Kramer, Jeff and Magee, Jeff},
+  Booktitle                = {2007 Future of Software Engineering},
+  Year                     = {2007},
+
+  Address                  = {Washington, DC, USA},
+  Pages                    = {259--268},
+  Publisher                = {IEEE Computer Society},
+  Series                   = {FOSE '07},
+
+  Acmid                    = {1254723},
+  Doi                      = {10.1109/FOSE.2007.19},
+  ISBN                     = {0-7695-2829-5},
+  Numpages                 = {10},
+  Url                      = {http://dx.doi.org/10.1109/FOSE.2007.19}
 }
 
 @Article{Lemos2014:Dagstuhl,
