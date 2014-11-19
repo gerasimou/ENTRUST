@@ -12,7 +12,7 @@ chan changeSpeed;
 broadcast chan allPlanStepsExecuted, noPlanningNeeded, noAnalysisRequired;
 int newSpeed, sensorId;
 
-int uuvSpeed = 25, count[sensor_id], empty[sensor_id], mCount[sensor_id], avgRates[sensor_id], currentAvgRates[sensor_id], sId;
+int uuvSpeed = 21, count[sensor_id], empty[sensor_id], mCount[sensor_id], avgRates[sensor_id], currentAvgRates[sensor_id], sId;
 
 
 chan monitor, calculate_probability, receive_probability, setAverageMRates, start_analysis, planning, execute;
@@ -47,7 +47,7 @@ typedef struct{
 
 RQVResult RQVResultsArray[NUM_OF_SENSOR_CONFIGS * NUM_OF_SPEED_CONFIGS];
 RQVResult bestConfiguration;
-RQVResult currentConfiguration = {{0,0,0},0,-1,-1};
+RQVResult currentConfiguration = {{5,4,4},21,25,43};
 //RQVResult EMPTY_CONFIG = {{-1,-1,-1},-1,-1,-1};
 
 

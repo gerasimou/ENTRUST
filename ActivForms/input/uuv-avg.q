@@ -48,6 +48,16 @@ A[]Executor.PlanExecuted imply currentConfiguration.req2Result < 120
 /*
 
 */
+A[] currentConfiguration.req2Result < 120
+
+/*
+
+*/
+A[] currentConfiguration.req1Result > 20
+
+/*
+
+*/
 A[]Executor.PlanExecuted imply currentConfiguration.req1Result > 20
 
 /*
