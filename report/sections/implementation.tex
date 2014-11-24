@@ -58,7 +58,12 @@ The execute automaton starts after receiving the signal~\textit{execute?} from t
 %If necessary code of probes \& effectors
 
 \subsection{Offline Assurances}
-We used \approach\ to produce offline assurance evidence for the UUV embedded self-managing system. We verified both the MAPE-K autonomic control loop and the QoS system requirements (Section~\ref{sec:example}) using the knowledge part which comprises the probabilistic and automata models. For the verification of the MAPE-K control loop we checked various properties of the MAPE-K loop, e.g., if it is deadlock free and if its elements communicate and synchronise through signals. We also confirmed that each stage of this control loop operates as expected, e.g., if the analyser determines that no adaptation is required then it has to be the case that the current configuration is the same as the new configuration, if the planner creates an adaptation policy then the executor will realise this policy. For the verification of the QoS requirements, we used the nominal sensor rates (as defined in their specifications) and carried out the analysis stage to confirm that there is at least one policy satisfying the QoS requirements of the self-adaptive UUV system.
+We used \approach\ to produce offline assurance evidence for the UUV embedded self-managing system. We verified both the MAPE-K autonomic control loop and the QoS system requirements (Section~\ref{sec:example}) using the knowledge part which comprises the probabilistic and automata models. For the verification of the MAPE-K control loop we checked various properties of the MAPE-K loop, e.g., if it is deadlock free and if its elements communicate and synchronise through signals. We also confirmed that each stage of this control loop operates as expected, e.g., if the analyser determines that no adaptation is required then it has to be the case that the current configuration is the same as the new configuration, if the planner creates an adaptation policy then the executor will realise this policy. For the verification of the QoS requirements, we used the nominal sensor rates (as defined in their specifications) and carried out the analysis stage to confirm that there is at least one policy satisfying the QoS requirements of the self-adaptive UUV system. In particular, we provided evidence for the compliance of the UUV system with requirements R1 and R2 (Section~\ref{sec:example}) verifying the following properties:
+\begin{align*}
+	A[] \textrm{current\_Configuration.R1\_Result} > 20 \ \\
+	A[] \textrm{current\_Configuration.R2\_Result} < 120 
+\end{align*}
+
 
 %\subsection{Online Assurances}
 %The perpetual provision of assurances online. How we are using both technologies together.
