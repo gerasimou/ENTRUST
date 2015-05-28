@@ -18,11 +18,11 @@ public class MarketWatch extends AbstractService {
 		String result = "Market Watch (" + id + "): ";
 		timesInvoked++;
 		if (isServiceOK()){
-			result += rand.nextDouble() * 100;
+			result += "RUN";//rand.nextDouble() * 100;
 			timesSucceeded++;
 		}
 		else{
-			result += "NULL";
+			result += "FAIL";
 		}
 		return result;
 	}

@@ -16,10 +16,11 @@ public class TechnicalAnalysis extends AbstractService {
 	public String run() {
 		String result = "Technical Analysis (" + id + "): ";
 		if (isServiceOK()){
-			result += rand.nextDouble() * 100;
+			result += "RUN";//rand.nextDouble() * 100;
+			timesSucceeded++;
 		}
 		else{
-			result += "NULL";
+			result += "FAIL";
 		}
 		return result;
 	}

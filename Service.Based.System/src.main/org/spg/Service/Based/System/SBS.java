@@ -31,7 +31,7 @@ public class SBS
 	private List<AbstractService> 		orList; //order
 	private List<AbstractService>		noList; //notification
 	private List<List<AbstractService>> srvList;//service list 
-	private long 						timeNow;
+//	private long 						timeNow;
 	private Random						rand;
 	private SBSController				controller;
 	
@@ -43,6 +43,7 @@ public class SBS
      * @throws Exception 
      */
     public SBS () throws FileNotFoundException, IOException{
+    	//initialise operations lists
     	mwList = new ArrayList<AbstractService>();
     	taList = new ArrayList<AbstractService>();
     	faList = new ArrayList<AbstractService>();
@@ -54,11 +55,12 @@ public class SBS
     	srvList.add(faList);	srvList.add(alList);
     	srvList.add(orList);	srvList.add(noList);
     	
+    	//load properties
     	prop.load(new FileInputStream("config.properties"));
     	
-    	timeNow = System.currentTimeMillis();
-    	rand 	= new Random(timeNow);
-    	    	
+    	rand 	= new Random(System.currentTimeMillis());
+    	
+    	//make initialisations
     	init();
     	
     	controller = new SBSController(srvList);
@@ -66,16 +68,18 @@ public class SBS
     }
     
 
+    //set up & init services
     private void init(){
     	Set<Entry<Object, Object>> entrySet = prop.entrySet();
     	Iterator<Entry<Object, Object>> it = entrySet.iterator();
     	while (it.hasNext()){
     		Entry<Object, Object> entry = it.next();
-    		String serviceType 			= entry.getKey().toString();
-    		String serviceProperties	= entry.getValue().toString().replaceAll("\\s+","");//remove whitespaces
+    		String entryKey 	= entry.getKey().toString();
+    		String entryDetails	= entry.getValue().toString().replaceAll("\\s+","");//remove whitespaces
     		
-    		if (serviceType.contains("SRV")){
-    			ServiceFactory.createService(serviceType, serviceProperties, srvList);
+    		//if this entry is a service, create it
+    		if (entryKey.contains("SRV")){
+    			ServiceFactory.createService(entryKey, entryDetails, srvList);
     		}
     	}
     }
@@ -90,24 +94,26 @@ public class SBS
 
     
     public void run(int seconds){
-    	long timeNow 	= System.currentTimeMillis();
-    	long stopTime	= timeNow + seconds * 1000;
+    	long startTime 	= System.currentTimeMillis();
+    	long stopTime	= startTime + seconds * 1000;
     	
-    	System.err.println(System.currentTimeMillis()/1000.0);
 		try {
-	    	while (stopTime >= System.currentTimeMillis()){
+	    	long timeNow 	= startTime;
+	    	while (stopTime >= timeNow){
+	    		System.out.println((timeNow - startTime)/1000.0);
 	    		for (List<AbstractService> aList : srvList){
 	    			for (AbstractService aService : aList){
 	    				System.out.println(aService.run());
 	    			}
 	    		}
-				Thread.sleep(1000);
+				Thread.sleep(500);
+		    	timeNow 	= System.currentTimeMillis();
 	    	}
 		} 
 		catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-    	System.err.println(System.currentTimeMillis()/1000.0);
+//    	System.err.println(System.currentTimeMillis()/1000.0);
     }
     
 }

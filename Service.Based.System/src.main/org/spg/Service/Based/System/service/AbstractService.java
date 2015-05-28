@@ -81,7 +81,7 @@ public abstract class AbstractService {
 	 */
 	public AbstractService(double reliability, double costPerInvocation, double timePerInvocation, 
 						   String failureTimePattern, String failureDegradationPattern, String ID){
-		this.nominalReliability 				= reliability;
+		this.nominalReliability 		= reliability;
 		this.costPerInvocation			= costPerInvocation;
 		this.timePerInvocation			= timePerInvocation;
 		this.failureStartList			= new ArrayList<Long>();
@@ -118,12 +118,12 @@ public abstract class AbstractService {
 
 		//check for errors
 		if (failureTimePattern.isEmpty() || failureDegradationPattern.isEmpty()){
-			return;
+			throw new IllegalArgumentException("Missing argument");
 		}
 		
-		//parse failure time pattern
+		//parse failure interval pattern
 		failureTimePattern = failureTimePattern.replaceAll("\\s+","");//remove whitespaces
-		String[] failureIntervals = failureTimePattern.split("-");
+		String[] failureIntervals = failureTimePattern.split("-"); // get failure time intervals
 		long now = System.currentTimeMillis();
 		for (String failureInterval : failureIntervals){			
 			String[] failure = failureInterval.split(":");
@@ -158,12 +158,14 @@ public abstract class AbstractService {
 		//if the service will still suffer from failure & the failure occurs now
 		else if ( (timeNow >= failureStartTime) && (timeNow <= failureStopTime) ){
 			double newReliability = nominalReliability * (100 - failureDegradationList.get(failureIndex));
-			if (rand.nextDouble() > newReliability){
+			double number = rand.nextDouble() * 100; 
+//			System.out.println(number +" ? "+ newReliability);
+			if (number > newReliability){
 				return false;
 			}
 		}
 		//if the failure has passed, the service should recover
-		else if (timeNow > failureStopTime){
+		else if ( (timeNow > failureStopTime) && (failureIndex < failureStopList.size()) ) {
 			failureIndex++;
 		}		
 		return true;
