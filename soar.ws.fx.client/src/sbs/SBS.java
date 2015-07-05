@@ -83,19 +83,10 @@ public class SBS {
        	long startTime 	= System.currentTimeMillis();
     	long stopTime	= startTime + seconds * 1000;
     	
-		try {
-			long timeNow 	= startTime;
-			while (stopTime >= timeNow){
-				((MarketWatchClient1)srvList.get(0).get(0)).run();
-				timeNow = System.currentTimeMillis();
-			}
-		}
-		catch (RemoteException e) {
-				e.printStackTrace();
-		} 
-		catch (WatchMarketService1ExceptionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		long timeNow 	= startTime;
+		while (stopTime >= timeNow){
+			((MarketWatchClient1)srvList.get(0).get(0)).runReflection();
+			timeNow = System.currentTimeMillis();
 		} 
      }
     

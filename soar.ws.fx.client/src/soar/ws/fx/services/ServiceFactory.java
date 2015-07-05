@@ -87,8 +87,9 @@ public class ServiceFactory {
         						STUB stub = getSTUB(key);
         						System.out.println("soar.ws.fx.services.WM."+stub.getCode());
         						Class<?> cls = Class.forName("soar.ws.fx.services.WM." + stub.getCode());
-        						Object instance = cls.newInstance();
-        						srvList.get(0).add(new MarketWatchClient1(id, reliability, costPerInvocation, timePerInvocation, cls));        						
+//        						Object instance = cls.newInstance();
+        						srvList.get(0).add(new MarketWatchClient1(id, reliability, costPerInvocation, timePerInvocation, 
+        																  failureTimePattern, failureDegradationPattern, cls));        						
         						break;}
 				default:{}
 			}
@@ -107,12 +108,6 @@ public class ServiceFactory {
     	catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} 
-    	catch (InstantiationException e) {
-			e.printStackTrace();
-		} 
-    	catch (IllegalAccessException e) {
-			e.printStackTrace();
-		}
     }
 
 }
