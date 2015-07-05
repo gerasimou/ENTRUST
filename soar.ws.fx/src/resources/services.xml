@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<serviceGroup>
+	<service name="MarketWatchService1" scope="application">
+		<description>
+			This is a watch market service
+		</description>
+		
+		<parameter name="ServiceClass" locked="false">soar.ws.fx.MarketWatchService1</parameter>	
+		
+		<messageReceivers>
+			<messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-only" class="org.apache.axis2.rpc.receivers.RPCInOnlyMessageReceiver" />
+			<messageReceiver  mep="http://www.w3.org/2004/08/wsdl/in-out"  class="org.apache.axis2.rpc.receivers.RPCMessageReceiver"/>
+		</messageReceivers>
+	</service>
+	
+	<service name="MarketWatchService2" scope="application">
+		<description>
+			This is a watch market service
+		</description>
+		
+		<parameter name="ServiceClass" locked="false">soar.ws.fx.MarketWatchService2</parameter>	
+		
+		<messageReceivers>
+			<messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-only" class="org.apache.axis2.rpc.receivers.RPCInOnlyMessageReceiver" />
+			<messageReceiver  mep="http://www.w3.org/2004/08/wsdl/in-out"  class="org.apache.axis2.rpc.receivers.RPCMessageReceiver"/>
+		</messageReceivers>
+	</service>
+	
+	<service name="TechnicalAnalysisService1" scope="application">
+		<description>
+			This is a technical analysis service
+		</description>
+		
+		<parameter name="ServiceClass" locked="false">soar.ws.fx.TechnicalAnalysisService1</parameter>	
+		
+		<messageReceivers>
+			<messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-only" class="org.apache.axis2.rpc.receivers.RPCInOnlyMessageReceiver" />
+			<messageReceiver  mep="http://www.w3.org/2004/08/wsdl/in-out"  class="org.apache.axis2.rpc.receivers.RPCMessageReceiver"/>
+		</messageReceivers>
+	</service>
+	
+		<service name="TechnicalAnalysisService2" scope="application">
+		<description>
+			This is a technical analysis service
+		</description>
+		
+		<parameter name="ServiceClass" locked="false">soar.ws.fx.TechnicalAnalysisService2</parameter>	
+		
+		<messageReceivers>
+			<messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-only" class="org.apache.axis2.rpc.receivers.RPCInOnlyMessageReceiver" />
+			<messageReceiver  mep="http://www.w3.org/2004/08/wsdl/in-out"  class="org.apache.axis2.rpc.receivers.RPCMessageReceiver"/>
+		</messageReceivers>
+	</service>
+	
+</serviceGroup>

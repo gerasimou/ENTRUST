@@ -1,6 +1,0 @@
-PRISM
-=====
-
-Version: 4.2.1
-Date: Thu May 28 20:21:41 EEST 2015
-Hostname: Simoss-MacBook-Pro.local
