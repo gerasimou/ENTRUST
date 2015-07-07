@@ -1,6 +1,6 @@
 
 /**
- * WatchMarketService1CallbackHandler.java
+ * MarketWatchService2CallbackHandler.java
  *
  * This file was auto-generated from WSDL
  * by the Apache Axis2 version: 1.6.2  Built on : Apr 17, 2012 (05:33:49 IST)
@@ -9,10 +9,10 @@
     package soar.ws.fx.services.WM;
 
     /**
-     *  WatchMarketService1CallbackHandler Callback class, Users can extend this class and implement
+     *  MarketWatchService2CallbackHandler Callback class, Users can extend this class and implement
      *  their own receiveResult and receiveError methods.
      */
-    public abstract class WatchMarketService1CallbackHandler{
+    public abstract class MarketWatchService2CallbackHandler{
 
 
 
@@ -24,14 +24,14 @@
     * @param clientData Object mechanism by which the user can pass in user data
     * that will be avilable at the time this callback is called.
     */
-    public WatchMarketService1CallbackHandler(Object clientData){
+    public MarketWatchService2CallbackHandler(Object clientData){
         this.clientData = clientData;
     }
 
     /**
     * Please use this constructor if you don't want to set any clientData
     */
-    public WatchMarketService1CallbackHandler(){
+    public MarketWatchService2CallbackHandler(){
         this.clientData = null;
     }
 
@@ -45,11 +45,27 @@
 
         
            /**
+            * auto generated Axis2 call back method for getNominalReliability method
+            * override this method for handling normal response from getNominalReliability operation
+            */
+           public void receiveResultgetNominalReliability(
+                    soar.ws.fx.services.WM.MarketWatchService2Stub.GetNominalReliabilityResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from getNominalReliability operation
+           */
+            public void receiveErrorgetNominalReliability(java.lang.Exception e) {
+            }
+                
+           /**
             * auto generated Axis2 call back method for run method
             * override this method for handling normal response from run operation
             */
            public void receiveResultrun(
-                    soar.ws.fx.services.WM.WatchMarketService1Stub.RunResponse result
+                    soar.ws.fx.services.WM.MarketWatchService2Stub.RunResponse result
                         ) {
            }
 

@@ -1,6 +1,6 @@
 
 /**
- * WatchMarketService2Stub.java
+ * MarketWatchService1Stub.java
  *
  * This file was auto-generated from WSDL
  * by the Apache Axis2 version: 1.6.2  Built on : Apr 17, 2012 (05:33:49 IST)
@@ -10,11 +10,11 @@
         
 
         /*
-        *  WatchMarketService2Stub java implementation
+        *  MarketWatchService1Stub java implementation
         */
 
         
-        public class WatchMarketService2Stub extends org.apache.axis2.client.Stub
+        public class MarketWatchService1Stub extends org.apache.axis2.client.Stub
         {
         protected org.apache.axis2.description.AxisOperation[] _operations;
 
@@ -38,13 +38,25 @@
     private void populateAxisService() throws org.apache.axis2.AxisFault {
 
      //creating the Service with a unique name
-     _service = new org.apache.axis2.description.AxisService("WatchMarketService2" + getUniqueSuffix());
+     _service = new org.apache.axis2.description.AxisService("MarketWatchService1" + getUniqueSuffix());
      addAnonymousOperations();
 
         //creating the operations
         org.apache.axis2.description.AxisOperation __operation;
 
-        _operations = new org.apache.axis2.description.AxisOperation[2];
+        _operations = new org.apache.axis2.description.AxisOperation[3];
+        
+                   __operation = new org.apache.axis2.description.OutInAxisOperation();
+                
+
+            __operation.setName(new javax.xml.namespace.QName("http://fx.ws.soar", "getNominalReliability"));
+	    _service.addOperation(__operation);
+	    
+
+	    
+	    
+            _operations[0]=__operation;
+            
         
                    __operation = new org.apache.axis2.description.OutInAxisOperation();
                 
@@ -55,7 +67,7 @@
 
 	    
 	    
-            _operations[0]=__operation;
+            _operations[1]=__operation;
             
         
                     __operation = new org.apache.axis2.description.OutOnlyAxisOperation();
@@ -67,7 +79,7 @@
 
 	    
 	    
-            _operations[1]=__operation;
+            _operations[2]=__operation;
             
         
         }
@@ -75,9 +87,9 @@
     //populates the faults
     private void populateFaults(){
          
-              faultExceptionNameMap.put(new org.apache.axis2.client.FaultMapKey(new javax.xml.namespace.QName("http://fx.ws.soar","WatchMarketService2Exception"), "run"),"soar.ws.fx.WatchMarketService2ExceptionException");
-              faultExceptionClassNameMap.put(new org.apache.axis2.client.FaultMapKey(new javax.xml.namespace.QName("http://fx.ws.soar","WatchMarketService2Exception"), "run"),"soar.ws.fx.WatchMarketService2ExceptionException");
-              faultMessageMap.put(new org.apache.axis2.client.FaultMapKey(new javax.xml.namespace.QName("http://fx.ws.soar","WatchMarketService2Exception"), "run"),"soar.ws.fx.WatchMarketService2Stub$WatchMarketService2Exception");
+              faultExceptionNameMap.put(new org.apache.axis2.client.FaultMapKey(new javax.xml.namespace.QName("http://fx.ws.soar","MarketWatchService1Exception"), "run"),"soar.ws.fx.MarketWatchService1ExceptionException");
+              faultExceptionClassNameMap.put(new org.apache.axis2.client.FaultMapKey(new javax.xml.namespace.QName("http://fx.ws.soar","MarketWatchService1Exception"), "run"),"soar.ws.fx.MarketWatchService1ExceptionException");
+              faultMessageMap.put(new org.apache.axis2.client.FaultMapKey(new javax.xml.namespace.QName("http://fx.ws.soar","MarketWatchService1Exception"), "run"),"soar.ws.fx.MarketWatchService1Stub$MarketWatchService1Exception");
            
 
 
@@ -87,7 +99,7 @@
       *Constructor that takes in a configContext
       */
 
-    public WatchMarketService2Stub(org.apache.axis2.context.ConfigurationContext configurationContext,
+    public MarketWatchService1Stub(org.apache.axis2.context.ConfigurationContext configurationContext,
        java.lang.String targetEndpoint)
        throws org.apache.axis2.AxisFault {
          this(configurationContext,targetEndpoint,false);
@@ -97,7 +109,7 @@
    /**
      * Constructor that takes in a configContext  and useseperate listner
      */
-   public WatchMarketService2Stub(org.apache.axis2.context.ConfigurationContext configurationContext,
+   public MarketWatchService1Stub(org.apache.axis2.context.ConfigurationContext configurationContext,
         java.lang.String targetEndpoint, boolean useSeparateListener)
         throws org.apache.axis2.AxisFault {
          //To populate AxisService
@@ -117,25 +129,25 @@
     /**
      * Default Constructor
      */
-    public WatchMarketService2Stub(org.apache.axis2.context.ConfigurationContext configurationContext) throws org.apache.axis2.AxisFault {
+    public MarketWatchService1Stub(org.apache.axis2.context.ConfigurationContext configurationContext) throws org.apache.axis2.AxisFault {
         
-                    this(configurationContext,"http://localhost:8080/axis2/services/WatchMarketService2.WatchMarketService2HttpSoap11Endpoint/" );
+                    this(configurationContext,"http://localhost:8080/axis2/services/MarketWatchService1.MarketWatchService1HttpSoap11Endpoint/" );
                 
     }
 
     /**
      * Default Constructor
      */
-    public WatchMarketService2Stub() throws org.apache.axis2.AxisFault {
+    public MarketWatchService1Stub() throws org.apache.axis2.AxisFault {
         
-                    this("http://localhost:8080/axis2/services/WatchMarketService2.WatchMarketService2HttpSoap11Endpoint/" );
+                    this("http://localhost:8080/axis2/services/MarketWatchService1.MarketWatchService1HttpSoap11Endpoint/" );
                 
     }
 
     /**
      * Constructor taking the target endpoint
      */
-    public WatchMarketService2Stub(java.lang.String targetEndpoint) throws org.apache.axis2.AxisFault {
+    public MarketWatchService1Stub(java.lang.String targetEndpoint) throws org.apache.axis2.AxisFault {
         this(null,targetEndpoint);
     }
 
@@ -145,26 +157,295 @@
                     /**
                      * Auto generated method signature
                      * 
-                     * @see soar.ws.fx.WatchMarketService2#run
-                     * @param run0
+                     * @see soar.ws.fx.MarketWatchService1#getNominalReliability
+                     * @param getNominalReliability0
                     
-                     * @throws soar.ws.fx.services.WM.WatchMarketService2ExceptionException : 
                      */
 
                     
 
-                            public  soar.ws.fx.services.WM.WatchMarketService2Stub.RunResponse run(
+                            public  soar.ws.fx.services.WM.MarketWatchService1Stub.GetNominalReliabilityResponse getNominalReliability(
 
-                            soar.ws.fx.services.WM.WatchMarketService2Stub.Run run0)
+                            soar.ws.fx.services.WM.MarketWatchService1Stub.GetNominalReliability getNominalReliability0)
+                        
+
+                    throws java.rmi.RemoteException
+                    
+                    {
+              org.apache.axis2.context.MessageContext _messageContext = null;
+              try{
+               org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[0].getName());
+              _operationClient.getOptions().setAction("urn:getNominalReliability");
+              _operationClient.getOptions().setExceptionToBeThrownOnSOAPFault(true);
+
+              
+              
+                  addPropertyToOperationClient(_operationClient,org.apache.axis2.description.WSDL2Constants.ATTR_WHTTP_QUERY_PARAMETER_SEPARATOR,"&");
+              
+
+              // create a message context
+              _messageContext = new org.apache.axis2.context.MessageContext();
+
+              
+
+              // create SOAP envelope with that payload
+              org.apache.axiom.soap.SOAPEnvelope env = null;
+                    
+                                                    
+                                                    env = toEnvelope(getFactory(_operationClient.getOptions().getSoapVersionURI()),
+                                                    getNominalReliability0,
+                                                    optimizeContent(new javax.xml.namespace.QName("http://fx.ws.soar",
+                                                    "getNominalReliability")), new javax.xml.namespace.QName("http://fx.ws.soar",
+                                                    "getNominalReliability"));
+                                                
+        //adding SOAP soap_headers
+         _serviceClient.addHeadersToEnvelope(env);
+        // set the message context with that soap envelope
+        _messageContext.setEnvelope(env);
+
+        // add the message contxt to the operation client
+        _operationClient.addMessageContext(_messageContext);
+
+        //execute the operation client
+        _operationClient.execute(true);
+
+         
+               org.apache.axis2.context.MessageContext _returnMessageContext = _operationClient.getMessageContext(
+                                           org.apache.axis2.wsdl.WSDLConstants.MESSAGE_LABEL_IN_VALUE);
+                org.apache.axiom.soap.SOAPEnvelope _returnEnv = _returnMessageContext.getEnvelope();
+                
+                
+                                java.lang.Object object = fromOM(
+                                             _returnEnv.getBody().getFirstElement() ,
+                                             soar.ws.fx.services.WM.MarketWatchService1Stub.GetNominalReliabilityResponse.class,
+                                              getEnvelopeNamespaces(_returnEnv));
+
+                               
+                                        return (soar.ws.fx.services.WM.MarketWatchService1Stub.GetNominalReliabilityResponse)object;
+                                   
+         }catch(org.apache.axis2.AxisFault f){
+
+            org.apache.axiom.om.OMElement faultElt = f.getDetail();
+            if (faultElt!=null){
+                if (faultExceptionNameMap.containsKey(new org.apache.axis2.client.FaultMapKey(faultElt.getQName(),"getNominalReliability"))){
+                    //make the fault by reflection
+                    try{
+                        java.lang.String exceptionClassName = (java.lang.String)faultExceptionClassNameMap.get(new org.apache.axis2.client.FaultMapKey(faultElt.getQName(),"getNominalReliability"));
+                        java.lang.Class exceptionClass = java.lang.Class.forName(exceptionClassName);
+                        java.lang.reflect.Constructor constructor = exceptionClass.getConstructor(String.class);
+                        java.lang.Exception ex = (java.lang.Exception) constructor.newInstance(f.getMessage());
+                        //message class
+                        java.lang.String messageClassName = (java.lang.String)faultMessageMap.get(new org.apache.axis2.client.FaultMapKey(faultElt.getQName(),"getNominalReliability"));
+                        java.lang.Class messageClass = java.lang.Class.forName(messageClassName);
+                        java.lang.Object messageObject = fromOM(faultElt,messageClass,null);
+                        java.lang.reflect.Method m = exceptionClass.getMethod("setFaultMessage",
+                                   new java.lang.Class[]{messageClass});
+                        m.invoke(ex,new java.lang.Object[]{messageObject});
+                        
+
+                        throw new java.rmi.RemoteException(ex.getMessage(), ex);
+                    }catch(java.lang.ClassCastException e){
+                       // we cannot intantiate the class - throw the original Axis fault
+                        throw f;
+                    } catch (java.lang.ClassNotFoundException e) {
+                        // we cannot intantiate the class - throw the original Axis fault
+                        throw f;
+                    }catch (java.lang.NoSuchMethodException e) {
+                        // we cannot intantiate the class - throw the original Axis fault
+                        throw f;
+                    } catch (java.lang.reflect.InvocationTargetException e) {
+                        // we cannot intantiate the class - throw the original Axis fault
+                        throw f;
+                    }  catch (java.lang.IllegalAccessException e) {
+                        // we cannot intantiate the class - throw the original Axis fault
+                        throw f;
+                    }   catch (java.lang.InstantiationException e) {
+                        // we cannot intantiate the class - throw the original Axis fault
+                        throw f;
+                    }
+                }else{
+                    throw f;
+                }
+            }else{
+                throw f;
+            }
+            } finally {
+                if (_messageContext.getTransportOut() != null) {
+                      _messageContext.getTransportOut().getSender().cleanup(_messageContext);
+                }
+            }
+        }
+            
+                /**
+                * Auto generated method signature for Asynchronous Invocations
+                * 
+                * @see soar.ws.fx.MarketWatchService1#startgetNominalReliability
+                    * @param getNominalReliability0
+                
+                */
+                public  void startgetNominalReliability(
+
+                 soar.ws.fx.services.WM.MarketWatchService1Stub.GetNominalReliability getNominalReliability0,
+
+                  final soar.ws.fx.services.WM.MarketWatchService1CallbackHandler callback)
+
+                throws java.rmi.RemoteException{
+
+              org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[0].getName());
+             _operationClient.getOptions().setAction("urn:getNominalReliability");
+             _operationClient.getOptions().setExceptionToBeThrownOnSOAPFault(true);
+
+              
+              
+                  addPropertyToOperationClient(_operationClient,org.apache.axis2.description.WSDL2Constants.ATTR_WHTTP_QUERY_PARAMETER_SEPARATOR,"&");
+              
+
+
+              // create SOAP envelope with that payload
+              org.apache.axiom.soap.SOAPEnvelope env=null;
+              final org.apache.axis2.context.MessageContext _messageContext = new org.apache.axis2.context.MessageContext();
+
+                    
+                                    //Style is Doc.
+                                    
+                                                    
+                                                    env = toEnvelope(getFactory(_operationClient.getOptions().getSoapVersionURI()),
+                                                    getNominalReliability0,
+                                                    optimizeContent(new javax.xml.namespace.QName("http://fx.ws.soar",
+                                                    "getNominalReliability")), new javax.xml.namespace.QName("http://fx.ws.soar",
+                                                    "getNominalReliability"));
+                                                
+        // adding SOAP soap_headers
+         _serviceClient.addHeadersToEnvelope(env);
+        // create message context with that soap envelope
+        _messageContext.setEnvelope(env);
+
+        // add the message context to the operation client
+        _operationClient.addMessageContext(_messageContext);
+
+
+                    
+                        _operationClient.setCallback(new org.apache.axis2.client.async.AxisCallback() {
+                            public void onMessage(org.apache.axis2.context.MessageContext resultContext) {
+                            try {
+                                org.apache.axiom.soap.SOAPEnvelope resultEnv = resultContext.getEnvelope();
+                                
+                                        java.lang.Object object = fromOM(resultEnv.getBody().getFirstElement(),
+                                                                         soar.ws.fx.services.WM.MarketWatchService1Stub.GetNominalReliabilityResponse.class,
+                                                                         getEnvelopeNamespaces(resultEnv));
+                                        callback.receiveResultgetNominalReliability(
+                                        (soar.ws.fx.services.WM.MarketWatchService1Stub.GetNominalReliabilityResponse)object);
+                                        
+                            } catch (org.apache.axis2.AxisFault e) {
+                                callback.receiveErrorgetNominalReliability(e);
+                            }
+                            }
+
+                            public void onError(java.lang.Exception error) {
+								if (error instanceof org.apache.axis2.AxisFault) {
+									org.apache.axis2.AxisFault f = (org.apache.axis2.AxisFault) error;
+									org.apache.axiom.om.OMElement faultElt = f.getDetail();
+									if (faultElt!=null){
+										if (faultExceptionNameMap.containsKey(new org.apache.axis2.client.FaultMapKey(faultElt.getQName(),"getNominalReliability"))){
+											//make the fault by reflection
+											try{
+													java.lang.String exceptionClassName = (java.lang.String)faultExceptionClassNameMap.get(new org.apache.axis2.client.FaultMapKey(faultElt.getQName(),"getNominalReliability"));
+													java.lang.Class exceptionClass = java.lang.Class.forName(exceptionClassName);
+													java.lang.reflect.Constructor constructor = exceptionClass.getConstructor(String.class);
+                                                    java.lang.Exception ex = (java.lang.Exception) constructor.newInstance(f.getMessage());
+													//message class
+													java.lang.String messageClassName = (java.lang.String)faultMessageMap.get(new org.apache.axis2.client.FaultMapKey(faultElt.getQName(),"getNominalReliability"));
+														java.lang.Class messageClass = java.lang.Class.forName(messageClassName);
+													java.lang.Object messageObject = fromOM(faultElt,messageClass,null);
+													java.lang.reflect.Method m = exceptionClass.getMethod("setFaultMessage",
+															new java.lang.Class[]{messageClass});
+													m.invoke(ex,new java.lang.Object[]{messageObject});
+													
+					
+										            callback.receiveErrorgetNominalReliability(new java.rmi.RemoteException(ex.getMessage(), ex));
+                                            } catch(java.lang.ClassCastException e){
+                                                // we cannot intantiate the class - throw the original Axis fault
+                                                callback.receiveErrorgetNominalReliability(f);
+                                            } catch (java.lang.ClassNotFoundException e) {
+                                                // we cannot intantiate the class - throw the original Axis fault
+                                                callback.receiveErrorgetNominalReliability(f);
+                                            } catch (java.lang.NoSuchMethodException e) {
+                                                // we cannot intantiate the class - throw the original Axis fault
+                                                callback.receiveErrorgetNominalReliability(f);
+                                            } catch (java.lang.reflect.InvocationTargetException e) {
+                                                // we cannot intantiate the class - throw the original Axis fault
+                                                callback.receiveErrorgetNominalReliability(f);
+                                            } catch (java.lang.IllegalAccessException e) {
+                                                // we cannot intantiate the class - throw the original Axis fault
+                                                callback.receiveErrorgetNominalReliability(f);
+                                            } catch (java.lang.InstantiationException e) {
+                                                // we cannot intantiate the class - throw the original Axis fault
+                                                callback.receiveErrorgetNominalReliability(f);
+                                            } catch (org.apache.axis2.AxisFault e) {
+                                                // we cannot intantiate the class - throw the original Axis fault
+                                                callback.receiveErrorgetNominalReliability(f);
+                                            }
+									    } else {
+										    callback.receiveErrorgetNominalReliability(f);
+									    }
+									} else {
+									    callback.receiveErrorgetNominalReliability(f);
+									}
+								} else {
+								    callback.receiveErrorgetNominalReliability(error);
+								}
+                            }
+
+                            public void onFault(org.apache.axis2.context.MessageContext faultContext) {
+                                org.apache.axis2.AxisFault fault = org.apache.axis2.util.Utils.getInboundFaultFromMessageContext(faultContext);
+                                onError(fault);
+                            }
+
+                            public void onComplete() {
+                                try {
+                                    _messageContext.getTransportOut().getSender().cleanup(_messageContext);
+                                } catch (org.apache.axis2.AxisFault axisFault) {
+                                    callback.receiveErrorgetNominalReliability(axisFault);
+                                }
+                            }
+                });
+                        
+
+          org.apache.axis2.util.CallbackReceiver _callbackReceiver = null;
+        if ( _operations[0].getMessageReceiver()==null &&  _operationClient.getOptions().isUseSeparateListener()) {
+           _callbackReceiver = new org.apache.axis2.util.CallbackReceiver();
+          _operations[0].setMessageReceiver(
+                    _callbackReceiver);
+        }
+
+           //execute the operation client
+           _operationClient.execute(false);
+
+                    }
+                
+                    /**
+                     * Auto generated method signature
+                     * 
+                     * @see soar.ws.fx.MarketWatchService1#run
+                     * @param run2
+                    
+                     * @throws soar.ws.fx.services.WM.MarketWatchService1ExceptionException : 
+                     */
+
+                    
+
+                            public  soar.ws.fx.services.WM.MarketWatchService1Stub.RunResponse run(
+
+                            soar.ws.fx.services.WM.MarketWatchService1Stub.Run run2)
                         
 
                     throws java.rmi.RemoteException
                     
                     
-                        ,soar.ws.fx.services.WM.WatchMarketService2ExceptionException{
+                        ,soar.ws.fx.services.WM.MarketWatchService1ExceptionException{
               org.apache.axis2.context.MessageContext _messageContext = null;
               try{
-               org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[0].getName());
+               org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[1].getName());
               _operationClient.getOptions().setAction("urn:run");
               _operationClient.getOptions().setExceptionToBeThrownOnSOAPFault(true);
 
@@ -183,7 +464,7 @@
                     
                                                     
                                                     env = toEnvelope(getFactory(_operationClient.getOptions().getSoapVersionURI()),
-                                                    run0,
+                                                    run2,
                                                     optimizeContent(new javax.xml.namespace.QName("http://fx.ws.soar",
                                                     "run")), new javax.xml.namespace.QName("http://fx.ws.soar",
                                                     "run"));
@@ -207,11 +488,11 @@
                 
                                 java.lang.Object object = fromOM(
                                              _returnEnv.getBody().getFirstElement() ,
-                                             soar.ws.fx.services.WM.WatchMarketService2Stub.RunResponse.class,
+                                             soar.ws.fx.services.WM.MarketWatchService1Stub.RunResponse.class,
                                               getEnvelopeNamespaces(_returnEnv));
 
                                
-                                        return (soar.ws.fx.services.WM.WatchMarketService2Stub.RunResponse)object;
+                                        return (soar.ws.fx.services.WM.MarketWatchService1Stub.RunResponse)object;
                                    
          }catch(org.apache.axis2.AxisFault f){
 
@@ -232,8 +513,8 @@
                                    new java.lang.Class[]{messageClass});
                         m.invoke(ex,new java.lang.Object[]{messageObject});
                         
-                        if (ex instanceof soar.ws.fx.services.WM.WatchMarketService2ExceptionException){
-                          throw (soar.ws.fx.services.WM.WatchMarketService2ExceptionException)ex;
+                        if (ex instanceof soar.ws.fx.services.WM.MarketWatchService1ExceptionException){
+                          throw (soar.ws.fx.services.WM.MarketWatchService1ExceptionException)ex;
                         }
                         
 
@@ -273,19 +554,19 @@
                 /**
                 * Auto generated method signature for Asynchronous Invocations
                 * 
-                * @see soar.ws.fx.WatchMarketService2#startrun
-                    * @param run0
+                * @see soar.ws.fx.MarketWatchService1#startrun
+                    * @param run2
                 
                 */
                 public  void startrun(
 
-                 soar.ws.fx.services.WM.WatchMarketService2Stub.Run run0,
+                 soar.ws.fx.services.WM.MarketWatchService1Stub.Run run2,
 
-                  final soar.ws.fx.services.WM.WatchMarketService2CallbackHandler callback)
+                  final soar.ws.fx.services.WM.MarketWatchService1CallbackHandler callback)
 
                 throws java.rmi.RemoteException{
 
-              org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[0].getName());
+              org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[1].getName());
              _operationClient.getOptions().setAction("urn:run");
              _operationClient.getOptions().setExceptionToBeThrownOnSOAPFault(true);
 
@@ -304,7 +585,7 @@
                                     
                                                     
                                                     env = toEnvelope(getFactory(_operationClient.getOptions().getSoapVersionURI()),
-                                                    run0,
+                                                    run2,
                                                     optimizeContent(new javax.xml.namespace.QName("http://fx.ws.soar",
                                                     "run")), new javax.xml.namespace.QName("http://fx.ws.soar",
                                                     "run"));
@@ -325,10 +606,10 @@
                                 org.apache.axiom.soap.SOAPEnvelope resultEnv = resultContext.getEnvelope();
                                 
                                         java.lang.Object object = fromOM(resultEnv.getBody().getFirstElement(),
-                                                                         soar.ws.fx.services.WM.WatchMarketService2Stub.RunResponse.class,
+                                                                         soar.ws.fx.services.WM.MarketWatchService1Stub.RunResponse.class,
                                                                          getEnvelopeNamespaces(resultEnv));
                                         callback.receiveResultrun(
-                                        (soar.ws.fx.services.WM.WatchMarketService2Stub.RunResponse)object);
+                                        (soar.ws.fx.services.WM.MarketWatchService1Stub.RunResponse)object);
                                         
                             } catch (org.apache.axis2.AxisFault e) {
                                 callback.receiveErrorrun(e);
@@ -355,8 +636,8 @@
 															new java.lang.Class[]{messageClass});
 													m.invoke(ex,new java.lang.Object[]{messageObject});
 													
-													if (ex instanceof soar.ws.fx.services.WM.WatchMarketService2ExceptionException){
-														callback.receiveErrorrun((soar.ws.fx.services.WM.WatchMarketService2ExceptionException)ex);
+													if (ex instanceof soar.ws.fx.services.WM.MarketWatchService1ExceptionException){
+														callback.receiveErrorrun((soar.ws.fx.services.WM.MarketWatchService1ExceptionException)ex);
 											            return;
 										            }
 										            
@@ -411,9 +692,9 @@
                         
 
           org.apache.axis2.util.CallbackReceiver _callbackReceiver = null;
-        if ( _operations[0].getMessageReceiver()==null &&  _operationClient.getOptions().isUseSeparateListener()) {
+        if ( _operations[1].getMessageReceiver()==null &&  _operationClient.getOptions().isUseSeparateListener()) {
            _callbackReceiver = new org.apache.axis2.util.CallbackReceiver();
-          _operations[0].setMessageReceiver(
+          _operations[1].setMessageReceiver(
                     _callbackReceiver);
         }
 
@@ -428,7 +709,7 @@
                   * 
                   */
                 public void  initialiseService(
-                 soar.ws.fx.services.WM.WatchMarketService2Stub.InitialiseService initialiseService2
+                 soar.ws.fx.services.WM.MarketWatchService1Stub.InitialiseService initialiseService4
 
                 ) throws java.rmi.RemoteException
                 
@@ -437,7 +718,7 @@
                 org.apache.axis2.context.MessageContext _messageContext = null;
 
                 
-                org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[1].getName());
+                org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[2].getName());
                 _operationClient.getOptions().setAction("urn:initialiseService");
                 _operationClient.getOptions().setExceptionToBeThrownOnSOAPFault(true);
 
@@ -453,7 +734,7 @@
                                                     
                                                                     
                                                                     env = toEnvelope(getFactory(_operationClient.getOptions().getSoapVersionURI()),
-                                                                    initialiseService2,
+                                                                    initialiseService4,
                                                                     optimizeContent(new javax.xml.namespace.QName("http://fx.ws.soar",
                                                                     "initialiseService")),new javax.xml.namespace.QName("http://fx.ws.soar",
                                                                     "initialiseService"));
@@ -509,7 +790,7 @@
         }
         return false;
     }
-     //http://localhost:8080/axis2/services/WatchMarketService2.WatchMarketService2HttpSoap11Endpoint/
+     //http://localhost:8080/axis2/services/MarketWatchService1.MarketWatchService1HttpSoap11Endpoint/
         public static class RunResponse
         implements org.apache.axis2.databinding.ADBBean{
         
@@ -979,6 +1260,455 @@
 
         }
     
+        public static class MarketWatchService1Exception
+        implements org.apache.axis2.databinding.ADBBean{
+        
+                public static final javax.xml.namespace.QName MY_QNAME = new javax.xml.namespace.QName(
+                "http://fx.ws.soar",
+                "MarketWatchService1Exception",
+                "ns1");
+
+            
+
+                        /**
+                        * field for MarketWatchService1Exception
+                        */
+
+                        
+                                    protected Exception localMarketWatchService1Exception ;
+                                
+                           /*  This tracker boolean wil be used to detect whether the user called the set method
+                          *   for this attribute. It will be used to determine whether to include this field
+                           *   in the serialized XML
+                           */
+                           protected boolean localMarketWatchService1ExceptionTracker = false ;
+
+                           public boolean isMarketWatchService1ExceptionSpecified(){
+                               return localMarketWatchService1ExceptionTracker;
+                           }
+
+                           
+
+                           /**
+                           * Auto generated getter method
+                           * @return Exception
+                           */
+                           public  Exception getMarketWatchService1Exception(){
+                               return localMarketWatchService1Exception;
+                           }
+
+                           
+                        
+                            /**
+                               * Auto generated setter method
+                               * @param param MarketWatchService1Exception
+                               */
+                               public void setMarketWatchService1Exception(Exception param){
+                            localMarketWatchService1ExceptionTracker = true;
+                                   
+                                            this.localMarketWatchService1Exception=param;
+                                    
+
+                               }
+                            
+
+     
+     
+        /**
+        *
+        * @param parentQName
+        * @param factory
+        * @return org.apache.axiom.om.OMElement
+        */
+       public org.apache.axiom.om.OMElement getOMElement (
+               final javax.xml.namespace.QName parentQName,
+               final org.apache.axiom.om.OMFactory factory) throws org.apache.axis2.databinding.ADBException{
+
+
+        
+               org.apache.axiom.om.OMDataSource dataSource =
+                       new org.apache.axis2.databinding.ADBDataSource(this,MY_QNAME);
+               return factory.createOMElement(dataSource,MY_QNAME);
+            
+        }
+
+         public void serialize(final javax.xml.namespace.QName parentQName,
+                                       javax.xml.stream.XMLStreamWriter xmlWriter)
+                                throws javax.xml.stream.XMLStreamException, org.apache.axis2.databinding.ADBException{
+                           serialize(parentQName,xmlWriter,false);
+         }
+
+         public void serialize(final javax.xml.namespace.QName parentQName,
+                               javax.xml.stream.XMLStreamWriter xmlWriter,
+                               boolean serializeType)
+            throws javax.xml.stream.XMLStreamException, org.apache.axis2.databinding.ADBException{
+            
+                
+
+
+                java.lang.String prefix = null;
+                java.lang.String namespace = null;
+                
+
+                    prefix = parentQName.getPrefix();
+                    namespace = parentQName.getNamespaceURI();
+                    writeStartElement(prefix, namespace, parentQName.getLocalPart(), xmlWriter);
+                
+                  if (serializeType){
+               
+
+                   java.lang.String namespacePrefix = registerPrefix(xmlWriter,"http://fx.ws.soar");
+                   if ((namespacePrefix != null) && (namespacePrefix.trim().length() > 0)){
+                       writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","type",
+                           namespacePrefix+":MarketWatchService1Exception",
+                           xmlWriter);
+                   } else {
+                       writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","type",
+                           "MarketWatchService1Exception",
+                           xmlWriter);
+                   }
+
+               
+                   }
+                if (localMarketWatchService1ExceptionTracker){
+                                    if (localMarketWatchService1Exception==null){
+
+                                        writeStartElement(null, "http://fx.ws.soar", "MarketWatchService1Exception", xmlWriter);
+
+                                       // write the nil attribute
+                                      writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
+                                      xmlWriter.writeEndElement();
+                                    }else{
+                                     localMarketWatchService1Exception.serialize(new javax.xml.namespace.QName("http://fx.ws.soar","MarketWatchService1Exception"),
+                                        xmlWriter);
+                                    }
+                                }
+                    xmlWriter.writeEndElement();
+               
+
+        }
+
+        private static java.lang.String generatePrefix(java.lang.String namespace) {
+            if(namespace.equals("http://fx.ws.soar")){
+                return "ns1";
+            }
+            return org.apache.axis2.databinding.utils.BeanUtil.getUniquePrefix();
+        }
+
+        /**
+         * Utility method to write an element start tag.
+         */
+        private void writeStartElement(java.lang.String prefix, java.lang.String namespace, java.lang.String localPart,
+                                       javax.xml.stream.XMLStreamWriter xmlWriter) throws javax.xml.stream.XMLStreamException {
+            java.lang.String writerPrefix = xmlWriter.getPrefix(namespace);
+            if (writerPrefix != null) {
+                xmlWriter.writeStartElement(namespace, localPart);
+            } else {
+                if (namespace.length() == 0) {
+                    prefix = "";
+                } else if (prefix == null) {
+                    prefix = generatePrefix(namespace);
+                }
+
+                xmlWriter.writeStartElement(prefix, localPart, namespace);
+                xmlWriter.writeNamespace(prefix, namespace);
+                xmlWriter.setPrefix(prefix, namespace);
+            }
+        }
+        
+        /**
+         * Util method to write an attribute with the ns prefix
+         */
+        private void writeAttribute(java.lang.String prefix,java.lang.String namespace,java.lang.String attName,
+                                    java.lang.String attValue,javax.xml.stream.XMLStreamWriter xmlWriter) throws javax.xml.stream.XMLStreamException{
+            if (xmlWriter.getPrefix(namespace) == null) {
+                xmlWriter.writeNamespace(prefix, namespace);
+                xmlWriter.setPrefix(prefix, namespace);
+            }
+            xmlWriter.writeAttribute(namespace,attName,attValue);
+        }
+
+        /**
+         * Util method to write an attribute without the ns prefix
+         */
+        private void writeAttribute(java.lang.String namespace,java.lang.String attName,
+                                    java.lang.String attValue,javax.xml.stream.XMLStreamWriter xmlWriter) throws javax.xml.stream.XMLStreamException{
+            if (namespace.equals("")) {
+                xmlWriter.writeAttribute(attName,attValue);
+            } else {
+                registerPrefix(xmlWriter, namespace);
+                xmlWriter.writeAttribute(namespace,attName,attValue);
+            }
+        }
+
+
+           /**
+             * Util method to write an attribute without the ns prefix
+             */
+            private void writeQNameAttribute(java.lang.String namespace, java.lang.String attName,
+                                             javax.xml.namespace.QName qname, javax.xml.stream.XMLStreamWriter xmlWriter) throws javax.xml.stream.XMLStreamException {
+
+                java.lang.String attributeNamespace = qname.getNamespaceURI();
+                java.lang.String attributePrefix = xmlWriter.getPrefix(attributeNamespace);
+                if (attributePrefix == null) {
+                    attributePrefix = registerPrefix(xmlWriter, attributeNamespace);
+                }
+                java.lang.String attributeValue;
+                if (attributePrefix.trim().length() > 0) {
+                    attributeValue = attributePrefix + ":" + qname.getLocalPart();
+                } else {
+                    attributeValue = qname.getLocalPart();
+                }
+
+                if (namespace.equals("")) {
+                    xmlWriter.writeAttribute(attName, attributeValue);
+                } else {
+                    registerPrefix(xmlWriter, namespace);
+                    xmlWriter.writeAttribute(namespace, attName, attributeValue);
+                }
+            }
+        /**
+         *  method to handle Qnames
+         */
+
+        private void writeQName(javax.xml.namespace.QName qname,
+                                javax.xml.stream.XMLStreamWriter xmlWriter) throws javax.xml.stream.XMLStreamException {
+            java.lang.String namespaceURI = qname.getNamespaceURI();
+            if (namespaceURI != null) {
+                java.lang.String prefix = xmlWriter.getPrefix(namespaceURI);
+                if (prefix == null) {
+                    prefix = generatePrefix(namespaceURI);
+                    xmlWriter.writeNamespace(prefix, namespaceURI);
+                    xmlWriter.setPrefix(prefix,namespaceURI);
+                }
+
+                if (prefix.trim().length() > 0){
+                    xmlWriter.writeCharacters(prefix + ":" + org.apache.axis2.databinding.utils.ConverterUtil.convertToString(qname));
+                } else {
+                    // i.e this is the default namespace
+                    xmlWriter.writeCharacters(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(qname));
+                }
+
+            } else {
+                xmlWriter.writeCharacters(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(qname));
+            }
+        }
+
+        private void writeQNames(javax.xml.namespace.QName[] qnames,
+                                 javax.xml.stream.XMLStreamWriter xmlWriter) throws javax.xml.stream.XMLStreamException {
+
+            if (qnames != null) {
+                // we have to store this data until last moment since it is not possible to write any
+                // namespace data after writing the charactor data
+                java.lang.StringBuffer stringToWrite = new java.lang.StringBuffer();
+                java.lang.String namespaceURI = null;
+                java.lang.String prefix = null;
+
+                for (int i = 0; i < qnames.length; i++) {
+                    if (i > 0) {
+                        stringToWrite.append(" ");
+                    }
+                    namespaceURI = qnames[i].getNamespaceURI();
+                    if (namespaceURI != null) {
+                        prefix = xmlWriter.getPrefix(namespaceURI);
+                        if ((prefix == null) || (prefix.length() == 0)) {
+                            prefix = generatePrefix(namespaceURI);
+                            xmlWriter.writeNamespace(prefix, namespaceURI);
+                            xmlWriter.setPrefix(prefix,namespaceURI);
+                        }
+
+                        if (prefix.trim().length() > 0){
+                            stringToWrite.append(prefix).append(":").append(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(qnames[i]));
+                        } else {
+                            stringToWrite.append(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(qnames[i]));
+                        }
+                    } else {
+                        stringToWrite.append(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(qnames[i]));
+                    }
+                }
+                xmlWriter.writeCharacters(stringToWrite.toString());
+            }
+
+        }
+
+
+        /**
+         * Register a namespace prefix
+         */
+        private java.lang.String registerPrefix(javax.xml.stream.XMLStreamWriter xmlWriter, java.lang.String namespace) throws javax.xml.stream.XMLStreamException {
+            java.lang.String prefix = xmlWriter.getPrefix(namespace);
+            if (prefix == null) {
+                prefix = generatePrefix(namespace);
+                javax.xml.namespace.NamespaceContext nsContext = xmlWriter.getNamespaceContext();
+                while (true) {
+                    java.lang.String uri = nsContext.getNamespaceURI(prefix);
+                    if (uri == null || uri.length() == 0) {
+                        break;
+                    }
+                    prefix = org.apache.axis2.databinding.utils.BeanUtil.getUniquePrefix();
+                }
+                xmlWriter.writeNamespace(prefix, namespace);
+                xmlWriter.setPrefix(prefix, namespace);
+            }
+            return prefix;
+        }
+
+
+  
+        /**
+        * databinding method to get an XML representation of this object
+        *
+        */
+        public javax.xml.stream.XMLStreamReader getPullParser(javax.xml.namespace.QName qName)
+                    throws org.apache.axis2.databinding.ADBException{
+
+
+        
+                 java.util.ArrayList elementList = new java.util.ArrayList();
+                 java.util.ArrayList attribList = new java.util.ArrayList();
+
+                 if (localMarketWatchService1ExceptionTracker){
+                            elementList.add(new javax.xml.namespace.QName("http://fx.ws.soar",
+                                                                      "MarketWatchService1Exception"));
+                            
+                            
+                                    elementList.add(localMarketWatchService1Exception==null?null:
+                                    localMarketWatchService1Exception);
+                                }
+
+                return new org.apache.axis2.databinding.utils.reader.ADBXMLStreamReaderImpl(qName, elementList.toArray(), attribList.toArray());
+            
+            
+
+        }
+
+  
+
+     /**
+      *  Factory class that keeps the parse method
+      */
+    public static class Factory{
+
+        
+        
+
+        /**
+        * static method to create the object
+        * Precondition:  If this object is an element, the current or next start element starts this object and any intervening reader events are ignorable
+        *                If this object is not an element, it is a complex type and the reader is at the event just after the outer start element
+        * Postcondition: If this object is an element, the reader is positioned at its end element
+        *                If this object is a complex type, the reader is positioned at the end element of its outer element
+        */
+        public static MarketWatchService1Exception parse(javax.xml.stream.XMLStreamReader reader) throws java.lang.Exception{
+            MarketWatchService1Exception object =
+                new MarketWatchService1Exception();
+
+            int event;
+            java.lang.String nillableValue = null;
+            java.lang.String prefix ="";
+            java.lang.String namespaceuri ="";
+            try {
+                
+                while (!reader.isStartElement() && !reader.isEndElement())
+                    reader.next();
+
+                
+                   nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
+                   if ("true".equals(nillableValue) || "1".equals(nillableValue)){
+                         // Skip the element and report the null value.  It cannot have subelements.
+                         while (!reader.isEndElement())
+                             reader.next();
+                         
+                                 return null;
+                             
+
+                   }
+                
+                if (reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","type")!=null){
+                  java.lang.String fullTypeName = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance",
+                        "type");
+                  if (fullTypeName!=null){
+                    java.lang.String nsPrefix = null;
+                    if (fullTypeName.indexOf(":") > -1){
+                        nsPrefix = fullTypeName.substring(0,fullTypeName.indexOf(":"));
+                    }
+                    nsPrefix = nsPrefix==null?"":nsPrefix;
+
+                    java.lang.String type = fullTypeName.substring(fullTypeName.indexOf(":")+1);
+                    
+                            if (!"MarketWatchService1Exception".equals(type)){
+                                //find namespace for the prefix
+                                java.lang.String nsUri = reader.getNamespaceContext().getNamespaceURI(nsPrefix);
+                                return (MarketWatchService1Exception)ExtensionMapper.getTypeObject(
+                                     nsUri,type,reader);
+                              }
+                        
+
+                  }
+                
+
+                }
+
+                
+
+                
+                // Note all attributes that were handled. Used to differ normal attributes
+                // from anyAttributes.
+                java.util.Vector handledAttributes = new java.util.Vector();
+                
+
+                
+                    
+                    reader.next();
+                
+                                    
+                                    while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+                                
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://fx.ws.soar","MarketWatchService1Exception").equals(reader.getName())){
+                                
+                                      nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
+                                      if ("true".equals(nillableValue) || "1".equals(nillableValue)){
+                                          object.setMarketWatchService1Exception(null);
+                                          reader.next();
+                                            
+                                            reader.next();
+                                          
+                                      }else{
+                                    
+                                                object.setMarketWatchService1Exception(Exception.Factory.parse(reader));
+                                              
+                                        reader.next();
+                                    }
+                              }  // End of if for expected property start element
+                                
+                                    else {
+                                        
+                                    }
+                                  
+                            while (!reader.isStartElement() && !reader.isEndElement())
+                                reader.next();
+                            
+                                if (reader.isStartElement())
+                                // A start element we are not expecting indicates a trailing invalid property
+                                throw new org.apache.axis2.databinding.ADBException("Unexpected subelement " + reader.getName());
+                            
+
+
+
+            } catch (javax.xml.stream.XMLStreamException e) {
+                throw new java.lang.Exception(e);
+            }
+
+            return object;
+        }
+
+        }//end of factory class
+
+        
+
+        }
+           
+    
         public static class Run
         implements org.apache.axis2.databinding.ADBBean{
         
@@ -1400,6 +2130,449 @@
                                 
                                     else {
                                         
+                                    }
+                                  
+                            while (!reader.isStartElement() && !reader.isEndElement())
+                                reader.next();
+                            
+                                if (reader.isStartElement())
+                                // A start element we are not expecting indicates a trailing invalid property
+                                throw new org.apache.axis2.databinding.ADBException("Unexpected subelement " + reader.getName());
+                            
+
+
+
+            } catch (javax.xml.stream.XMLStreamException e) {
+                throw new java.lang.Exception(e);
+            }
+
+            return object;
+        }
+
+        }//end of factory class
+
+        
+
+        }
+           
+    
+        public static class GetNominalReliabilityResponse
+        implements org.apache.axis2.databinding.ADBBean{
+        
+                public static final javax.xml.namespace.QName MY_QNAME = new javax.xml.namespace.QName(
+                "http://fx.ws.soar",
+                "getNominalReliabilityResponse",
+                "ns1");
+
+            
+
+                        /**
+                        * field for _return
+                        */
+
+                        
+                                    protected double local_return ;
+                                
+                           /*  This tracker boolean wil be used to detect whether the user called the set method
+                          *   for this attribute. It will be used to determine whether to include this field
+                           *   in the serialized XML
+                           */
+                           protected boolean local_returnTracker = false ;
+
+                           public boolean is_returnSpecified(){
+                               return local_returnTracker;
+                           }
+
+                           
+
+                           /**
+                           * Auto generated getter method
+                           * @return double
+                           */
+                           public  double get_return(){
+                               return local_return;
+                           }
+
+                           
+                        
+                            /**
+                               * Auto generated setter method
+                               * @param param _return
+                               */
+                               public void set_return(double param){
+                            
+                                       // setting primitive attribute tracker to true
+                                       local_returnTracker =
+                                       !java.lang.Double.isNaN(param);
+                                   
+                                            this.local_return=param;
+                                    
+
+                               }
+                            
+
+     
+     
+        /**
+        *
+        * @param parentQName
+        * @param factory
+        * @return org.apache.axiom.om.OMElement
+        */
+       public org.apache.axiom.om.OMElement getOMElement (
+               final javax.xml.namespace.QName parentQName,
+               final org.apache.axiom.om.OMFactory factory) throws org.apache.axis2.databinding.ADBException{
+
+
+        
+               org.apache.axiom.om.OMDataSource dataSource =
+                       new org.apache.axis2.databinding.ADBDataSource(this,MY_QNAME);
+               return factory.createOMElement(dataSource,MY_QNAME);
+            
+        }
+
+         public void serialize(final javax.xml.namespace.QName parentQName,
+                                       javax.xml.stream.XMLStreamWriter xmlWriter)
+                                throws javax.xml.stream.XMLStreamException, org.apache.axis2.databinding.ADBException{
+                           serialize(parentQName,xmlWriter,false);
+         }
+
+         public void serialize(final javax.xml.namespace.QName parentQName,
+                               javax.xml.stream.XMLStreamWriter xmlWriter,
+                               boolean serializeType)
+            throws javax.xml.stream.XMLStreamException, org.apache.axis2.databinding.ADBException{
+            
+                
+
+
+                java.lang.String prefix = null;
+                java.lang.String namespace = null;
+                
+
+                    prefix = parentQName.getPrefix();
+                    namespace = parentQName.getNamespaceURI();
+                    writeStartElement(prefix, namespace, parentQName.getLocalPart(), xmlWriter);
+                
+                  if (serializeType){
+               
+
+                   java.lang.String namespacePrefix = registerPrefix(xmlWriter,"http://fx.ws.soar");
+                   if ((namespacePrefix != null) && (namespacePrefix.trim().length() > 0)){
+                       writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","type",
+                           namespacePrefix+":getNominalReliabilityResponse",
+                           xmlWriter);
+                   } else {
+                       writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","type",
+                           "getNominalReliabilityResponse",
+                           xmlWriter);
+                   }
+
+               
+                   }
+                if (local_returnTracker){
+                                    namespace = "http://fx.ws.soar";
+                                    writeStartElement(null, namespace, "return", xmlWriter);
+                             
+                                               if (java.lang.Double.isNaN(local_return)) {
+                                           
+                                                         throw new org.apache.axis2.databinding.ADBException("return cannot be null!!");
+                                                      
+                                               } else {
+                                                    xmlWriter.writeCharacters(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(local_return));
+                                               }
+                                    
+                                   xmlWriter.writeEndElement();
+                             }
+                    xmlWriter.writeEndElement();
+               
+
+        }
+
+        private static java.lang.String generatePrefix(java.lang.String namespace) {
+            if(namespace.equals("http://fx.ws.soar")){
+                return "ns1";
+            }
+            return org.apache.axis2.databinding.utils.BeanUtil.getUniquePrefix();
+        }
+
+        /**
+         * Utility method to write an element start tag.
+         */
+        private void writeStartElement(java.lang.String prefix, java.lang.String namespace, java.lang.String localPart,
+                                       javax.xml.stream.XMLStreamWriter xmlWriter) throws javax.xml.stream.XMLStreamException {
+            java.lang.String writerPrefix = xmlWriter.getPrefix(namespace);
+            if (writerPrefix != null) {
+                xmlWriter.writeStartElement(namespace, localPart);
+            } else {
+                if (namespace.length() == 0) {
+                    prefix = "";
+                } else if (prefix == null) {
+                    prefix = generatePrefix(namespace);
+                }
+
+                xmlWriter.writeStartElement(prefix, localPart, namespace);
+                xmlWriter.writeNamespace(prefix, namespace);
+                xmlWriter.setPrefix(prefix, namespace);
+            }
+        }
+        
+        /**
+         * Util method to write an attribute with the ns prefix
+         */
+        private void writeAttribute(java.lang.String prefix,java.lang.String namespace,java.lang.String attName,
+                                    java.lang.String attValue,javax.xml.stream.XMLStreamWriter xmlWriter) throws javax.xml.stream.XMLStreamException{
+            if (xmlWriter.getPrefix(namespace) == null) {
+                xmlWriter.writeNamespace(prefix, namespace);
+                xmlWriter.setPrefix(prefix, namespace);
+            }
+            xmlWriter.writeAttribute(namespace,attName,attValue);
+        }
+
+        /**
+         * Util method to write an attribute without the ns prefix
+         */
+        private void writeAttribute(java.lang.String namespace,java.lang.String attName,
+                                    java.lang.String attValue,javax.xml.stream.XMLStreamWriter xmlWriter) throws javax.xml.stream.XMLStreamException{
+            if (namespace.equals("")) {
+                xmlWriter.writeAttribute(attName,attValue);
+            } else {
+                registerPrefix(xmlWriter, namespace);
+                xmlWriter.writeAttribute(namespace,attName,attValue);
+            }
+        }
+
+
+           /**
+             * Util method to write an attribute without the ns prefix
+             */
+            private void writeQNameAttribute(java.lang.String namespace, java.lang.String attName,
+                                             javax.xml.namespace.QName qname, javax.xml.stream.XMLStreamWriter xmlWriter) throws javax.xml.stream.XMLStreamException {
+
+                java.lang.String attributeNamespace = qname.getNamespaceURI();
+                java.lang.String attributePrefix = xmlWriter.getPrefix(attributeNamespace);
+                if (attributePrefix == null) {
+                    attributePrefix = registerPrefix(xmlWriter, attributeNamespace);
+                }
+                java.lang.String attributeValue;
+                if (attributePrefix.trim().length() > 0) {
+                    attributeValue = attributePrefix + ":" + qname.getLocalPart();
+                } else {
+                    attributeValue = qname.getLocalPart();
+                }
+
+                if (namespace.equals("")) {
+                    xmlWriter.writeAttribute(attName, attributeValue);
+                } else {
+                    registerPrefix(xmlWriter, namespace);
+                    xmlWriter.writeAttribute(namespace, attName, attributeValue);
+                }
+            }
+        /**
+         *  method to handle Qnames
+         */
+
+        private void writeQName(javax.xml.namespace.QName qname,
+                                javax.xml.stream.XMLStreamWriter xmlWriter) throws javax.xml.stream.XMLStreamException {
+            java.lang.String namespaceURI = qname.getNamespaceURI();
+            if (namespaceURI != null) {
+                java.lang.String prefix = xmlWriter.getPrefix(namespaceURI);
+                if (prefix == null) {
+                    prefix = generatePrefix(namespaceURI);
+                    xmlWriter.writeNamespace(prefix, namespaceURI);
+                    xmlWriter.setPrefix(prefix,namespaceURI);
+                }
+
+                if (prefix.trim().length() > 0){
+                    xmlWriter.writeCharacters(prefix + ":" + org.apache.axis2.databinding.utils.ConverterUtil.convertToString(qname));
+                } else {
+                    // i.e this is the default namespace
+                    xmlWriter.writeCharacters(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(qname));
+                }
+
+            } else {
+                xmlWriter.writeCharacters(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(qname));
+            }
+        }
+
+        private void writeQNames(javax.xml.namespace.QName[] qnames,
+                                 javax.xml.stream.XMLStreamWriter xmlWriter) throws javax.xml.stream.XMLStreamException {
+
+            if (qnames != null) {
+                // we have to store this data until last moment since it is not possible to write any
+                // namespace data after writing the charactor data
+                java.lang.StringBuffer stringToWrite = new java.lang.StringBuffer();
+                java.lang.String namespaceURI = null;
+                java.lang.String prefix = null;
+
+                for (int i = 0; i < qnames.length; i++) {
+                    if (i > 0) {
+                        stringToWrite.append(" ");
+                    }
+                    namespaceURI = qnames[i].getNamespaceURI();
+                    if (namespaceURI != null) {
+                        prefix = xmlWriter.getPrefix(namespaceURI);
+                        if ((prefix == null) || (prefix.length() == 0)) {
+                            prefix = generatePrefix(namespaceURI);
+                            xmlWriter.writeNamespace(prefix, namespaceURI);
+                            xmlWriter.setPrefix(prefix,namespaceURI);
+                        }
+
+                        if (prefix.trim().length() > 0){
+                            stringToWrite.append(prefix).append(":").append(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(qnames[i]));
+                        } else {
+                            stringToWrite.append(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(qnames[i]));
+                        }
+                    } else {
+                        stringToWrite.append(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(qnames[i]));
+                    }
+                }
+                xmlWriter.writeCharacters(stringToWrite.toString());
+            }
+
+        }
+
+
+        /**
+         * Register a namespace prefix
+         */
+        private java.lang.String registerPrefix(javax.xml.stream.XMLStreamWriter xmlWriter, java.lang.String namespace) throws javax.xml.stream.XMLStreamException {
+            java.lang.String prefix = xmlWriter.getPrefix(namespace);
+            if (prefix == null) {
+                prefix = generatePrefix(namespace);
+                javax.xml.namespace.NamespaceContext nsContext = xmlWriter.getNamespaceContext();
+                while (true) {
+                    java.lang.String uri = nsContext.getNamespaceURI(prefix);
+                    if (uri == null || uri.length() == 0) {
+                        break;
+                    }
+                    prefix = org.apache.axis2.databinding.utils.BeanUtil.getUniquePrefix();
+                }
+                xmlWriter.writeNamespace(prefix, namespace);
+                xmlWriter.setPrefix(prefix, namespace);
+            }
+            return prefix;
+        }
+
+
+  
+        /**
+        * databinding method to get an XML representation of this object
+        *
+        */
+        public javax.xml.stream.XMLStreamReader getPullParser(javax.xml.namespace.QName qName)
+                    throws org.apache.axis2.databinding.ADBException{
+
+
+        
+                 java.util.ArrayList elementList = new java.util.ArrayList();
+                 java.util.ArrayList attribList = new java.util.ArrayList();
+
+                 if (local_returnTracker){
+                                      elementList.add(new javax.xml.namespace.QName("http://fx.ws.soar",
+                                                                      "return"));
+                                 
+                                elementList.add(
+                                   org.apache.axis2.databinding.utils.ConverterUtil.convertToString(local_return));
+                            }
+
+                return new org.apache.axis2.databinding.utils.reader.ADBXMLStreamReaderImpl(qName, elementList.toArray(), attribList.toArray());
+            
+            
+
+        }
+
+  
+
+     /**
+      *  Factory class that keeps the parse method
+      */
+    public static class Factory{
+
+        
+        
+
+        /**
+        * static method to create the object
+        * Precondition:  If this object is an element, the current or next start element starts this object and any intervening reader events are ignorable
+        *                If this object is not an element, it is a complex type and the reader is at the event just after the outer start element
+        * Postcondition: If this object is an element, the reader is positioned at its end element
+        *                If this object is a complex type, the reader is positioned at the end element of its outer element
+        */
+        public static GetNominalReliabilityResponse parse(javax.xml.stream.XMLStreamReader reader) throws java.lang.Exception{
+            GetNominalReliabilityResponse object =
+                new GetNominalReliabilityResponse();
+
+            int event;
+            java.lang.String nillableValue = null;
+            java.lang.String prefix ="";
+            java.lang.String namespaceuri ="";
+            try {
+                
+                while (!reader.isStartElement() && !reader.isEndElement())
+                    reader.next();
+
+                
+                if (reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","type")!=null){
+                  java.lang.String fullTypeName = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance",
+                        "type");
+                  if (fullTypeName!=null){
+                    java.lang.String nsPrefix = null;
+                    if (fullTypeName.indexOf(":") > -1){
+                        nsPrefix = fullTypeName.substring(0,fullTypeName.indexOf(":"));
+                    }
+                    nsPrefix = nsPrefix==null?"":nsPrefix;
+
+                    java.lang.String type = fullTypeName.substring(fullTypeName.indexOf(":")+1);
+                    
+                            if (!"getNominalReliabilityResponse".equals(type)){
+                                //find namespace for the prefix
+                                java.lang.String nsUri = reader.getNamespaceContext().getNamespaceURI(nsPrefix);
+                                return (GetNominalReliabilityResponse)ExtensionMapper.getTypeObject(
+                                     nsUri,type,reader);
+                              }
+                        
+
+                  }
+                
+
+                }
+
+                
+
+                
+                // Note all attributes that were handled. Used to differ normal attributes
+                // from anyAttributes.
+                java.util.Vector handledAttributes = new java.util.Vector();
+                
+
+                
+                    
+                    reader.next();
+                
+                                    
+                                    while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+                                
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://fx.ws.soar","return").equals(reader.getName())){
+                                
+                                    nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
+                                    if ("true".equals(nillableValue) || "1".equals(nillableValue)){
+                                        throw new org.apache.axis2.databinding.ADBException("The element: "+"return" +"  cannot be null");
+                                    }
+                                    
+
+                                    java.lang.String content = reader.getElementText();
+                                    
+                                              object.set_return(
+                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToDouble(content));
+                                              
+                                        reader.next();
+                                    
+                              }  // End of if for expected property start element
+                                
+                                    else {
+                                        
+                                               object.set_return(java.lang.Double.NaN);
+                                           
                                     }
                                   
                             while (!reader.isStartElement() && !reader.isEndElement())
@@ -2777,57 +3950,15 @@
         }
            
     
-        public static class WatchMarketService2Exception
+        public static class GetNominalReliability
         implements org.apache.axis2.databinding.ADBBean{
         
                 public static final javax.xml.namespace.QName MY_QNAME = new javax.xml.namespace.QName(
                 "http://fx.ws.soar",
-                "WatchMarketService2Exception",
+                "getNominalReliability",
                 "ns1");
 
             
-
-                        /**
-                        * field for WatchMarketService2Exception
-                        */
-
-                        
-                                    protected Exception localWatchMarketService2Exception ;
-                                
-                           /*  This tracker boolean wil be used to detect whether the user called the set method
-                          *   for this attribute. It will be used to determine whether to include this field
-                           *   in the serialized XML
-                           */
-                           protected boolean localWatchMarketService2ExceptionTracker = false ;
-
-                           public boolean isWatchMarketService2ExceptionSpecified(){
-                               return localWatchMarketService2ExceptionTracker;
-                           }
-
-                           
-
-                           /**
-                           * Auto generated getter method
-                           * @return Exception
-                           */
-                           public  Exception getWatchMarketService2Exception(){
-                               return localWatchMarketService2Exception;
-                           }
-
-                           
-                        
-                            /**
-                               * Auto generated setter method
-                               * @param param WatchMarketService2Exception
-                               */
-                               public void setWatchMarketService2Exception(Exception param){
-                            localWatchMarketService2ExceptionTracker = true;
-                                   
-                                            this.localWatchMarketService2Exception=param;
-                                    
-
-                               }
-                            
 
      
      
@@ -2877,29 +4008,17 @@
                    java.lang.String namespacePrefix = registerPrefix(xmlWriter,"http://fx.ws.soar");
                    if ((namespacePrefix != null) && (namespacePrefix.trim().length() > 0)){
                        writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","type",
-                           namespacePrefix+":WatchMarketService2Exception",
+                           namespacePrefix+":getNominalReliability",
                            xmlWriter);
                    } else {
                        writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","type",
-                           "WatchMarketService2Exception",
+                           "getNominalReliability",
                            xmlWriter);
                    }
 
                
                    }
-                if (localWatchMarketService2ExceptionTracker){
-                                    if (localWatchMarketService2Exception==null){
-
-                                        writeStartElement(null, "http://fx.ws.soar", "WatchMarketService2Exception", xmlWriter);
-
-                                       // write the nil attribute
-                                      writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
-                                      xmlWriter.writeEndElement();
-                                    }else{
-                                     localWatchMarketService2Exception.serialize(new javax.xml.namespace.QName("http://fx.ws.soar","WatchMarketService2Exception"),
-                                        xmlWriter);
-                                    }
-                                }
+               
                     xmlWriter.writeEndElement();
                
 
@@ -3084,14 +4203,7 @@
                  java.util.ArrayList elementList = new java.util.ArrayList();
                  java.util.ArrayList attribList = new java.util.ArrayList();
 
-                 if (localWatchMarketService2ExceptionTracker){
-                            elementList.add(new javax.xml.namespace.QName("http://fx.ws.soar",
-                                                                      "WatchMarketService2Exception"));
-                            
-                            
-                                    elementList.add(localWatchMarketService2Exception==null?null:
-                                    localWatchMarketService2Exception);
-                                }
+                
 
                 return new org.apache.axis2.databinding.utils.reader.ADBXMLStreamReaderImpl(qName, elementList.toArray(), attribList.toArray());
             
@@ -3116,9 +4228,9 @@
         * Postcondition: If this object is an element, the reader is positioned at its end element
         *                If this object is a complex type, the reader is positioned at the end element of its outer element
         */
-        public static WatchMarketService2Exception parse(javax.xml.stream.XMLStreamReader reader) throws java.lang.Exception{
-            WatchMarketService2Exception object =
-                new WatchMarketService2Exception();
+        public static GetNominalReliability parse(javax.xml.stream.XMLStreamReader reader) throws java.lang.Exception{
+            GetNominalReliability object =
+                new GetNominalReliability();
 
             int event;
             java.lang.String nillableValue = null;
@@ -3129,17 +4241,6 @@
                 while (!reader.isStartElement() && !reader.isEndElement())
                     reader.next();
 
-                
-                   nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
-                   if ("true".equals(nillableValue) || "1".equals(nillableValue)){
-                         // Skip the element and report the null value.  It cannot have subelements.
-                         while (!reader.isEndElement())
-                             reader.next();
-                         
-                                 return null;
-                             
-
-                   }
                 
                 if (reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","type")!=null){
                   java.lang.String fullTypeName = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance",
@@ -3153,10 +4254,10 @@
 
                     java.lang.String type = fullTypeName.substring(fullTypeName.indexOf(":")+1);
                     
-                            if (!"WatchMarketService2Exception".equals(type)){
+                            if (!"getNominalReliability".equals(type)){
                                 //find namespace for the prefix
                                 java.lang.String nsUri = reader.getNamespaceContext().getNamespaceURI(nsPrefix);
-                                return (WatchMarketService2Exception)ExtensionMapper.getTypeObject(
+                                return (GetNominalReliability)ExtensionMapper.getTypeObject(
                                      nsUri,type,reader);
                               }
                         
@@ -3177,31 +4278,7 @@
                 
                     
                     reader.next();
-                
-                                    
-                                    while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
-                                
-                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://fx.ws.soar","WatchMarketService2Exception").equals(reader.getName())){
-                                
-                                      nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
-                                      if ("true".equals(nillableValue) || "1".equals(nillableValue)){
-                                          object.setWatchMarketService2Exception(null);
-                                          reader.next();
-                                            
-                                            reader.next();
-                                          
-                                      }else{
-                                    
-                                                object.setWatchMarketService2Exception(Exception.Factory.parse(reader));
-                                              
-                                        reader.next();
-                                    }
-                              }  // End of if for expected property start element
-                                
-                                    else {
-                                        
-                                    }
-                                  
+                  
                             while (!reader.isStartElement() && !reader.isEndElement())
                                 reader.next();
                             
@@ -3226,12 +4303,12 @@
         }
            
     
-            private  org.apache.axiom.om.OMElement  toOM(soar.ws.fx.services.WM.WatchMarketService2Stub.Run param, boolean optimizeContent)
+            private  org.apache.axiom.om.OMElement  toOM(soar.ws.fx.services.WM.MarketWatchService1Stub.GetNominalReliability param, boolean optimizeContent)
             throws org.apache.axis2.AxisFault {
 
             
                         try{
-                             return param.getOMElement(soar.ws.fx.services.WM.WatchMarketService2Stub.Run.MY_QNAME,
+                             return param.getOMElement(soar.ws.fx.services.WM.MarketWatchService1Stub.GetNominalReliability.MY_QNAME,
                                           org.apache.axiom.om.OMAbstractFactory.getOMFactory());
                         } catch(org.apache.axis2.databinding.ADBException e){
                             throw org.apache.axis2.AxisFault.makeFault(e);
@@ -3240,12 +4317,12 @@
 
             }
         
-            private  org.apache.axiom.om.OMElement  toOM(soar.ws.fx.services.WM.WatchMarketService2Stub.RunResponse param, boolean optimizeContent)
+            private  org.apache.axiom.om.OMElement  toOM(soar.ws.fx.services.WM.MarketWatchService1Stub.GetNominalReliabilityResponse param, boolean optimizeContent)
             throws org.apache.axis2.AxisFault {
 
             
                         try{
-                             return param.getOMElement(soar.ws.fx.services.WM.WatchMarketService2Stub.RunResponse.MY_QNAME,
+                             return param.getOMElement(soar.ws.fx.services.WM.MarketWatchService1Stub.GetNominalReliabilityResponse.MY_QNAME,
                                           org.apache.axiom.om.OMAbstractFactory.getOMFactory());
                         } catch(org.apache.axis2.databinding.ADBException e){
                             throw org.apache.axis2.AxisFault.makeFault(e);
@@ -3254,12 +4331,12 @@
 
             }
         
-            private  org.apache.axiom.om.OMElement  toOM(soar.ws.fx.services.WM.WatchMarketService2Stub.WatchMarketService2Exception param, boolean optimizeContent)
+            private  org.apache.axiom.om.OMElement  toOM(soar.ws.fx.services.WM.MarketWatchService1Stub.Run param, boolean optimizeContent)
             throws org.apache.axis2.AxisFault {
 
             
                         try{
-                             return param.getOMElement(soar.ws.fx.services.WM.WatchMarketService2Stub.WatchMarketService2Exception.MY_QNAME,
+                             return param.getOMElement(soar.ws.fx.services.WM.MarketWatchService1Stub.Run.MY_QNAME,
                                           org.apache.axiom.om.OMAbstractFactory.getOMFactory());
                         } catch(org.apache.axis2.databinding.ADBException e){
                             throw org.apache.axis2.AxisFault.makeFault(e);
@@ -3268,12 +4345,40 @@
 
             }
         
-            private  org.apache.axiom.om.OMElement  toOM(soar.ws.fx.services.WM.WatchMarketService2Stub.InitialiseService param, boolean optimizeContent)
+            private  org.apache.axiom.om.OMElement  toOM(soar.ws.fx.services.WM.MarketWatchService1Stub.RunResponse param, boolean optimizeContent)
             throws org.apache.axis2.AxisFault {
 
             
                         try{
-                             return param.getOMElement(soar.ws.fx.services.WM.WatchMarketService2Stub.InitialiseService.MY_QNAME,
+                             return param.getOMElement(soar.ws.fx.services.WM.MarketWatchService1Stub.RunResponse.MY_QNAME,
+                                          org.apache.axiom.om.OMAbstractFactory.getOMFactory());
+                        } catch(org.apache.axis2.databinding.ADBException e){
+                            throw org.apache.axis2.AxisFault.makeFault(e);
+                        }
+                    
+
+            }
+        
+            private  org.apache.axiom.om.OMElement  toOM(soar.ws.fx.services.WM.MarketWatchService1Stub.MarketWatchService1Exception param, boolean optimizeContent)
+            throws org.apache.axis2.AxisFault {
+
+            
+                        try{
+                             return param.getOMElement(soar.ws.fx.services.WM.MarketWatchService1Stub.MarketWatchService1Exception.MY_QNAME,
+                                          org.apache.axiom.om.OMAbstractFactory.getOMFactory());
+                        } catch(org.apache.axis2.databinding.ADBException e){
+                            throw org.apache.axis2.AxisFault.makeFault(e);
+                        }
+                    
+
+            }
+        
+            private  org.apache.axiom.om.OMElement  toOM(soar.ws.fx.services.WM.MarketWatchService1Stub.InitialiseService param, boolean optimizeContent)
+            throws org.apache.axis2.AxisFault {
+
+            
+                        try{
+                             return param.getOMElement(soar.ws.fx.services.WM.MarketWatchService1Stub.InitialiseService.MY_QNAME,
                                           org.apache.axiom.om.OMAbstractFactory.getOMFactory());
                         } catch(org.apache.axis2.databinding.ADBException e){
                             throw org.apache.axis2.AxisFault.makeFault(e);
@@ -3283,14 +4388,14 @@
             }
         
                                     
-                                        private  org.apache.axiom.soap.SOAPEnvelope toEnvelope(org.apache.axiom.soap.SOAPFactory factory, soar.ws.fx.services.WM.WatchMarketService2Stub.Run param, boolean optimizeContent, javax.xml.namespace.QName methodQName)
+                                        private  org.apache.axiom.soap.SOAPEnvelope toEnvelope(org.apache.axiom.soap.SOAPFactory factory, soar.ws.fx.services.WM.MarketWatchService1Stub.GetNominalReliability param, boolean optimizeContent, javax.xml.namespace.QName methodQName)
                                         throws org.apache.axis2.AxisFault{
 
                                              
                                                     try{
 
                                                             org.apache.axiom.soap.SOAPEnvelope emptyEnvelope = factory.getDefaultEnvelope();
-                                                            emptyEnvelope.getBody().addChild(param.getOMElement(soar.ws.fx.services.WM.WatchMarketService2Stub.Run.MY_QNAME,factory));
+                                                            emptyEnvelope.getBody().addChild(param.getOMElement(soar.ws.fx.services.WM.MarketWatchService1Stub.GetNominalReliability.MY_QNAME,factory));
                                                             return emptyEnvelope;
                                                         } catch(org.apache.axis2.databinding.ADBException e){
                                                             throw org.apache.axis2.AxisFault.makeFault(e);
@@ -3304,14 +4409,35 @@
 
                              
                                     
-                                        private  org.apache.axiom.soap.SOAPEnvelope toEnvelope(org.apache.axiom.soap.SOAPFactory factory, soar.ws.fx.services.WM.WatchMarketService2Stub.InitialiseService param, boolean optimizeContent, javax.xml.namespace.QName methodQName)
+                                        private  org.apache.axiom.soap.SOAPEnvelope toEnvelope(org.apache.axiom.soap.SOAPFactory factory, soar.ws.fx.services.WM.MarketWatchService1Stub.Run param, boolean optimizeContent, javax.xml.namespace.QName methodQName)
                                         throws org.apache.axis2.AxisFault{
 
                                              
                                                     try{
 
                                                             org.apache.axiom.soap.SOAPEnvelope emptyEnvelope = factory.getDefaultEnvelope();
-                                                            emptyEnvelope.getBody().addChild(param.getOMElement(soar.ws.fx.services.WM.WatchMarketService2Stub.InitialiseService.MY_QNAME,factory));
+                                                            emptyEnvelope.getBody().addChild(param.getOMElement(soar.ws.fx.services.WM.MarketWatchService1Stub.Run.MY_QNAME,factory));
+                                                            return emptyEnvelope;
+                                                        } catch(org.apache.axis2.databinding.ADBException e){
+                                                            throw org.apache.axis2.AxisFault.makeFault(e);
+                                                        }
+                                                
+
+                                        }
+                                
+                             
+                             /* methods to provide back word compatibility */
+
+                             
+                                    
+                                        private  org.apache.axiom.soap.SOAPEnvelope toEnvelope(org.apache.axiom.soap.SOAPFactory factory, soar.ws.fx.services.WM.MarketWatchService1Stub.InitialiseService param, boolean optimizeContent, javax.xml.namespace.QName methodQName)
+                                        throws org.apache.axis2.AxisFault{
+
+                                             
+                                                    try{
+
+                                                            org.apache.axiom.soap.SOAPEnvelope emptyEnvelope = factory.getDefaultEnvelope();
+                                                            emptyEnvelope.getBody().addChild(param.getOMElement(soar.ws.fx.services.WM.MarketWatchService1Stub.InitialiseService.MY_QNAME,factory));
                                                             return emptyEnvelope;
                                                         } catch(org.apache.axis2.databinding.ADBException e){
                                                             throw org.apache.axis2.AxisFault.makeFault(e);
@@ -3341,30 +4467,44 @@
 
         try {
         
-                if (soar.ws.fx.services.WM.WatchMarketService2Stub.Run.class.equals(type)){
+                if (soar.ws.fx.services.WM.MarketWatchService1Stub.GetNominalReliability.class.equals(type)){
                 
-                           return soar.ws.fx.services.WM.WatchMarketService2Stub.Run.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                           return soar.ws.fx.services.WM.MarketWatchService1Stub.GetNominalReliability.Factory.parse(param.getXMLStreamReaderWithoutCaching());
                     
 
                 }
            
-                if (soar.ws.fx.services.WM.WatchMarketService2Stub.RunResponse.class.equals(type)){
+                if (soar.ws.fx.services.WM.MarketWatchService1Stub.GetNominalReliabilityResponse.class.equals(type)){
                 
-                           return soar.ws.fx.services.WM.WatchMarketService2Stub.RunResponse.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                           return soar.ws.fx.services.WM.MarketWatchService1Stub.GetNominalReliabilityResponse.Factory.parse(param.getXMLStreamReaderWithoutCaching());
                     
 
                 }
            
-                if (soar.ws.fx.services.WM.WatchMarketService2Stub.WatchMarketService2Exception.class.equals(type)){
+                if (soar.ws.fx.services.WM.MarketWatchService1Stub.Run.class.equals(type)){
                 
-                           return soar.ws.fx.services.WM.WatchMarketService2Stub.WatchMarketService2Exception.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                           return soar.ws.fx.services.WM.MarketWatchService1Stub.Run.Factory.parse(param.getXMLStreamReaderWithoutCaching());
                     
 
                 }
            
-                if (soar.ws.fx.services.WM.WatchMarketService2Stub.InitialiseService.class.equals(type)){
+                if (soar.ws.fx.services.WM.MarketWatchService1Stub.RunResponse.class.equals(type)){
                 
-                           return soar.ws.fx.services.WM.WatchMarketService2Stub.InitialiseService.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                           return soar.ws.fx.services.WM.MarketWatchService1Stub.RunResponse.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                    
+
+                }
+           
+                if (soar.ws.fx.services.WM.MarketWatchService1Stub.MarketWatchService1Exception.class.equals(type)){
+                
+                           return soar.ws.fx.services.WM.MarketWatchService1Stub.MarketWatchService1Exception.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                    
+
+                }
+           
+                if (soar.ws.fx.services.WM.MarketWatchService1Stub.InitialiseService.class.equals(type)){
+                
+                           return soar.ws.fx.services.WM.MarketWatchService1Stub.InitialiseService.Factory.parse(param.getXMLStreamReaderWithoutCaching());
                     
 
                 }
