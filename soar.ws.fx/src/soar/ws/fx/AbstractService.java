@@ -8,44 +8,44 @@ import java.util.Random;
 public abstract class AbstractService {
 
 	/** list structure keeping the starting time of failures */
-	private static List<Long> 		failureStartList;
+	private List<Long> 		failureStartList;
 	
 	/** list structure keeping the stopping time of failures*/
-	private static List<Long> 		failureStopList;
+	private List<Long> 		failureStopList;
 	
 	/**list structure keeping the failure percentage (i.e degradation percentage from the nominal value)*/
-	private static List<Double>	failureDegradationList;
+	private List<Double>	failureDegradationList;
 	
 	/** String that keeps the time pattern of failures*/
-	private static String failureTimePattern;
+	private String failureTimePattern;
 	
 	/** String that keeps the percentage pattern of failures*/
-	private static String failureDegradationPattern;
+	private String failureDegradationPattern;
 	
 	/** Keeps the current index of a failure */
 	private int failureIndex;
 
 	/** internal clock*/
-	private static Long timeNow;
+	private Long timeNow;
 	
 	/** Random variable denoting the probability of failure/success*/
-	protected static Random rand;
+	protected Random rand;
 	
 	/** service reliability */
-	private static double nominalReliability;
+	private double nominalReliability;
 	
 	/** cost per invocation */
-	private static double costPerInvocation;
+	private double costPerInvocation;
 	
 	/** time required to carry out its functionality per invocation*/
-	private static double timePerInvocation;
+	private double timePerInvocation;
 	
 	/**Service ID*/
-	protected static String id;
+	protected String id;
 	
-	protected static int timesInvoked;
+	protected int timesInvoked;
 	
-	protected static int timesSucceeded;
+	protected int timesSucceeded;
 	
 	
 	
