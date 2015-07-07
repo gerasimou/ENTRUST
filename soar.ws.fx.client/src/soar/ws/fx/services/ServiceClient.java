@@ -1,4 +1,4 @@
-package soar.ws.fx.services.WM;
+package soar.ws.fx.services;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -7,11 +7,11 @@ import java.rmi.RemoteException;
 
 import soar.ws.fx.services.AbstractServiceClient;
 
-public class MarketWatchClient1 extends AbstractServiceClient{
+public class ServiceClient extends AbstractServiceClient{
 
-	//stub
-	MarketWatchService1Stub stub; 
+	Class<?> cls;
 	
+	//stub
 	Object stubReflection;
 	
 	//run handles
@@ -23,20 +23,17 @@ public class MarketWatchClient1 extends AbstractServiceClient{
 	Class<?> runResponseClass;
 	Method getReturn;
 	
-	public MarketWatchClient1(String ID, double reliability, double cost, double responseTime, 
+	public ServiceClient(String ID, double reliability, double cost, double responseTime, 
 							  String failureTimePatter, String failureDegradationPattern, Class cls) throws RemoteException{
 		super(ID, reliability, cost, responseTime);
-
-		stub = new MarketWatchService1Stub();
-
-		initialise(ID, reliability, cost, responseTime);
 		
-//		initReflection(ID, reliability, cost, responseTime, failureTimePatter, failureDegradationPattern, cls);
-//		initRunReflection(cls);
+		initReflection(ID, reliability, cost, responseTime, failureTimePatter, failureDegradationPattern, cls);
+		initRunReflection(cls);
 //		for (int i=0; i<100; i++){
 //			runReflection();
 //		}
-//		System.out.println("TEST");
+		this.cls = cls;
+		System.out.println(this.toString());
 	}	
 	
 	
@@ -163,98 +160,37 @@ public class MarketWatchClient1 extends AbstractServiceClient{
 		}		
 	}
 	
-	
-	public double getNominalReliability(){
-		try {
-			MarketWatchService1Stub stub = new MarketWatchService1Stub();
-			MarketWatchService1Stub.GetNominalReliability reliabilityFunction = new MarketWatchService1Stub.GetNominalReliability();
-			MarketWatchService1Stub.GetNominalReliabilityResponse relResponse = stub.getNominalReliability(reliabilityFunction);
-			return (relResponse.get_return());
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return 0;
-	}
-	
-	
- 	
- 	private final void initialise(String ID, double reliability, double cost, double responseTime) throws RemoteException{
-		//Initialise
- 		MarketWatchService1Stub.InitialiseService initFunction = new MarketWatchService1Stub.InitialiseService();
-		initFunction.setReliability(reliability);
-		initFunction.setInvocationCost(cost);
-		initFunction.setInvocationTime(responseTime);
-		initFunction.setFailurePatternTime("");
-		initFunction.setFailurePatternDegradation("");
-		initFunction.setID(this.getClass().getName());
-		stub.initialiseService(initFunction);	
-	}		
-	
-	
-	/*	
-	public void runReflection(Class<?> cls){
+	public void getReliability(){
 		try{
 			//Find Run inner class
-			Class<?> runClass = Class.forName(cls.getName()+"$Run");
+			Class<?> reliabilityClass = Class.forName(cls.getName()+"$GetNominalReliability");
 	
 			//Find InitialiseService inner class constructor
-			Constructor<?> runConstructor = runClass.getDeclaredConstructor();
+			Constructor<?> reliabilityConstructor = reliabilityClass.getDeclaredConstructor();
 			
 			//Create initialiseService instance
-			Object runInstance = runConstructor.newInstance();
-			
-			//Find and invoke setParam method
-			Method setParam = runClass.getMethod("setParam", String.class);
-			setParam.invoke(runInstance, "Simos");
-			
-			//Find RunResponse inner class
-			Class<?> runResponseClass = Class.forName(cls.getName()+"$RunResponse");
-			
+			Object reliabilityInstance = reliabilityConstructor.newInstance();
+	
+	//		Find and invoke setParam method
+//			Method getReliability = reliabilityClass.getMethod("getNominalReliability");			
+	
 			//Find initialiseService stub method
-			Method runStubMethod = cls.getMethod("run", runClass);
-			Object response = runStubMethod.invoke(stubReflection, runInstance);
-			
+			Method gerReliabilityStubMethod = cls.getMethod("getNominalReliability", reliabilityClass);
+	
+			//Find RunResponse inner class
+			Class<?> reliabilityResponseClass = Class.forName(cls.getName()+"$GetNominalReliabilityResponse");
+	
 			//Find and invoke setParam method
-			Method getReturn = runResponseClass.getMethod("get_return");
+			getReturn = reliabilityResponseClass.getMethod("get_return");
+			
+			Object response = gerReliabilityStubMethod.invoke(stubReflection, reliabilityInstance);
+			
 			Object result = getReturn.invoke(response);
-
 			
 			System.out.println(runInstance.toString() +"\tOutput: "+ result.toString());
-
-
-			
-		} catch(ClassNotFoundException cnfe){
-			cnfe.printStackTrace();
-		} catch (NoSuchMethodException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
+		}
+		catch(Exception e){
 			e.printStackTrace();
 		}
 	}
-	
-	public void run() throws RemoteException, WatchMarketService1ExceptionException{
-		//Run
-		WatchMarketService1Stub.Run runFunction = new WatchMarketService1Stub.Run();
-		runFunction.setParam("Simos");		
-		WatchMarketService1Stub.RunResponse runResponse = stub.run(runFunction);
-		System.out.println(runResponse.get_return());
-	}
-
-	 */
-	
 }

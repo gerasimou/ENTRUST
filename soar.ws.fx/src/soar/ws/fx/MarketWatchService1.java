@@ -25,4 +25,9 @@ public class MarketWatchService1 extends AbstractService{
 		super.initialiseService(reliability, invocationCost, invocationTime, failurePatternTime, failurePatternDegradation, ID);
 	}
 	
+	@Override
+	public double getNominalReliability(){
+		return super.getNominalReliability();
+	}
+	
 }

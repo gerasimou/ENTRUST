@@ -1,10 +1,10 @@
 package soar.ws.fx;
 
-public class WatchWatchService2 extends AbstractService{
+public class MarketWatchService2 extends AbstractService{
 
 	@Override
 	public String run(String param) throws Exception {
-		String str = "["+WatchWatchService2.class.getName() + ":" + id +"] - " + param;
+		String str = "["+MarketWatchService2.class.getName() + ":" + id +"] - " + param;
 		timesInvoked++;
 		if (isServiceOK()){
 			str += " - RUN";
@@ -28,4 +28,9 @@ public class WatchWatchService2 extends AbstractService{
 		super.initialiseService(reliability, invocationCost, invocationTime, failurePatternTime, failurePatternDegradation, ID);
 	}
 	
+	@Override
+	public double getNominalReliability(){
+		return super.getNominalReliability();
+	}
+
 }
