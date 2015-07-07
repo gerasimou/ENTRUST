@@ -86,6 +86,7 @@ public class SBS {
 		long timeNow 	= startTime;
 		while (stopTime >= timeNow){
 			((MarketWatchClient1)srvList.get(0).get(0)).runReflection();
+			((MarketWatchClient1)srvList.get(0).get(1)).runReflection();
 			timeNow = System.currentTimeMillis();
 		} 
      }

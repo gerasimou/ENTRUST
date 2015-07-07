@@ -34,9 +34,9 @@ public class ServiceFactory {
 	
 	//Enumeration mapping service name + ID to stub
 	private enum STUB{
-		MARKET_WATCH_1 ("WatchMarketService1Stub"),
-		MARKET_WATCH_2 ("WatchMarketService2Stub"),
-		MARKET_WATCH_3 ("WatchMarketService3Stub"),
+		MARKET_WATCH_1 ("WM.WatchMarketService1Stub"),
+		MARKET_WATCH_2 ("WM.WatchMarketService2Stub"),
+		MARKET_WATCH_3 ("WM.WatchMarketService3Stub"),
     	UNKNOWN("");
 		
     	private final String code;
@@ -85,9 +85,8 @@ public class ServiceFactory {
         	switch (service){
         		case MARKET_WATCH: {
         						STUB stub = getSTUB(key);
-        						System.out.println("soar.ws.fx.services.WM."+stub.getCode());
-        						Class<?> cls = Class.forName("soar.ws.fx.services.WM." + stub.getCode());
-//        						Object instance = cls.newInstance();
+        						System.out.println("soar.ws.fx.services."+stub.getCode());
+        						Class<?> cls = Class.forName("soar.ws.fx.services." + stub.getCode());
         						srvList.get(0).add(new MarketWatchClient1(id, reliability, costPerInvocation, timePerInvocation, 
         																  failureTimePattern, failureDegradationPattern, cls));        						
         						break;}

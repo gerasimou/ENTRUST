@@ -27,22 +27,17 @@ public class MarketWatchClient1 extends AbstractServiceClient{
 							  String failureTimePatter, String failureDegradationPattern, Class cls) throws RemoteException{
 		super(ID, reliability, cost, responseTime);
 		
-		init(ID, reliability, cost, responseTime, failureTimePatter, failureDegradationPattern, cls);
+		initReflection(ID, reliability, cost, responseTime, failureTimePatter, failureDegradationPattern, cls);
 		initRunReflection(cls);
-		for (int i=0; i<1000; i++){
+		for (int i=0; i<100; i++){
 			runReflection();
 		}
-		System.out.println("TEST");
-		
-		//create Stub
-//		stub = new WatchMarketService1Stub();
-		//init
-//		initialise(ID, reliability, cost, responseTime);
+//		System.out.println("TEST");
 	}	
 	
 	
-	private void init(String ID, double reliability, double cost, double responseTime, 
-					  String failureTimePatter, String failureDegradationPattern, Class cls){
+	private void initReflection(String ID, double reliability, double cost, double responseTime, 
+					  String failureTimePattern, String failureDegradationPattern, Class cls){
 		try {
 			//create stub instance
 			stubReflection  				= cls.newInstance();
@@ -70,7 +65,7 @@ public class MarketWatchClient1 extends AbstractServiceClient{
 
 			//Find and invoke setFailurePatternTime method
 			Method setFailurePatternTime = initialiseServiceClass.getMethod("setFailurePatternTime", String.class);
-			setFailurePatternTime.invoke(initialiseServiceInstance, failureTimePatter);
+			setFailurePatternTime.invoke(initialiseServiceInstance, failureTimePattern);
 			
 			//Find and invoke setFailurePatternDegradation method
 			Method setFailurePatternDegradation = initialiseServiceClass.getMethod("setFailurePatternDegradation", String.class);
@@ -101,27 +96,6 @@ public class MarketWatchClient1 extends AbstractServiceClient{
 		} catch (NoSuchMethodException e) {
 			e.printStackTrace();
 		}
-	}
-	
-	private final void initialise(String ID, double reliability, double cost, double responseTime) throws RemoteException{
-		//Initialise
-		WatchMarketService1Stub.InitialiseService initFunction = new WatchMarketService1Stub.InitialiseService();
-		initFunction.setReliability(reliability);
-		initFunction.setInvocationCost(cost);
-		initFunction.setInvocationTime(responseTime);
-		initFunction.setFailurePatternTime(null);
-		initFunction.setFailurePatternDegradation(null);
-		initFunction.setID(this.getClass().getName());
-		stub.initialiseService(initFunction);	
-	}		
-	
-	
-	public void run() throws RemoteException, WatchMarketService1ExceptionException{
-		//Run
-		WatchMarketService1Stub.Run runFunction = new WatchMarketService1Stub.Run();
-		runFunction.setParam("Simos");		
-		WatchMarketService1Stub.RunResponse runResponse = stub.run(runFunction);
-		System.out.println(runResponse.get_return());
 	}
 	
 	
@@ -185,6 +159,24 @@ public class MarketWatchClient1 extends AbstractServiceClient{
 		}		
 	}
 	
+	
+	
+	/*
+ 	
+ 	private final void initialise(String ID, double reliability, double cost, double responseTime) throws RemoteException{
+		//Initialise
+		WatchMarketService1Stub.InitialiseService initFunction = new WatchMarketService1Stub.InitialiseService();
+		initFunction.setReliability(reliability);
+		initFunction.setInvocationCost(cost);
+		initFunction.setInvocationTime(responseTime);
+		initFunction.setFailurePatternTime(null);
+		initFunction.setFailurePatternDegradation(null);
+		initFunction.setID(this.getClass().getName());
+		stub.initialiseService(initFunction);	
+	}		
+	
+	
+	
 	public void runReflection(Class<?> cls){
 		try{
 			//Find Run inner class
@@ -238,5 +230,15 @@ public class MarketWatchClient1 extends AbstractServiceClient{
 			e.printStackTrace();
 		}
 	}
+	
+	public void run() throws RemoteException, WatchMarketService1ExceptionException{
+		//Run
+		WatchMarketService1Stub.Run runFunction = new WatchMarketService1Stub.Run();
+		runFunction.setParam("Simos");		
+		WatchMarketService1Stub.RunResponse runResponse = stub.run(runFunction);
+		System.out.println(runResponse.get_return());
+	}
+
+	 */
 	
 }
