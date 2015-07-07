@@ -4,9 +4,6 @@ import java.rmi.RemoteException;
 import java.util.List;
 import java.util.Locale;
 
-import soar.ws.fx.services.WM.MarketWatchClient1;
-import soar.ws.fx.services.WM.MarketWatchInterface;
-
 public class ServiceFactory {
 
 	private ServiceFactory() {}
@@ -34,9 +31,9 @@ public class ServiceFactory {
 	
 	//Enumeration mapping service name + ID to stub
 	private enum STUB{
-		MARKET_WATCH_1 ("WM.WatchMarketService1Stub"),
-		MARKET_WATCH_2 ("WM.WatchMarketService2Stub"),
-		MARKET_WATCH_3 ("WM.WatchMarketService3Stub"),
+		MARKET_WATCH_1 ("WM.MarketWatchService1Stub"),
+		MARKET_WATCH_2 ("WM.MarketWatchService2Stub"),
+		MARKET_WATCH_3 ("WM.MarketWatchService3Stub"),
     	UNKNOWN("");
 		
     	private final String code;
@@ -79,15 +76,23 @@ public class ServiceFactory {
         	double reliability 				 = Double.parseDouble(propertiesArray[1]);
         	double costPerInvocation 		 = Double.parseDouble(propertiesArray[2]);
         	double timePerInvocation 		 = Double.parseDouble(propertiesArray[3]);
-        	String failureTimePattern 		 = propertiesArray[4];
-        	String failureDegradationPattern = propertiesArray[5];
+        	String failureTimePattern 		 ;
+        	String failureDegradationPattern ;
+        	try{
+        		failureTimePattern 			= propertiesArray[4];
+        		failureDegradationPattern 	= propertiesArray[5];
+        	}
+        	catch (ArrayIndexOutOfBoundsException ex){
+        		failureTimePattern 			= "";
+        		failureDegradationPattern 	= "";        		
+        	}
         	
         	switch (service){
         		case MARKET_WATCH: {
         						STUB stub = getSTUB(key);
-        						System.out.println("soar.ws.fx.services."+stub.getCode());
+//        						System.out.println("soar.ws.fx.services."+stub.getCode());
         						Class<?> cls = Class.forName("soar.ws.fx.services." + stub.getCode());
-        						srvList.get(0).add(new MarketWatchClient1(id, reliability, costPerInvocation, timePerInvocation, 
+        						srvList.get(0).add(new ServiceClient(id, reliability, costPerInvocation, timePerInvocation, 
         																  failureTimePattern, failureDegradationPattern, cls));        						
         						break;}
 				default:{}
