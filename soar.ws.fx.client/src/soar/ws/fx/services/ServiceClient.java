@@ -145,6 +145,8 @@ public class ServiceClient extends AbstractServiceClient{
 		}
 	}
 	
+	
+	
 	public void runReflection(){
 		try {
 			setParam.invoke(runInstance, "Simos");
@@ -159,6 +161,8 @@ public class ServiceClient extends AbstractServiceClient{
 			e.printStackTrace();
 		}		
 	}
+	
+	
 	
 	public void getReliability(){
 		try{
@@ -181,11 +185,11 @@ public class ServiceClient extends AbstractServiceClient{
 			Class<?> reliabilityResponseClass = Class.forName(cls.getName()+"$GetNominalReliabilityResponse");
 	
 			//Find and invoke setParam method
-			getReturn = reliabilityResponseClass.getMethod("get_return");
+			Method geReliabilitytReturn = reliabilityResponseClass.getMethod("get_return");
 			
 			Object response = gerReliabilityStubMethod.invoke(stubReflection, reliabilityInstance);
 			
-			Object result = getReturn.invoke(response);
+			Object result = geReliabilitytReturn.invoke(response);
 			
 			System.out.println(runInstance.toString() +"\tOutput: "+ result.toString());
 		}
