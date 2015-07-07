@@ -90,6 +90,10 @@ public abstract class AbstractService {
 	private void initFailurePattern(String failureTimePattern, String failureDegradationPattern){
 		//parse failure pattern and populate failureStop & failureStart list structures
 
+		//check if empty
+		if (failureTimePattern.isEmpty() &&  failureDegradationPattern.isEmpty()){
+			return;
+		}
 		//check for errors
 		if (failureTimePattern.isEmpty() || failureDegradationPattern.isEmpty()){
 			throw new IllegalArgumentException("Missing argument");
