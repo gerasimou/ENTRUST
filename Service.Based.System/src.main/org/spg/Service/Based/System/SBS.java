@@ -32,7 +32,7 @@ public class SBS
 	private List<AbstractService>		noList; //notification
 	private List<List<AbstractService>> srvList;//service list 
 //	private long 						timeNow;
-	private Random						rand;
+//	private Random						rand;
 	private SBSController				controller;
 	
 	
@@ -58,7 +58,7 @@ public class SBS
     	//load properties
     	prop.load(new FileInputStream("config.properties"));
     	
-    	rand 	= new Random(System.currentTimeMillis());
+//    	rand 	= new Random(System.currentTimeMillis());
     	
     	//make initialisations
     	init();
