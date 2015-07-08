@@ -3,25 +3,9 @@ package soar.ws.fx;
 import javax.jws.WebParam;
 
 public class TechnicalAnalysisService1 extends AbstractService{
-
-	
-	/**
-	 * 
-	 * @param reliability
-	 * @param invocationCost
-	 * @param invocationTime
-	 * @param failurePatternTime
-	 * @param failurePatternDegradation
-	 * @param ID
-	 */
-	public void initialiseService (double reliability, double invocationCost, double invocationTime,
-			  String failurePatternTime, String failurePatternDegradation, String ID){
-		super.initialiseService(reliability, invocationCost, invocationTime, failurePatternTime, failurePatternDegradation, ID);
-	}
-
 	
 	public String run(@WebParam(name="param") String param) throws Exception {
-		String str = "["+TechnicalAnalysisService1.class.getName() + ":" + id +"] - " + param;
+		String str = "["+ this.getClass().getName()+ ":" + id +"] - " + param;
 		timesInvoked++;
 		if (isServiceOK()){
 			timesSucceeded++;
@@ -34,4 +18,27 @@ public class TechnicalAnalysisService1 extends AbstractService{
 		System.out.println(str);
 		return str;
 	}
+
+	
+	/**
+	 * Initialise service
+	 * @param reliability
+	 * @param invocationCost
+	 * @param invocationTime
+	 * @param failurePatternTime
+	 * @param failurePatternDegradation
+	 * @param ID
+	 */
+	@Override
+	public void initialiseService(double reliability, double invocationCost, double invocationTime, 
+				  String failurePatternTime, String failurePatternDegradation, String ID){
+		super.initialiseService(reliability, invocationCost, invocationTime, failurePatternTime, failurePatternDegradation, ID);
+	}
+	
+	
+	@Override
+	public double getNominalReliability(){
+		return super.getNominalReliability();
+	}
+
 }
