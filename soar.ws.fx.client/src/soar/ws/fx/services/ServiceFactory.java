@@ -31,9 +31,24 @@ public class ServiceFactory {
 	
 	//Enumeration mapping service name + ID to stub
 	private enum STUB{
-		MARKET_WATCH_1 ("WM.MarketWatchService1Stub"),
-		MARKET_WATCH_2 ("WM.MarketWatchService2Stub"),
-		MARKET_WATCH_3 ("WM.MarketWatchService3Stub"),
+		MARKET_WATCH_1 			("WM.MarketWatchService1Stub"),
+		MARKET_WATCH_2 			("WM.MarketWatchService2Stub"),
+		MARKET_WATCH_3 			("WM.MarketWatchService3Stub"),
+		TECHNICAL_ANALYSIS_1 	("TA.TechnicalAnalysisService1Stub"),
+		TECHNICAL_ANALYSIS_2 	("TA.TechnicalAnalysisService2Stub"),
+		TECHNICAL_ANALYSIS_3 	("TA.TechnicalAnalysisService3Stub"),
+		FUNDAMENTAL_ANALYSIS_1 	("FA.FundamentalAnalysisService1Stub"),
+		FUNDAMENTAL_ANALYSIS_2 	("FA.FundamentalAnalysisService2Stub"),
+		FUNDAMENTAL_ANALYSIS_3 	("FA.FundamentalAnalysisService3Stub"),
+		ORDER_1 				("OR.OrderService1Stub"),
+		ORDER_2 				("OR.OrderService2Stub"),
+		ORDER_3 				("OR.OrderService3Stub"),
+		ALARM_1 				("AL.AlarmService1Stub"),
+		ALARM_2 				("AL.AlarmService2Stub"),
+		ALARM_3 				("AL.AlarmService3Stub"),
+		NOTIFICATION_1 			("NOT.NotificationService1Stub"),
+		NOTIFICATION_2 			("NOT.NotificationService2Stub"),
+		NOTIFICATION_3 			("NOT.NotificationService3Stub"),
     	UNKNOWN("");
 		
     	private final String code;
@@ -87,16 +102,14 @@ public class ServiceFactory {
         		failureDegradationPattern 	= "";        		
         	}
         	
-        	switch (service){
-        		case MARKET_WATCH: {
-        						STUB stub = getSTUB(key);
-//        						System.out.println("soar.ws.fx.services."+stub.getCode());
-        						Class<?> cls = Class.forName("soar.ws.fx.services." + stub.getCode());
-        						srvList.get(0).add(new ServiceClient(id, reliability, costPerInvocation, timePerInvocation, 
-        																  failureTimePattern, failureDegradationPattern, cls));        						
-        						break;}
-				default:{}
-			}
+        	//get the stub for the service
+			STUB stub = getSTUB(key);
+			//find its stub class
+			Class<?> cls = Class.forName("soar.ws.fx.services." + stub.getCode());
+			//create the client
+			ServiceClient srvClient = new ServiceClient(id, reliability, costPerInvocation, timePerInvocation, 
+														failureTimePattern, failureDegradationPattern, cls);
+			srvList.get(0).add(srvClient);
     	}
     	catch (IllegalArgumentException iae){
     		System.err.println("IllegalArgumentException: Abstract service not found: " + key);

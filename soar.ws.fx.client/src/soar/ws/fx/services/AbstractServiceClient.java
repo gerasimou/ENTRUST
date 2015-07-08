@@ -41,4 +41,23 @@ public abstract class AbstractServiceClient {
 		return "[" + id +"$ r:"+ nominalReliability +", t:"+ timePerInvocation +", c:" + costPerInvocation + "]"; 
 	}
 	
+	
+	public String getReliability(){
+		return "(" + timesSucceeded +"/"+ timesInvoked +")";
+	}
+	
+	
+	public double getCostPerInvocation(){
+		return this.costPerInvocation;
+	}
+	
+	
+	public double timePerInvocation(){
+		return this.timePerInvocation;
+	}
+	
+	
+	public String getID(){
+		return this.id;
+	}
 }

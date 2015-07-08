@@ -147,16 +147,25 @@ public class ServiceClient extends AbstractServiceClient{
 	
 	
 	
-	public void runReflection(){
-		try {
-			setParam.invoke(runInstance, "Simos");
+	public void execute(){
+		try {		
+			//invoke setParam() to set the parameter for the run function
+			setParam.invoke(runInstance, "");
 			
+			//invoke  run() and get the response
 			Object response = runStubMethod.invoke(stubReflection, runInstance);
 			
+			//parse the response and instantiate the result
 			Object result = getReturn.invoke(response);
 			
-			System.out.println(runInstance.toString() +"\tOutput: "+ result.toString());
+			//print the result
+			System.out.println(runInstance.toString().substring(runInstance.toString().lastIndexOf('.')+1) +"\tOutput: "+ result.toString());
 
+			//update reliability indicators
+			timesInvoked++;
+			if (result.toString().contains("RUN"))
+				timesSucceeded++;
+			
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			e.printStackTrace();
 		}		
@@ -164,7 +173,7 @@ public class ServiceClient extends AbstractServiceClient{
 	
 	
 	
-	public void getReliability(){
+	public double getNominalReliability(){
 		try{
 			//Find Run inner class
 			Class<?> reliabilityClass = Class.forName(cls.getName()+"$GetNominalReliability");
@@ -191,10 +200,13 @@ public class ServiceClient extends AbstractServiceClient{
 			
 			Object result = geReliabilitytReturn.invoke(response);
 			
-			System.out.println(runInstance.toString() +"\tOutput: "+ result.toString());
+			return (double)result;
+//			System.out.println(runInstance.toString() +"\tOutput: "+ result.toString());
 		}
 		catch(Exception e){
 			e.printStackTrace();
 		}
+		System.exit(-1);
+		return -1;
 	}
 }
