@@ -54,4 +54,108 @@
 		</messageReceivers>
 	</service>
 	
+	<service name="FundamentalAnalysisService1" scope="application">
+		<description>
+			This is a technical analysis service
+		</description>
+		
+		<parameter name="ServiceClass" locked="false">soar.ws.fx.FundamentalAnalysisService1</parameter>	
+		
+		<messageReceivers>
+			<messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-only" class="org.apache.axis2.rpc.receivers.RPCInOnlyMessageReceiver" />
+			<messageReceiver  mep="http://www.w3.org/2004/08/wsdl/in-out"  class="org.apache.axis2.rpc.receivers.RPCMessageReceiver"/>
+		</messageReceivers>
+	</service>
+	
+	<service name="FundamentalAnalysisService2" scope="application">
+		<description>
+			This is a technical analysis service
+		</description>
+		
+		<parameter name="ServiceClass" locked="false">soar.ws.fx.FundamentalAnalysisService2</parameter>	
+		
+		<messageReceivers>
+			<messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-only" class="org.apache.axis2.rpc.receivers.RPCInOnlyMessageReceiver" />
+			<messageReceiver  mep="http://www.w3.org/2004/08/wsdl/in-out"  class="org.apache.axis2.rpc.receivers.RPCMessageReceiver"/>
+		</messageReceivers>
+	</service>
+
+	<service name="OrderService1" scope="application">
+		<description>
+			This is a technical analysis service
+		</description>
+		
+		<parameter name="ServiceClass" locked="false">soar.ws.fx.OrderService1</parameter>	
+		
+		<messageReceivers>
+			<messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-only" class="org.apache.axis2.rpc.receivers.RPCInOnlyMessageReceiver" />
+			<messageReceiver  mep="http://www.w3.org/2004/08/wsdl/in-out"  class="org.apache.axis2.rpc.receivers.RPCMessageReceiver"/>
+		</messageReceivers>
+	</service>
+	
+	<service name="OrderService2" scope="application">
+		<description>
+			This is a technical analysis service
+		</description>
+		
+		<parameter name="ServiceClass" locked="false">soar.ws.fx.OrderService2</parameter>	
+		
+		<messageReceivers>
+			<messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-only" class="org.apache.axis2.rpc.receivers.RPCInOnlyMessageReceiver" />
+			<messageReceiver  mep="http://www.w3.org/2004/08/wsdl/in-out"  class="org.apache.axis2.rpc.receivers.RPCMessageReceiver"/>
+		</messageReceivers>
+	</service>
+	
+	<service name="AlarmService1" scope="application">
+		<description>
+			This is a technical analysis service
+		</description>
+		
+		<parameter name="ServiceClass" locked="false">soar.ws.fx.AlarmService1</parameter>	
+		
+		<messageReceivers>
+			<messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-only" class="org.apache.axis2.rpc.receivers.RPCInOnlyMessageReceiver" />
+			<messageReceiver  mep="http://www.w3.org/2004/08/wsdl/in-out"  class="org.apache.axis2.rpc.receivers.RPCMessageReceiver"/>
+		</messageReceivers>
+	</service>
+	
+	<service name="AlarmService2" scope="application">
+		<description>
+			This is a technical analysis service
+		</description>
+		
+		<parameter name="ServiceClass" locked="false">soar.ws.fx.AlarmService2</parameter>	
+		
+		<messageReceivers>
+			<messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-only" class="org.apache.axis2.rpc.receivers.RPCInOnlyMessageReceiver" />
+			<messageReceiver  mep="http://www.w3.org/2004/08/wsdl/in-out"  class="org.apache.axis2.rpc.receivers.RPCMessageReceiver"/>
+		</messageReceivers>
+	</service>
+	
+	<service name="NotificationService1" scope="application">
+		<description>
+			This is a technical analysis service
+		</description>
+		
+		<parameter name="ServiceClass" locked="false">soar.ws.fx.NotificationService1</parameter>	
+		
+		<messageReceivers>
+			<messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-only" class="org.apache.axis2.rpc.receivers.RPCInOnlyMessageReceiver" />
+			<messageReceiver  mep="http://www.w3.org/2004/08/wsdl/in-out"  class="org.apache.axis2.rpc.receivers.RPCMessageReceiver"/>
+		</messageReceivers>
+	</service>
+	
+	<service name="NotificationService2" scope="application">
+		<description>
+			This is a technical analysis service
+		</description>
+		
+		<parameter name="ServiceClass" locked="false">soar.ws.fx.NotificationService2</parameter>	
+		
+		<messageReceivers>
+			<messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-only" class="org.apache.axis2.rpc.receivers.RPCInOnlyMessageReceiver" />
+			<messageReceiver  mep="http://www.w3.org/2004/08/wsdl/in-out"  class="org.apache.axis2.rpc.receivers.RPCMessageReceiver"/>
+		</messageReceivers>
+	</service>
+	
 </serviceGroup>
