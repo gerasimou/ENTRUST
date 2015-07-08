@@ -14,8 +14,7 @@ public class SBSMain
     	SBS sbs;
     	try {
         	sbs = new SBS();
-//        	sbs.printServices();
-//        	sbs.run(1);
+        	sbs.run();
 		} 
     	catch (Exception e) {
 			e.printStackTrace();

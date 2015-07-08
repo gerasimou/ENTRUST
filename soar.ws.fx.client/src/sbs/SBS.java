@@ -1,20 +1,17 @@
 package sbs;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.Properties;
 import java.util.Set;
 
+import auxiliary.Utility;
 import soar.ws.fx.services.AbstractServiceClient;
+import soar.ws.fx.services.ServiceClient;
 import soar.ws.fx.services.ServiceFactory;
-import soar.ws.fx.services.WM.MarketWatchClient1;
-import soar.ws.fx.services.WM.WatchMarketService1ExceptionException;
 
 /**
  * Main Class
@@ -23,7 +20,6 @@ import soar.ws.fx.services.WM.WatchMarketService1ExceptionException;
  */
 public class SBS {
 
-	private static Properties 					prop   = new Properties();
 	private List<AbstractServiceClient> 		mwList; //market watch
 	private List<AbstractServiceClient>			taList; //technical analysis
 	private List<AbstractServiceClient>			faList; //fundamental analysis
@@ -32,6 +28,7 @@ public class SBS {
 	private List<AbstractServiceClient>			noList; //notification
 	private List<List<AbstractServiceClient>>	srvList;//service list 
 
+	private final long SIMULATION_TIME;
 	
 	/**
 	 * Constructor: Create the SBS system 
@@ -51,19 +48,19 @@ public class SBS {
     	srvList.add(faList);	srvList.add(alList);
     	srvList.add(orList);	srvList.add(noList);
     	
-    	//load properties
-    	prop.load(new FileInputStream("resources/config.properties"));
+    	SIMULATION_TIME = Long.parseLong(Utility.getProperty("SIMULATION_TIME"));
 
     	//make initialisations
-    	init();
+    	initClients();
 	}
 	
 	
     /**
      * set up & init services
      */
-    private void init(){
-    	Set<Entry<Object, Object>> entrySet = prop.entrySet();
+    private void initClients(){
+    	Set<Entry<Object, Object>> entrySet = Utility.getPropertiesEntrySet();
+    	
     	Iterator<Entry<Object, Object>> it = entrySet.iterator();
     	while (it.hasNext()){
     		Entry<Object, Object> entry = it.next();
@@ -79,16 +76,31 @@ public class SBS {
 	
     
     
-    public void run(int seconds){
-       	long startTime 	= System.currentTimeMillis();
-    	long stopTime	= startTime + seconds * 1000;
+    public void run(){
+       	long startTime 		= System.currentTimeMillis();
+    	long stopTime		= startTime + SIMULATION_TIME;
     	
 		long timeNow 	= startTime;
-		while (stopTime >= timeNow){
-			((MarketWatchClient1)srvList.get(0).get(0)).runReflection();
-			((MarketWatchClient1)srvList.get(0).get(1)).runReflection();
-			timeNow = System.currentTimeMillis();
-		} 
+		try {
+			List<AbstractServiceClient> clientList = srvList.get(0);
+			
+			while (stopTime >= timeNow){	
+				
+				for (AbstractServiceClient client : clientList)
+					((ServiceClient)client).execute();
+
+				timeNow = System.currentTimeMillis();
+			}
+			
+			for (AbstractServiceClient client : clientList){
+				ServiceClient serviceClient = (ServiceClient)client;
+				System.out.println(serviceClient.getID() +"\t"+ serviceClient.getReliability() +"\t"+ serviceClient.getNominalReliability());
+			}
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		};
      }
     
 }

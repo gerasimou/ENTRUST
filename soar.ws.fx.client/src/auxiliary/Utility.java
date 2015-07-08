@@ -2,21 +2,20 @@ package auxiliary;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Properties;
+import java.util.Set;
+import java.util.Map.Entry;
 
 public class Utility {
 	
-	private static String fileName = "res/config.properties";
+	private static String fileName = "resources/config.properties";
 	private static Properties properties;
 	
-	private static void loadPropertiesInstance(){
+	static{
 		try {
 			if (properties == null){
 				properties = new Properties();
@@ -27,21 +26,18 @@ public class Utility {
 			e.printStackTrace();
 		}
 	}
+	
+	
+	public static Set<Entry<Object, Object>> getPropertiesEntrySet(){
+		return properties.entrySet();
+	}
 
 	public static String getProperty (String key){
-		loadPropertiesInstance();
 		String result = properties.getProperty(key); 
 		if (result == null)
 			  throw new IllegalArgumentException(key.toUpperCase() + " name not found!");
 		return result;		
-	}
-	
-	public static String getProperty (String key, String defaultValue){
-		loadPropertiesInstance();
-		String output = properties.getProperty(key);
-		return (output != null ? output : defaultValue);
-	}
-	
+	}	
 	
 	public static void exportToFile(String fileName, String output, boolean append){
 		try {
