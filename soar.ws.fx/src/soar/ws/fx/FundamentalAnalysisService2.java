@@ -2,8 +2,8 @@ package soar.ws.fx;
 
 import javax.jws.WebParam;
 
-public class TechnicalAnalysisService2 extends AbstractService{
-
+public class FundamentalAnalysisService2 extends AbstractService{
+	
 	public String run(@WebParam(name="param") String param) throws Exception {
 		String str = "["+ id +"] - " + param;
 		timesInvoked++;
@@ -39,7 +39,6 @@ public class TechnicalAnalysisService2 extends AbstractService{
 	@Override
 	public double getNominalReliability(){
 		return super.getNominalReliability();
-	}	
-	
-	
+	}
+
 }

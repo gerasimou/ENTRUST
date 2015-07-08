@@ -5,7 +5,7 @@ import javax.jws.WebParam;
 public class TechnicalAnalysisService1 extends AbstractService{
 	
 	public String run(@WebParam(name="param") String param) throws Exception {
-		String str = "["+ this.getClass().getName()+ ":" + id +"] - " + param;
+		String str = "["+ id +"] - " + param;
 		timesInvoked++;
 		if (isServiceOK()){
 			timesSucceeded++;

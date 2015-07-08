@@ -1,14 +1,15 @@
 package soar.ws.fx;
 
+import javax.jws.WebParam;
+
 public class MarketWatchService1 extends AbstractService{
 
-	@Override
-	public String run(String param) throws Exception {
-		String str = "["+MarketWatchService1.class.getName() + ":" + id +"] - " + param;
+	public String run(@WebParam(name="param") String param) throws Exception {
+		String str = "["+ id +"] - " + param;
 		timesInvoked++;
 		if (isServiceOK()){
-			str += " - RUN";
 			timesSucceeded++;
+			str += " - RUN";
 		}
 		else{
 			str += " - FAIL";

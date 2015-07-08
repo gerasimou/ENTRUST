@@ -1,18 +1,18 @@
 
 /**
- * TechnicalAnalysisService2CallbackHandler.java
+ * FundamentalAnalysisService2CallbackHandler.java
  *
  * This file was auto-generated from WSDL
  * by the Apache Axis2 version: 1.6.2  Built on : Apr 17, 2012 (05:33:49 IST)
  */
 
-    package soar.ws.fx.services.TA;
+    package soar.ws.fx.services.FA;
 
     /**
-     *  TechnicalAnalysisService2CallbackHandler Callback class, Users can extend this class and implement
+     *  FundamentalAnalysisService2CallbackHandler Callback class, Users can extend this class and implement
      *  their own receiveResult and receiveError methods.
      */
-    public abstract class TechnicalAnalysisService2CallbackHandler{
+    public abstract class FundamentalAnalysisService2CallbackHandler{
 
 
 
@@ -24,14 +24,14 @@
     * @param clientData Object mechanism by which the user can pass in user data
     * that will be avilable at the time this callback is called.
     */
-    public TechnicalAnalysisService2CallbackHandler(Object clientData){
+    public FundamentalAnalysisService2CallbackHandler(Object clientData){
         this.clientData = clientData;
     }
 
     /**
     * Please use this constructor if you don't want to set any clientData
     */
-    public TechnicalAnalysisService2CallbackHandler(){
+    public FundamentalAnalysisService2CallbackHandler(){
         this.clientData = null;
     }
 
@@ -49,7 +49,7 @@
             * override this method for handling normal response from getNominalReliability operation
             */
            public void receiveResultgetNominalReliability(
-                    soar.ws.fx.services.TA.TechnicalAnalysisService2Stub.GetNominalReliabilityResponse result
+                    soar.ws.fx.services.FA.FundamentalAnalysisService2Stub.GetNominalReliabilityResponse result
                         ) {
            }
 
@@ -65,7 +65,7 @@
             * override this method for handling normal response from run operation
             */
            public void receiveResultrun(
-                    soar.ws.fx.services.TA.TechnicalAnalysisService2Stub.RunResponse result
+                    soar.ws.fx.services.FA.FundamentalAnalysisService2Stub.RunResponse result
                         ) {
            }
 

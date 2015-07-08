@@ -45,6 +45,22 @@
 
         
            /**
+            * auto generated Axis2 call back method for getNominalReliability method
+            * override this method for handling normal response from getNominalReliability operation
+            */
+           public void receiveResultgetNominalReliability(
+                    soar.ws.fx.services.TA.TechnicalAnalysisService1Stub.GetNominalReliabilityResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from getNominalReliability operation
+           */
+            public void receiveErrorgetNominalReliability(java.lang.Exception e) {
+            }
+                
+           /**
             * auto generated Axis2 call back method for run method
             * override this method for handling normal response from run operation
             */

@@ -10,7 +10,7 @@ package soar.ws.fx.services.TA;
 
 public class TechnicalAnalysisService1ExceptionException extends java.lang.Exception{
 
-    private static final long serialVersionUID = 1436006867248L;
+    private static final long serialVersionUID = 1436363064198L;
     
     private soar.ws.fx.services.TA.TechnicalAnalysisService1Stub.TechnicalAnalysisService1Exception faultMessage;
 
