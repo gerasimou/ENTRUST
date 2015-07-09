@@ -6,7 +6,7 @@
  * by the Apache Axis2 version: 1.6.2  Built on : Apr 17, 2012 (05:33:49 IST)
  */
 
-    package soar.ws.fx.services.WM;
+    package soar.ws.fx.services.MW;
 
     /**
      *  MarketWatchService2CallbackHandler Callback class, Users can extend this class and implement
@@ -49,7 +49,7 @@
             * override this method for handling normal response from getNominalReliability operation
             */
            public void receiveResultgetNominalReliability(
-                    soar.ws.fx.services.WM.MarketWatchService2Stub.GetNominalReliabilityResponse result
+                    soar.ws.fx.services.MW.MarketWatchService2Stub.GetNominalReliabilityResponse result
                         ) {
            }
 
@@ -65,7 +65,7 @@
             * override this method for handling normal response from run operation
             */
            public void receiveResultrun(
-                    soar.ws.fx.services.WM.MarketWatchService2Stub.RunResponse result
+                    soar.ws.fx.services.MW.MarketWatchService2Stub.RunResponse result
                         ) {
            }
 

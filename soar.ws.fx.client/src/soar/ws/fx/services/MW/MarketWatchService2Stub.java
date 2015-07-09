@@ -5,7 +5,7 @@
  * This file was auto-generated from WSDL
  * by the Apache Axis2 version: 1.6.2  Built on : Apr 17, 2012 (05:33:49 IST)
  */
-        package soar.ws.fx.services.WM;
+        package soar.ws.fx.services.MW;
 
         
 
@@ -164,9 +164,9 @@
 
                     
 
-                            public  soar.ws.fx.services.WM.MarketWatchService2Stub.GetNominalReliabilityResponse getNominalReliability(
+                            public  soar.ws.fx.services.MW.MarketWatchService2Stub.GetNominalReliabilityResponse getNominalReliability(
 
-                            soar.ws.fx.services.WM.MarketWatchService2Stub.GetNominalReliability getNominalReliability0)
+                            soar.ws.fx.services.MW.MarketWatchService2Stub.GetNominalReliability getNominalReliability0)
                         
 
                     throws java.rmi.RemoteException
@@ -217,11 +217,11 @@
                 
                                 java.lang.Object object = fromOM(
                                              _returnEnv.getBody().getFirstElement() ,
-                                             soar.ws.fx.services.WM.MarketWatchService2Stub.GetNominalReliabilityResponse.class,
+                                             soar.ws.fx.services.MW.MarketWatchService2Stub.GetNominalReliabilityResponse.class,
                                               getEnvelopeNamespaces(_returnEnv));
 
                                
-                                        return (soar.ws.fx.services.WM.MarketWatchService2Stub.GetNominalReliabilityResponse)object;
+                                        return (soar.ws.fx.services.MW.MarketWatchService2Stub.GetNominalReliabilityResponse)object;
                                    
          }catch(org.apache.axis2.AxisFault f){
 
@@ -285,9 +285,9 @@
                 */
                 public  void startgetNominalReliability(
 
-                 soar.ws.fx.services.WM.MarketWatchService2Stub.GetNominalReliability getNominalReliability0,
+                 soar.ws.fx.services.MW.MarketWatchService2Stub.GetNominalReliability getNominalReliability0,
 
-                  final soar.ws.fx.services.WM.MarketWatchService2CallbackHandler callback)
+                  final soar.ws.fx.services.MW.MarketWatchService2CallbackHandler callback)
 
                 throws java.rmi.RemoteException{
 
@@ -331,10 +331,10 @@
                                 org.apache.axiom.soap.SOAPEnvelope resultEnv = resultContext.getEnvelope();
                                 
                                         java.lang.Object object = fromOM(resultEnv.getBody().getFirstElement(),
-                                                                         soar.ws.fx.services.WM.MarketWatchService2Stub.GetNominalReliabilityResponse.class,
+                                                                         soar.ws.fx.services.MW.MarketWatchService2Stub.GetNominalReliabilityResponse.class,
                                                                          getEnvelopeNamespaces(resultEnv));
                                         callback.receiveResultgetNominalReliability(
-                                        (soar.ws.fx.services.WM.MarketWatchService2Stub.GetNominalReliabilityResponse)object);
+                                        (soar.ws.fx.services.MW.MarketWatchService2Stub.GetNominalReliabilityResponse)object);
                                         
                             } catch (org.apache.axis2.AxisFault e) {
                                 callback.receiveErrorgetNominalReliability(e);
@@ -429,20 +429,20 @@
                      * @see soar.ws.fx.services.WM.MarketWatchService2#run
                      * @param run2
                     
-                     * @throws soar.ws.fx.services.WM.MarketWatchService2ExceptionException : 
+                     * @throws soar.ws.fx.services.MW.MarketWatchService2ExceptionException : 
                      */
 
                     
 
-                            public  soar.ws.fx.services.WM.MarketWatchService2Stub.RunResponse run(
+                            public  soar.ws.fx.services.MW.MarketWatchService2Stub.RunResponse run(
 
-                            soar.ws.fx.services.WM.MarketWatchService2Stub.Run run2)
+                            soar.ws.fx.services.MW.MarketWatchService2Stub.Run run2)
                         
 
                     throws java.rmi.RemoteException
                     
                     
-                        ,soar.ws.fx.services.WM.MarketWatchService2ExceptionException{
+                        ,soar.ws.fx.services.MW.MarketWatchService2ExceptionException{
               org.apache.axis2.context.MessageContext _messageContext = null;
               try{
                org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[1].getName());
@@ -488,11 +488,11 @@
                 
                                 java.lang.Object object = fromOM(
                                              _returnEnv.getBody().getFirstElement() ,
-                                             soar.ws.fx.services.WM.MarketWatchService2Stub.RunResponse.class,
+                                             soar.ws.fx.services.MW.MarketWatchService2Stub.RunResponse.class,
                                               getEnvelopeNamespaces(_returnEnv));
 
                                
-                                        return (soar.ws.fx.services.WM.MarketWatchService2Stub.RunResponse)object;
+                                        return (soar.ws.fx.services.MW.MarketWatchService2Stub.RunResponse)object;
                                    
          }catch(org.apache.axis2.AxisFault f){
 
@@ -513,8 +513,8 @@
                                    new java.lang.Class[]{messageClass});
                         m.invoke(ex,new java.lang.Object[]{messageObject});
                         
-                        if (ex instanceof soar.ws.fx.services.WM.MarketWatchService2ExceptionException){
-                          throw (soar.ws.fx.services.WM.MarketWatchService2ExceptionException)ex;
+                        if (ex instanceof soar.ws.fx.services.MW.MarketWatchService2ExceptionException){
+                          throw (soar.ws.fx.services.MW.MarketWatchService2ExceptionException)ex;
                         }
                         
 
@@ -560,9 +560,9 @@
                 */
                 public  void startrun(
 
-                 soar.ws.fx.services.WM.MarketWatchService2Stub.Run run2,
+                 soar.ws.fx.services.MW.MarketWatchService2Stub.Run run2,
 
-                  final soar.ws.fx.services.WM.MarketWatchService2CallbackHandler callback)
+                  final soar.ws.fx.services.MW.MarketWatchService2CallbackHandler callback)
 
                 throws java.rmi.RemoteException{
 
@@ -606,10 +606,10 @@
                                 org.apache.axiom.soap.SOAPEnvelope resultEnv = resultContext.getEnvelope();
                                 
                                         java.lang.Object object = fromOM(resultEnv.getBody().getFirstElement(),
-                                                                         soar.ws.fx.services.WM.MarketWatchService2Stub.RunResponse.class,
+                                                                         soar.ws.fx.services.MW.MarketWatchService2Stub.RunResponse.class,
                                                                          getEnvelopeNamespaces(resultEnv));
                                         callback.receiveResultrun(
-                                        (soar.ws.fx.services.WM.MarketWatchService2Stub.RunResponse)object);
+                                        (soar.ws.fx.services.MW.MarketWatchService2Stub.RunResponse)object);
                                         
                             } catch (org.apache.axis2.AxisFault e) {
                                 callback.receiveErrorrun(e);
@@ -636,8 +636,8 @@
 															new java.lang.Class[]{messageClass});
 													m.invoke(ex,new java.lang.Object[]{messageObject});
 													
-													if (ex instanceof soar.ws.fx.services.WM.MarketWatchService2ExceptionException){
-														callback.receiveErrorrun((soar.ws.fx.services.WM.MarketWatchService2ExceptionException)ex);
+													if (ex instanceof soar.ws.fx.services.MW.MarketWatchService2ExceptionException){
+														callback.receiveErrorrun((soar.ws.fx.services.MW.MarketWatchService2ExceptionException)ex);
 											            return;
 										            }
 										            
@@ -709,7 +709,7 @@
                   * 
                   */
                 public void  initialiseService(
-                 soar.ws.fx.services.WM.MarketWatchService2Stub.InitialiseService initialiseService4
+                 soar.ws.fx.services.MW.MarketWatchService2Stub.InitialiseService initialiseService4
 
                 ) throws java.rmi.RemoteException
                 
@@ -4303,12 +4303,12 @@
         }
            
     
-            private  org.apache.axiom.om.OMElement  toOM(soar.ws.fx.services.WM.MarketWatchService2Stub.GetNominalReliability param, boolean optimizeContent)
+            private  org.apache.axiom.om.OMElement  toOM(soar.ws.fx.services.MW.MarketWatchService2Stub.GetNominalReliability param, boolean optimizeContent)
             throws org.apache.axis2.AxisFault {
 
             
                         try{
-                             return param.getOMElement(soar.ws.fx.services.WM.MarketWatchService2Stub.GetNominalReliability.MY_QNAME,
+                             return param.getOMElement(soar.ws.fx.services.MW.MarketWatchService2Stub.GetNominalReliability.MY_QNAME,
                                           org.apache.axiom.om.OMAbstractFactory.getOMFactory());
                         } catch(org.apache.axis2.databinding.ADBException e){
                             throw org.apache.axis2.AxisFault.makeFault(e);
@@ -4317,12 +4317,12 @@
 
             }
         
-            private  org.apache.axiom.om.OMElement  toOM(soar.ws.fx.services.WM.MarketWatchService2Stub.GetNominalReliabilityResponse param, boolean optimizeContent)
+            private  org.apache.axiom.om.OMElement  toOM(soar.ws.fx.services.MW.MarketWatchService2Stub.GetNominalReliabilityResponse param, boolean optimizeContent)
             throws org.apache.axis2.AxisFault {
 
             
                         try{
-                             return param.getOMElement(soar.ws.fx.services.WM.MarketWatchService2Stub.GetNominalReliabilityResponse.MY_QNAME,
+                             return param.getOMElement(soar.ws.fx.services.MW.MarketWatchService2Stub.GetNominalReliabilityResponse.MY_QNAME,
                                           org.apache.axiom.om.OMAbstractFactory.getOMFactory());
                         } catch(org.apache.axis2.databinding.ADBException e){
                             throw org.apache.axis2.AxisFault.makeFault(e);
@@ -4331,12 +4331,12 @@
 
             }
         
-            private  org.apache.axiom.om.OMElement  toOM(soar.ws.fx.services.WM.MarketWatchService2Stub.Run param, boolean optimizeContent)
+            private  org.apache.axiom.om.OMElement  toOM(soar.ws.fx.services.MW.MarketWatchService2Stub.Run param, boolean optimizeContent)
             throws org.apache.axis2.AxisFault {
 
             
                         try{
-                             return param.getOMElement(soar.ws.fx.services.WM.MarketWatchService2Stub.Run.MY_QNAME,
+                             return param.getOMElement(soar.ws.fx.services.MW.MarketWatchService2Stub.Run.MY_QNAME,
                                           org.apache.axiom.om.OMAbstractFactory.getOMFactory());
                         } catch(org.apache.axis2.databinding.ADBException e){
                             throw org.apache.axis2.AxisFault.makeFault(e);
@@ -4345,12 +4345,12 @@
 
             }
         
-            private  org.apache.axiom.om.OMElement  toOM(soar.ws.fx.services.WM.MarketWatchService2Stub.RunResponse param, boolean optimizeContent)
+            private  org.apache.axiom.om.OMElement  toOM(soar.ws.fx.services.MW.MarketWatchService2Stub.RunResponse param, boolean optimizeContent)
             throws org.apache.axis2.AxisFault {
 
             
                         try{
-                             return param.getOMElement(soar.ws.fx.services.WM.MarketWatchService2Stub.RunResponse.MY_QNAME,
+                             return param.getOMElement(soar.ws.fx.services.MW.MarketWatchService2Stub.RunResponse.MY_QNAME,
                                           org.apache.axiom.om.OMAbstractFactory.getOMFactory());
                         } catch(org.apache.axis2.databinding.ADBException e){
                             throw org.apache.axis2.AxisFault.makeFault(e);
@@ -4359,12 +4359,12 @@
 
             }
         
-            private  org.apache.axiom.om.OMElement  toOM(soar.ws.fx.services.WM.MarketWatchService2Stub.MarketWatchService2Exception param, boolean optimizeContent)
+            private  org.apache.axiom.om.OMElement  toOM(soar.ws.fx.services.MW.MarketWatchService2Stub.MarketWatchService2Exception param, boolean optimizeContent)
             throws org.apache.axis2.AxisFault {
 
             
                         try{
-                             return param.getOMElement(soar.ws.fx.services.WM.MarketWatchService2Stub.MarketWatchService2Exception.MY_QNAME,
+                             return param.getOMElement(soar.ws.fx.services.MW.MarketWatchService2Stub.MarketWatchService2Exception.MY_QNAME,
                                           org.apache.axiom.om.OMAbstractFactory.getOMFactory());
                         } catch(org.apache.axis2.databinding.ADBException e){
                             throw org.apache.axis2.AxisFault.makeFault(e);
@@ -4373,12 +4373,12 @@
 
             }
         
-            private  org.apache.axiom.om.OMElement  toOM(soar.ws.fx.services.WM.MarketWatchService2Stub.InitialiseService param, boolean optimizeContent)
+            private  org.apache.axiom.om.OMElement  toOM(soar.ws.fx.services.MW.MarketWatchService2Stub.InitialiseService param, boolean optimizeContent)
             throws org.apache.axis2.AxisFault {
 
             
                         try{
-                             return param.getOMElement(soar.ws.fx.services.WM.MarketWatchService2Stub.InitialiseService.MY_QNAME,
+                             return param.getOMElement(soar.ws.fx.services.MW.MarketWatchService2Stub.InitialiseService.MY_QNAME,
                                           org.apache.axiom.om.OMAbstractFactory.getOMFactory());
                         } catch(org.apache.axis2.databinding.ADBException e){
                             throw org.apache.axis2.AxisFault.makeFault(e);
@@ -4388,14 +4388,14 @@
             }
         
                                     
-                                        private  org.apache.axiom.soap.SOAPEnvelope toEnvelope(org.apache.axiom.soap.SOAPFactory factory, soar.ws.fx.services.WM.MarketWatchService2Stub.GetNominalReliability param, boolean optimizeContent, javax.xml.namespace.QName methodQName)
+                                        private  org.apache.axiom.soap.SOAPEnvelope toEnvelope(org.apache.axiom.soap.SOAPFactory factory, soar.ws.fx.services.MW.MarketWatchService2Stub.GetNominalReliability param, boolean optimizeContent, javax.xml.namespace.QName methodQName)
                                         throws org.apache.axis2.AxisFault{
 
                                              
                                                     try{
 
                                                             org.apache.axiom.soap.SOAPEnvelope emptyEnvelope = factory.getDefaultEnvelope();
-                                                            emptyEnvelope.getBody().addChild(param.getOMElement(soar.ws.fx.services.WM.MarketWatchService2Stub.GetNominalReliability.MY_QNAME,factory));
+                                                            emptyEnvelope.getBody().addChild(param.getOMElement(soar.ws.fx.services.MW.MarketWatchService2Stub.GetNominalReliability.MY_QNAME,factory));
                                                             return emptyEnvelope;
                                                         } catch(org.apache.axis2.databinding.ADBException e){
                                                             throw org.apache.axis2.AxisFault.makeFault(e);
@@ -4409,14 +4409,14 @@
 
                              
                                     
-                                        private  org.apache.axiom.soap.SOAPEnvelope toEnvelope(org.apache.axiom.soap.SOAPFactory factory, soar.ws.fx.services.WM.MarketWatchService2Stub.Run param, boolean optimizeContent, javax.xml.namespace.QName methodQName)
+                                        private  org.apache.axiom.soap.SOAPEnvelope toEnvelope(org.apache.axiom.soap.SOAPFactory factory, soar.ws.fx.services.MW.MarketWatchService2Stub.Run param, boolean optimizeContent, javax.xml.namespace.QName methodQName)
                                         throws org.apache.axis2.AxisFault{
 
                                              
                                                     try{
 
                                                             org.apache.axiom.soap.SOAPEnvelope emptyEnvelope = factory.getDefaultEnvelope();
-                                                            emptyEnvelope.getBody().addChild(param.getOMElement(soar.ws.fx.services.WM.MarketWatchService2Stub.Run.MY_QNAME,factory));
+                                                            emptyEnvelope.getBody().addChild(param.getOMElement(soar.ws.fx.services.MW.MarketWatchService2Stub.Run.MY_QNAME,factory));
                                                             return emptyEnvelope;
                                                         } catch(org.apache.axis2.databinding.ADBException e){
                                                             throw org.apache.axis2.AxisFault.makeFault(e);
@@ -4430,14 +4430,14 @@
 
                              
                                     
-                                        private  org.apache.axiom.soap.SOAPEnvelope toEnvelope(org.apache.axiom.soap.SOAPFactory factory, soar.ws.fx.services.WM.MarketWatchService2Stub.InitialiseService param, boolean optimizeContent, javax.xml.namespace.QName methodQName)
+                                        private  org.apache.axiom.soap.SOAPEnvelope toEnvelope(org.apache.axiom.soap.SOAPFactory factory, soar.ws.fx.services.MW.MarketWatchService2Stub.InitialiseService param, boolean optimizeContent, javax.xml.namespace.QName methodQName)
                                         throws org.apache.axis2.AxisFault{
 
                                              
                                                     try{
 
                                                             org.apache.axiom.soap.SOAPEnvelope emptyEnvelope = factory.getDefaultEnvelope();
-                                                            emptyEnvelope.getBody().addChild(param.getOMElement(soar.ws.fx.services.WM.MarketWatchService2Stub.InitialiseService.MY_QNAME,factory));
+                                                            emptyEnvelope.getBody().addChild(param.getOMElement(soar.ws.fx.services.MW.MarketWatchService2Stub.InitialiseService.MY_QNAME,factory));
                                                             return emptyEnvelope;
                                                         } catch(org.apache.axis2.databinding.ADBException e){
                                                             throw org.apache.axis2.AxisFault.makeFault(e);
@@ -4467,44 +4467,44 @@
 
         try {
         
-                if (soar.ws.fx.services.WM.MarketWatchService2Stub.GetNominalReliability.class.equals(type)){
+                if (soar.ws.fx.services.MW.MarketWatchService2Stub.GetNominalReliability.class.equals(type)){
                 
-                           return soar.ws.fx.services.WM.MarketWatchService2Stub.GetNominalReliability.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                           return soar.ws.fx.services.MW.MarketWatchService2Stub.GetNominalReliability.Factory.parse(param.getXMLStreamReaderWithoutCaching());
                     
 
                 }
            
-                if (soar.ws.fx.services.WM.MarketWatchService2Stub.GetNominalReliabilityResponse.class.equals(type)){
+                if (soar.ws.fx.services.MW.MarketWatchService2Stub.GetNominalReliabilityResponse.class.equals(type)){
                 
-                           return soar.ws.fx.services.WM.MarketWatchService2Stub.GetNominalReliabilityResponse.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                           return soar.ws.fx.services.MW.MarketWatchService2Stub.GetNominalReliabilityResponse.Factory.parse(param.getXMLStreamReaderWithoutCaching());
                     
 
                 }
            
-                if (soar.ws.fx.services.WM.MarketWatchService2Stub.Run.class.equals(type)){
+                if (soar.ws.fx.services.MW.MarketWatchService2Stub.Run.class.equals(type)){
                 
-                           return soar.ws.fx.services.WM.MarketWatchService2Stub.Run.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                           return soar.ws.fx.services.MW.MarketWatchService2Stub.Run.Factory.parse(param.getXMLStreamReaderWithoutCaching());
                     
 
                 }
            
-                if (soar.ws.fx.services.WM.MarketWatchService2Stub.RunResponse.class.equals(type)){
+                if (soar.ws.fx.services.MW.MarketWatchService2Stub.RunResponse.class.equals(type)){
                 
-                           return soar.ws.fx.services.WM.MarketWatchService2Stub.RunResponse.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                           return soar.ws.fx.services.MW.MarketWatchService2Stub.RunResponse.Factory.parse(param.getXMLStreamReaderWithoutCaching());
                     
 
                 }
            
-                if (soar.ws.fx.services.WM.MarketWatchService2Stub.MarketWatchService2Exception.class.equals(type)){
+                if (soar.ws.fx.services.MW.MarketWatchService2Stub.MarketWatchService2Exception.class.equals(type)){
                 
-                           return soar.ws.fx.services.WM.MarketWatchService2Stub.MarketWatchService2Exception.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                           return soar.ws.fx.services.MW.MarketWatchService2Stub.MarketWatchService2Exception.Factory.parse(param.getXMLStreamReaderWithoutCaching());
                     
 
                 }
            
-                if (soar.ws.fx.services.WM.MarketWatchService2Stub.InitialiseService.class.equals(type)){
+                if (soar.ws.fx.services.MW.MarketWatchService2Stub.InitialiseService.class.equals(type)){
                 
-                           return soar.ws.fx.services.WM.MarketWatchService2Stub.InitialiseService.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                           return soar.ws.fx.services.MW.MarketWatchService2Stub.InitialiseService.Factory.parse(param.getXMLStreamReaderWithoutCaching());
                     
 
                 }

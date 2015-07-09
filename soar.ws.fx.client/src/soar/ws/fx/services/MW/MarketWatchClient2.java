@@ -1,4 +1,4 @@
-package soar.ws.fx.services.WM;
+package soar.ws.fx.services.MW;
 
 import java.rmi.RemoteException;
 

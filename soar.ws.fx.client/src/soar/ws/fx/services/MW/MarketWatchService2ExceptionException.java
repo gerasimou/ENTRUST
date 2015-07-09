@@ -6,13 +6,13 @@
  * by the Apache Axis2 version: 1.6.2  Built on : Apr 17, 2012 (05:33:49 IST)
  */
 
-package soar.ws.fx.services.WM;
+package soar.ws.fx.services.MW;
 
 public class MarketWatchService2ExceptionException extends java.lang.Exception{
 
     private static final long serialVersionUID = 1436283374105L;
     
-    private soar.ws.fx.services.WM.MarketWatchService2Stub.MarketWatchService2Exception faultMessage;
+    private soar.ws.fx.services.MW.MarketWatchService2Stub.MarketWatchService2Exception faultMessage;
 
     
         public MarketWatchService2ExceptionException() {
@@ -32,11 +32,11 @@ public class MarketWatchService2ExceptionException extends java.lang.Exception{
         }
     
 
-    public void setFaultMessage(soar.ws.fx.services.WM.MarketWatchService2Stub.MarketWatchService2Exception msg){
+    public void setFaultMessage(soar.ws.fx.services.MW.MarketWatchService2Stub.MarketWatchService2Exception msg){
        faultMessage = msg;
     }
     
-    public soar.ws.fx.services.WM.MarketWatchService2Stub.MarketWatchService2Exception getFaultMessage(){
+    public soar.ws.fx.services.MW.MarketWatchService2Stub.MarketWatchService2Exception getFaultMessage(){
        return faultMessage;
     }
 }
