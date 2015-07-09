@@ -31,9 +31,9 @@ public class ServiceFactory {
 	
 	//Enumeration mapping service name + ID to stub
 	private enum STUB{
-		MARKET_WATCH_1 			("WM.MarketWatchService1Stub"),
-		MARKET_WATCH_2 			("WM.MarketWatchService2Stub"),
-		MARKET_WATCH_3 			("WM.MarketWatchService3Stub"),
+		MARKET_WATCH_1 			("MW.MarketWatchService1Stub"),
+		MARKET_WATCH_2 			("MW.MarketWatchService2Stub"),
+		MARKET_WATCH_3 			("MW.MarketWatchService3Stub"),
 		TECHNICAL_ANALYSIS_1 	("TA.TechnicalAnalysisService1Stub"),
 		TECHNICAL_ANALYSIS_2 	("TA.TechnicalAnalysisService2Stub"),
 		TECHNICAL_ANALYSIS_3 	("TA.TechnicalAnalysisService3Stub"),
@@ -48,17 +48,41 @@ public class ServiceFactory {
 		ALARM_3 				("AL.AlarmService3Stub"),
 		NOTIFICATION_1 			("NOT.NotificationService1Stub"),
 		NOTIFICATION_2 			("NOT.NotificationService2Stub"),
-		NOTIFICATION_3 			("NOT.NotificationService3Stub"),
-    	UNKNOWN("");
+		NOTIFICATION_3 			("NOT.NotificationService3Stub");
 		
     	private final String code;
+    	private final int index;
 
 		private STUB(String code){
 			this.code = code;
+			if (code.contains("MW")){
+				index = 0;
+			}
+			else if (code.contains("TA")){
+				index = 1;
+			}
+			else if (code.contains("FA")){				
+				index = 2;
+			}
+			else if (code.contains("AL")){
+				index = 3;
+			}
+			else if (code.contains("OR")){
+				index = 4;
+			}
+			else if (code.contains("NOT")){
+				index = 5;
+			}
+			else
+				throw new IllegalArgumentException();
 		}
 		
     	protected String getCode(){
     		return this.code;
+    	}
+    	
+    	protected int getIndex(){
+    		return this.index;
     	}
 	}
 	
@@ -106,10 +130,13 @@ public class ServiceFactory {
 			STUB stub = getSTUB(key);
 			//find its stub class
 			Class<?> cls = Class.forName("soar.ws.fx.services." + stub.getCode());
+			
 			//create the client
 			ServiceClient srvClient = new ServiceClient(id, reliability, costPerInvocation, timePerInvocation, 
 														failureTimePattern, failureDegradationPattern, cls);
-			srvList.get(0).add(srvClient);
+
+			//add the client object to the appropriate service list
+			srvList.get(stub.getIndex()).add(srvClient);
     	}
     	catch (IllegalArgumentException iae){
     		System.err.println("IllegalArgumentException: Abstract service not found: " + key);
