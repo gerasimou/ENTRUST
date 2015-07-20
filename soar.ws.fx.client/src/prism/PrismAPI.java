@@ -64,6 +64,8 @@ public class PrismAPI {
 		} 
 	}
 	
+	
+	
 	public void setPropertiesFile(String propertiesFilename){
 		this.PROPERTIESFILENAME = propertiesFilename;
 		this.propertyFile = new File(PROPERTIESFILENAME);
