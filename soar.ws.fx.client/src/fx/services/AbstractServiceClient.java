@@ -70,4 +70,6 @@ public abstract class AbstractServiceClient {
 	public String getID(){
 		return this.id;
 	}
+	
+	public abstract void execute();
 }

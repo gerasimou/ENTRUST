@@ -129,7 +129,7 @@ public class ServiceFactory {
         	//get the stub for the service
 			STUB stub = getSTUB(key);
 			//find its stub class
-			Class<?> cls = Class.forName("soar.ws.fx.services." + stub.getCode());
+			Class<?> cls = Class.forName("fx.services." + stub.getCode());
 			
 			//create the client
 			ServiceClient srvClient = new ServiceClient(id, reliability, costPerInvocation, timePerInvocation, 

@@ -189,6 +189,13 @@ public class MarketWatchClient1 extends AbstractServiceClient{
 		initFunction.setFailurePatternDegradation("");
 		initFunction.setID(this.getClass().getName());
 		stub.initialiseService(initFunction);	
+	}
+
+
+	@Override
+	public void execute() {
+		// TODO Auto-generated method stub
+		
 	}		
 	
 	
