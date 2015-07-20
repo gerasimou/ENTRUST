@@ -1,10 +1,9 @@
 package sbs;
 
-import soar.ws.fx.services.MW.MarketWatchClient1;
-import soar.ws.fx.services.MW.MarketWatchClient2;
-import soar.ws.fx.services.TA.TechnicalAnalysisClient;
+import fx.services.MW.MarketWatchClient2;
+import fx.services.TA.TechnicalAnalysisClient;
 
-public class MainX {
+public class MainDummy {
 
 	public static void main(String[] args) {
 		try {
