@@ -11,6 +11,3 @@ R{"cost"}=? [ F "done"]
 
 // minimisation [0..R+]
 R{"time"}=? [ F "done" ]
-
-// maximisation [0..1]
-P=? [ F "success" ]
