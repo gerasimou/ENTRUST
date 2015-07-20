@@ -2,8 +2,11 @@ package soar.ws.fx.services;
 
 public abstract class AbstractServiceClient {
 
-	/** service reliability*/
+	/** service nominal reliability*/
 	private double nominalReliability;
+
+	/** service actual reliability*/
+	private double actualReliability;
 	
 	/** cost per invocation*/
 	private double costPerInvocation;
@@ -30,6 +33,7 @@ public abstract class AbstractServiceClient {
 	 */
 	public AbstractServiceClient(String ID, double reliability, double cost, double responseTime){
 		this.nominalReliability = reliability;
+		this.actualReliability	= reliability;
 		this.costPerInvocation	= cost;
 		this.timePerInvocation	= responseTime;
 		this.id					= ID;
@@ -42,8 +46,14 @@ public abstract class AbstractServiceClient {
 	}
 	
 	
-	public String getReliability(){
+	public String getReliabilityAsString(){
 		return "(" + timesSucceeded +"/"+ timesInvoked +")";
+	}
+	
+	
+	public double getReliability(){
+		this.actualReliability = timesSucceeded / (timesInvoked + 0.0);
+		return this.actualReliability;
 	}
 	
 	

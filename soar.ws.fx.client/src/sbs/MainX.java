@@ -1,8 +1,8 @@
 package sbs;
 
+import soar.ws.fx.services.MW.MarketWatchClient1;
+import soar.ws.fx.services.MW.MarketWatchClient2;
 import soar.ws.fx.services.TA.TechnicalAnalysisClient;
-import soar.ws.fx.services.WM.MarketWatchClient1;
-import soar.ws.fx.services.WM.MarketWatchClient2;
 
 public class MainX {
 
