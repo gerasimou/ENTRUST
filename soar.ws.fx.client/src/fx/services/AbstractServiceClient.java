@@ -52,7 +52,10 @@ public abstract class AbstractServiceClient {
 	
 	
 	public double getReliability(){
-		this.actualReliability = timesSucceeded / (timesInvoked + 0.0);
+		if (timesInvoked==0)
+			this.actualReliability = this.nominalReliability;
+		else
+			this.actualReliability = timesSucceeded / (timesInvoked + 0.0);
 		return this.actualReliability;
 	}
 	
@@ -70,6 +73,12 @@ public abstract class AbstractServiceClient {
 	public String getID(){
 		return this.id;
 	}
+	
+	public double[] getFeatures(){
+		return new double[]{getReliability(), this.costPerInvocation, this.timePerInvocation};
+	}
+	
+	
 	
 	public abstract void execute();
 }

@@ -1,14 +1,16 @@
 package auxiliary;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
+import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
-import java.util.Map.Entry;
 
 public class Utility {
 	
@@ -72,6 +74,25 @@ public class Utility {
 		catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	
+	public static String readFile(String fileName) {
+		StringBuilder model = new StringBuilder(100);
+		BufferedReader bfr = null;
+
+		try {
+			bfr = new BufferedReader(new FileReader(new File(fileName)));
+			String line = null;
+			while ((line = bfr.readLine()) != null) {
+				model.append(line + "\n");
+			}
+			model.delete(model.length() - 1, model.length());
+			return model.toString();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 }
