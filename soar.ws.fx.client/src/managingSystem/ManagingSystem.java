@@ -67,12 +67,15 @@ public class ManagingSystem implements Runnable{
 		long timeNow 	= startTime;
 		
 		try {
+			//run initial configuration (managed system setup)
 			System.err.println("{t: "+ ((timeNow-startTime)/1000.0) +"} ManagingSystem.run()");
 			managingSystemCallTime = timeNow + TIME_WINDOW; //update the time, i.e., to invoke the managing system again +TIME_WINDOW from now
 			sbs.setActiveServicesList(new int[]{0,1,0,0,0,0});
 			runQV();
 			sbs.printActiveServices();
-						
+			
+
+			//wake up (start) SBS
 			synchronized(sbs){
 	    		sbs.notify();
 	    	}
@@ -83,12 +86,14 @@ public class ManagingSystem implements Runnable{
 					System.err.println("{t: "+ ((timeNow-startTime)/1000.0) +"} ManagingSystem.run()");
 					managingSystemCallTime = timeNow + TIME_WINDOW; //update the time, i.e., to invoke the managing system again +TIME_WINDOW from now
 					runQV();
+					sbs.setActiveServicesList(new int[]{0,1,0,0,0,0});
 					sbs.printActiveServices();
 				}//if
 				
-				if (Thread.interrupted()){
+				//when I am interrupted
+				if (Thread.currentThread().isInterrupted()){
 					System.err.println("ManagingSystem exiting");
-					System.exit(0);
+					return;
 				}
 				
 				timeNow = System.currentTimeMillis();
