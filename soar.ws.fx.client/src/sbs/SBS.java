@@ -21,7 +21,7 @@ import managingSystem.ManagingSystem;
  * @author sgerasimou
  *
  */
-public class SBS {
+public class SBS implements Runnable{
 
 	/** Lists that keep instances of services for each operation */
 	private List<AbstractServiceClient> 		mwList; //market watch
@@ -104,20 +104,32 @@ public class SBS {
     }
 
     
+    /**
+     * Updates the list of active services
+     * @param activeSrvList
+     */
     public void setActiveServicesList(List<AbstractServiceClient> activeSrvList){
     	this.activeServicesList = activeSrvList;
     }
 
     
+    /**
+     * Updates the array keeping the list of active services
+     * @param activeServices
+     */
     public void setActiveServicesList(int[] activeServices){
     	for (int index=0; index < activeServices.length; index++){
     		activeServicesArray = activeServices;
 //    		activeServicesList.set(index, operationsList.get(index).get(activeServiceIndex));
     	}
     }
-
     
-    public List<List<AbstractServiceClient>> getOpetionsList(){
+    
+    /**
+     * Retrieves the list of system operations
+     * @return
+     */
+    public List<List<AbstractServiceClient>> getOperationsList(){
     	return this.operationsList;
     }
     
@@ -130,18 +142,17 @@ public class SBS {
        	long startTime 				= System.currentTimeMillis(); 	//time that the simulation started. i.e., now
     	long stopTime				= startTime + SIMULATION_TIME; 	//time for ending the simulation, i.e., now + SIMULATION_TIME 
     	long managingSystemCallTime	= 0;							//time for the latest managing system invocation
-    	
 		long timeNow 	= startTime;
-		try {
-			List<AbstractServiceClient> clientList = operationsList.get(0);
+		try {			
+
+			//wait to be notified by the managing system when to start executing
+			synchronized (this){ 
+				this.wait();				
+			}
+			
 			
 			while (stopTime >= timeNow){
 				
-				if (timeNow >=  managingSystemCallTime){
-					managingSystemCallTime = timeNow + TIME_WINDOW; //update the time, i.e., to invoke the managing system again +TIME_WINDOW from now
-					managingSystem.execute();
-				}//if
-
 				for (int index=0; index< activeServicesArray.length; index++){
 					int activeServiceIndex = activeServicesArray[index];
 					AbstractServiceClient serviceClient = (AbstractServiceClient)operationsList.get(index).get(activeServiceIndex);
@@ -159,7 +170,7 @@ public class SBS {
      }
     
     
-    
+    /** Print the features of the currently active services*/
     private void printActiveServicesFeatures(){
 		System.out.println("\nFinal active services reliability \n-------------------------------------- \nID\tREP/REQ\t\tRel. vs Nominal Rel.");
 		for (int index=0; index< activeServicesArray.length; index++){
@@ -169,4 +180,18 @@ public class SBS {
 					   serviceClient.getReliability() +" vs "+ ((ServiceClient)serviceClient).getNominalReliability() +"]");
 		}
     }
+    
+    
+    /** Print the IDs of active services */
+    public void printActiveServices(){
+    	StringBuilder activeServices = new StringBuilder("[");
+		for (int index=0; index< activeServicesArray.length; index++){
+			int activeServiceIndex = activeServicesArray[index];
+			AbstractServiceClient serviceClient = (AbstractServiceClient)operationsList.get(index).get(activeServiceIndex);
+			activeServices.append(serviceClient.getID() + ",");
+		}
+		activeServices.append("]");
+    	System.out.printf("Active Services:\t %s\n\n", activeServices.toString());
+    }
+
 }

@@ -19,8 +19,18 @@ public class SBSMain
     	
     	try {
         	sbs = new SBS();
-        	sbs.run();
-		} 
+        	Thread sbsThread = new Thread(sbs, "SBS");
+        	sbsThread.start();
+        	
+        	managingSystem = new ManagingSystem(sbs);
+        	Thread managingSystemThread = new Thread(managingSystem, "ManagingSystem");
+        	managingSystemThread.start();
+        	
+        	while (sbsThread.isAlive());
+        	managingSystemThread.interrupt();
+    		System.err.println("Done");
+
+    	} 
     	catch (Exception e) {
 			e.printStackTrace();
 		}

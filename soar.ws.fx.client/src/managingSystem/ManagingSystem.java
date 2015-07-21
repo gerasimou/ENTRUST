@@ -9,7 +9,7 @@ import fx.services.AbstractServiceClient;
 import prism.PrismAPI;
 import sbs.SBS;
 
-public class ManagingSystem{
+public class ManagingSystem implements Runnable{
 	
 	/** PRISM instance */
 	PrismAPI prism;
@@ -29,16 +29,28 @@ public class ManagingSystem{
 	/** Instance of the service-based system */
 	SBS sbs;
 	
+	/** time for running a scenario*/
+	private final long SIMULATION_TIME;
+	
+	/** time between successive managing system invocations*/
+	private final long TIME_WINDOW;
+	
 	public ManagingSystem(SBS theSystem){
 		this.sbs 			= theSystem;
-		this.operationsList = this.sbs.getOpetionsList();
+		this.operationsList = this.sbs.getOperationsList();
 		
 		//Read  model and properties parameters
-		modelFileName 		= Utility.getProperty("MODEL_FILE");
-		propertiesFileName	= Utility.getProperty("PROPERTIES_FILE");
+		this.modelFileName 		= Utility.getProperty("MODEL_FILE");
+		this.propertiesFileName	= Utility.getProperty("PROPERTIES_FILE");
 		
 		//Read the model
-		modelAsString = Utility.readFile(modelFileName);		
+		this.modelAsString = Utility.readFile(modelFileName);		
+		
+		//initialise simulation time
+    	SIMULATION_TIME = Long.parseLong(Utility.getProperty("SIMULATION_TIME"));
+		
+		//initialise time window
+		this.TIME_WINDOW		= Long.parseLong(Utility.getProperty("TIME_WINDOW"));
 		
 		//initialise PRISM instance
 		this.prism = new PrismAPI();
@@ -46,15 +58,55 @@ public class ManagingSystem{
 	}
 
 	
-	
-	public void execute(){
-		System.err.println(this.getClass().getName());
-		sbs.setActiveServicesList(new int[]{0,1,0,0,0,0});
-		runQV();
+	/** Runs the managing system */
+	@Override
+	public void run(){
+       	long startTime 				= System.currentTimeMillis(); 	//time that the simulation started. i.e., now
+    	long stopTime				= startTime + SIMULATION_TIME; 	//time for ending the simulation, i.e., now + SIMULATION_TIME 
+    	long managingSystemCallTime	= 0;							//time for the latest managing system invocation
+		long timeNow 	= startTime;
+		
+		try {
+			System.err.println("{t: "+ ((timeNow-startTime)/1000.0) +"} ManagingSystem.run()");
+			managingSystemCallTime = timeNow + TIME_WINDOW; //update the time, i.e., to invoke the managing system again +TIME_WINDOW from now
+			sbs.setActiveServicesList(new int[]{0,1,0,0,0,0});
+			runQV();
+			sbs.printActiveServices();
+						
+			synchronized(sbs){
+	    		sbs.notify();
+	    	}
+			
+			while (true){
+			
+				if (timeNow >=  managingSystemCallTime){
+					System.err.println("{t: "+ ((timeNow-startTime)/1000.0) +"} ManagingSystem.run()");
+					managingSystemCallTime = timeNow + TIME_WINDOW; //update the time, i.e., to invoke the managing system again +TIME_WINDOW from now
+					runQV();
+					sbs.printActiveServices();
+				}//if
+				
+				if (Thread.interrupted()){
+					System.err.println("ManagingSystem exiting");
+					System.exit(0);
+				}
+				
+				timeNow = System.currentTimeMillis();
+			
+			}//while
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		
+//		System.err.println("ManagingSystem.execute()");
+//		sbs.setActiveServicesList(new int[]{0,1,0,0,0,0});
+//		runQV();
 	}
 	
 	
-    /** Set up the initial system configuration considering nominal values for the services*/
+    /** Set up the  system configuration considering nominal values for the services*/
     private void runQV(){
     	//get the cartesian product
     	
@@ -90,9 +142,7 @@ public class ManagingSystem{
                 				List<Double> results = prism.runPrism();
                 				
                 				System.out.println(Arrays.toString(results.toArray()));
-                				
-                				System.out.println("Done");
-                				
+                				                				
                 			}                			
                 		}    			            			
             		}    			
@@ -101,7 +151,12 @@ public class ManagingSystem{
     	}
     }
     
-        
+    
+    /**
+     * Generate a complete and correct PRISM model instance using the service features given as parameters
+     * @param srvFeatures
+     * @return a correct PRISM model instance as a String
+     */
     private String realiseProbabilisticModel(double[][] srvFeatures){
     	StringBuilder model = new StringBuilder(modelAsString);
     	for (int index=0; index<srvFeatures.length; index++){
