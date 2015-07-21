@@ -149,8 +149,9 @@ public class ServiceFactory {
     		System.err.println(rme.getLocalizedMessage());
     		System.exit(0);
     	} 
-    	catch (ClassNotFoundException e) {
-			e.printStackTrace();
+    	catch (ClassNotFoundException cnfe) {
+    		cnfe.printStackTrace();
+    		System.exit(0);
 		} 
     }
 

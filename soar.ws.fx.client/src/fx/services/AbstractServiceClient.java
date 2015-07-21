@@ -41,16 +41,21 @@ public abstract class AbstractServiceClient {
 		this.timesSucceeded		= 0;
 	}
 	
+	
+	/** Returns the features of this service as a string*/
+	@Override
 	public String toString(){
 		return "[" + id +"$ r:"+ nominalReliability +", t:"+ timePerInvocation +", c:" + costPerInvocation + "]"; 
 	}
 	
 	
+	/** Returns the service reliability as a string */
 	public String getReliabilityAsString(){
 		return "(" + timesSucceeded +"/"+ timesInvoked +")";
 	}
 	
 	
+	/** Returns the service reliability (actually it calculates the reliability first) */
 	public double getReliability(){
 		if (timesInvoked==0)
 			this.actualReliability = this.nominalReliability;
@@ -60,25 +65,30 @@ public abstract class AbstractServiceClient {
 	}
 	
 	
+	/** Returns service cost per invocation */
 	public double getCostPerInvocation(){
 		return this.costPerInvocation;
 	}
 	
 	
+	/** Returns service response time */
 	public double timePerInvocation(){
 		return this.timePerInvocation;
 	}
 	
 	
+	/** Returns service ID */
 	public String getID(){
 		return this.id;
 	}
 	
+	
+	/** Returns service features as a double array */
 	public double[] getFeatures(){
 		return new double[]{getReliability(), this.costPerInvocation, this.timePerInvocation};
 	}
 	
 	
-	
+	/** Main service client function that invokes the service*/
 	public abstract void execute();
 }

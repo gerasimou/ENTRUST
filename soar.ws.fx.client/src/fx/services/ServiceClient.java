@@ -7,36 +7,63 @@ import java.rmi.RemoteException;
 
 import fx.services.AbstractServiceClient;
 
+
+/**
+ * Generic class representing a service client. 
+ * The class uses reflection to generate the client 
+ * and to specialise it to the particular service client  
+ * @author sgerasimou
+ */
+
 public class ServiceClient extends AbstractServiceClient{
 
-	Class<?> cls;
+	private Class<?> cls;
 	
 	//stub
-	Object stubReflection;
+	private Object stubReflection;
 	
 	//run handles
-	Class<?> runClass;
-	Constructor<?> runConstructor;
-	Object runInstance;
-	Method setParam;
-	Method runStubMethod;
-	Class<?> runResponseClass;
-	Method getReturn;
+	private Class<?> runClass;
+	private Constructor<?> runConstructor;
+	private Object runInstance;
+	private Method setParam;
+	private Method runStubMethod;
+	private Class<?> runResponseClass;
+	private Method getReturn;
 	
+	
+	/**
+	 * Class constructor: Initialises a ServiceClient instance and instantiates the stubs for the given service class
+	 * @param ID
+	 * @param reliability
+	 * @param cost
+	 * @param responseTime
+	 * @param failureTimePatter
+	 * @param failureDegradationPattern
+	 * @param cls
+	 * @throws RemoteException
+	 */
 	public ServiceClient(String ID, double reliability, double cost, double responseTime, 
 							  String failureTimePatter, String failureDegradationPattern, Class cls) throws RemoteException{
 		super(ID, reliability, cost, responseTime);
 		
 		initReflection(ID, reliability, cost, responseTime, failureTimePatter, failureDegradationPattern, cls);
 		initRunReflection(cls);
-//		for (int i=0; i<100; i++){
-//			runReflection();
-//		}
 		this.cls = cls;
 		System.out.println(this.toString());
 	}	
 	
 	
+	/**
+	 * Initialises reflection parameters
+	 * @param ID
+	 * @param reliability
+	 * @param cost
+	 * @param responseTime
+	 * @param failureTimePattern
+	 * @param failureDegradationPattern
+	 * @param cls
+	 */
 	private void initReflection(String ID, double reliability, double cost, double responseTime, 
 					  String failureTimePattern, String failureDegradationPattern, Class cls){
 		try {
@@ -80,26 +107,19 @@ public class ServiceClient extends AbstractServiceClient{
 			Method initialiseServiceStubMethod = cls.getMethod("initialiseService", initialiseServiceClass);
 			initialiseServiceStubMethod.invoke(stubReflection, initialiseServiceInstance);
 			
-			System.out.println(initialiseServiceInstance.toString() + "\tinit()");
+//			System.out.println(initialiseServiceInstance.toString() + "\tinit()");
 
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (SecurityException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
-		} catch (NoSuchMethodException e) {
+		} catch (InstantiationException | IllegalAccessException | SecurityException | ClassNotFoundException |
+				 IllegalArgumentException | InvocationTargetException | NoSuchMethodException e) {
 			e.printStackTrace();
 		}
 	}
 	
 	
+	/**
+	 * Initialises the run service method using reflection
+	 * @param cls
+	 */
 	private void initRunReflection(Class<?> cls){
 		try{
 			//Find Run inner class
@@ -121,32 +141,19 @@ public class ServiceClient extends AbstractServiceClient{
 			runResponseClass = Class.forName(cls.getName()+"$RunResponse");
 
 			//Find and invoke setParam method
-			getReturn = runResponseClass.getMethod("get_return");
-		} catch(ClassNotFoundException cnfe){
-			cnfe.printStackTrace();
-		} catch (NoSuchMethodException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
+			getReturn = runResponseClass.getMethod("get_return");		
+			
+		} catch (InstantiationException | IllegalAccessException | SecurityException | ClassNotFoundException |
+				 IllegalArgumentException | InvocationTargetException | NoSuchMethodException e) {
 			e.printStackTrace();
 		}
 	}
 	
 	
-	
+	/**
+	 * Main client service that executes the functionality provided by this function. 
+	 */
+	@Override
 	public void execute(){
 		try {		
 			//invoke setParam() to set the parameter for the run function
@@ -159,7 +166,7 @@ public class ServiceClient extends AbstractServiceClient{
 			Object result = getReturn.invoke(response);
 			
 			//print the result
-			System.out.println(runInstance.toString().substring(runInstance.toString().lastIndexOf('.')+1) +"\tOutput: "+ result.toString());
+//			System.out.println(runInstance.toString().substring(runInstance.toString().lastIndexOf('.')+1) +"\tOutput: "+ result.toString());
 
 			//update reliability indicators
 			timesInvoked++;
@@ -172,7 +179,10 @@ public class ServiceClient extends AbstractServiceClient{
 	}
 	
 	
-	
+	/**
+	 * Invokes the service and requests its nominal reliability 
+	 * @return the nominal reliability fort this service
+	 */
 	public double getNominalReliability(){
 		try{
 			//Find Run inner class

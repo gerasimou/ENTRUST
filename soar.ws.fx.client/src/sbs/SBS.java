@@ -3,15 +3,18 @@ package sbs;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map.Entry;
 import java.util.Set;
 
 import auxiliary.Utility;
-import soar.ws.fx.services.AbstractServiceClient;
-import soar.ws.fx.services.ServiceClient;
-import soar.ws.fx.services.ServiceFactory;
+import fx.services.AbstractServiceClient;
+import fx.services.ServiceClient;
+import fx.services.ServiceFactory;
+import managingSystem.ManagingSystem;
 
 /**
  * Main Class
@@ -20,15 +23,31 @@ import soar.ws.fx.services.ServiceFactory;
  */
 public class SBS {
 
+	/** Lists that keep instances of services for each operation */
 	private List<AbstractServiceClient> 		mwList; //market watch
 	private List<AbstractServiceClient>			taList; //technical analysis
 	private List<AbstractServiceClient>			faList; //fundamental analysis
 	private List<AbstractServiceClient>			alList; //alarm
 	private List<AbstractServiceClient> 		orList; //order
-	private List<AbstractServiceClient>			noList; //notification
-	private List<List<AbstractServiceClient>>	srvList;//service list 
+	private List<AbstractServiceClient>			notList; //notification
 
+	/** List of lists that maintains the services for each operation */
+	private List<List<AbstractServiceClient>>	operationsList;//service list of lists
+	
+	/** List that stores the currently active lists for each operation*/
+	private List<AbstractServiceClient> activeServicesList; 
+	private int[] activeServicesArray;
+
+	/** time for running a scenario*/
 	private final long SIMULATION_TIME;
+	
+	/** time between successive managing system invocations*/
+	private final long TIME_WINDOW;
+	
+	/** Managing system handler*/
+	private ManagingSystem managingSystem;
+	
+	
 	
 	/**
 	 * Constructor: Create the SBS system 
@@ -42,23 +61,27 @@ public class SBS {
     	faList = new ArrayList<AbstractServiceClient>();
     	alList = new ArrayList<AbstractServiceClient>();
     	orList = new ArrayList<AbstractServiceClient>();
-    	noList = new ArrayList<AbstractServiceClient>();
-    	srvList= new ArrayList<List<AbstractServiceClient>>();
-    	srvList.add(mwList);	srvList.add(taList);
-    	srvList.add(faList);	srvList.add(alList);
-    	srvList.add(orList);	srvList.add(noList);
+    	notList = new ArrayList<AbstractServiceClient>();
+    	operationsList= new ArrayList<List<AbstractServiceClient>>();
+    	operationsList.add(mwList);	operationsList.add(taList);
+    	operationsList.add(faList);	operationsList.add(alList);
+    	operationsList.add(orList);	operationsList.add(notList);
+    	
+    	activeServicesList = new ArrayList<AbstractServiceClient>();
+    	activeServicesArray = new int[operationsList.size()];
     	
     	SIMULATION_TIME = Long.parseLong(Utility.getProperty("SIMULATION_TIME"));
+    	TIME_WINDOW		= Long.parseLong(Utility.getProperty("TIME_WINDOW"));
+    	
+    	managingSystem = new ManagingSystem(this);
 
     	//make initialisations
-    	initClients();
+    	initServiceClients();
 	}
 	
 	
-    /**
-     * set up & init services
-     */
-    private void initClients(){
+    /** set up & init services */
+    private void initServiceClients(){
     	Set<Entry<Object, Object>> entrySet = Utility.getPropertiesEntrySet();
     	
     	Iterator<Entry<Object, Object>> it = entrySet.iterator();
@@ -69,38 +92,81 @@ public class SBS {
     		
     		//if this entry is a service, create it
     		if (entryKey.contains("SRV")){
-    			ServiceFactory.createService(entryKey, entryDetails, srvList);
+    			ServiceFactory.createService(entryKey, entryDetails, operationsList);
     		}
     	}
+    	
+    	//check whether there is at least one service for each operation
+    	for (List<AbstractServiceClient> aList : operationsList){
+    		if (aList.size()==0)
+    			throw new IllegalArgumentException("There is an operation with no services (no implementation exists)");
+    	}
     }
-	
+
+    
+    public void setActiveServicesList(List<AbstractServiceClient> activeSrvList){
+    	this.activeServicesList = activeSrvList;
+    }
+
+    
+    public void setActiveServicesList(int[] activeServices){
+    	for (int index=0; index < activeServices.length; index++){
+    		activeServicesArray = activeServices;
+//    		activeServicesList.set(index, operationsList.get(index).get(activeServiceIndex));
+    	}
+    }
+
+    
+    public List<List<AbstractServiceClient>> getOpetionsList(){
+    	return this.operationsList;
+    }
     
     
+    //TODO SBS workflow
+    //TODO Connect PRISM executor
+    //TODO Integrate ActivForms
+    /** Run function that simulates the workflow of the FX system*/
     public void run(){
-       	long startTime 		= System.currentTimeMillis();
-    	long stopTime		= startTime + SIMULATION_TIME;
+       	long startTime 				= System.currentTimeMillis(); 	//time that the simulation started. i.e., now
+    	long stopTime				= startTime + SIMULATION_TIME; 	//time for ending the simulation, i.e., now + SIMULATION_TIME 
+    	long managingSystemCallTime	= 0;							//time for the latest managing system invocation
     	
 		long timeNow 	= startTime;
 		try {
-			List<AbstractServiceClient> clientList = srvList.get(0);
+			List<AbstractServiceClient> clientList = operationsList.get(0);
 			
-			while (stopTime >= timeNow){	
+			while (stopTime >= timeNow){
 				
-				for (AbstractServiceClient client : clientList)
-					((ServiceClient)client).execute();
+				if (timeNow >=  managingSystemCallTime){
+					managingSystemCallTime = timeNow + TIME_WINDOW; //update the time, i.e., to invoke the managing system again +TIME_WINDOW from now
+					managingSystem.execute();
+				}//if
+
+				for (int index=0; index< activeServicesArray.length; index++){
+					int activeServiceIndex = activeServicesArray[index];
+					AbstractServiceClient serviceClient = (AbstractServiceClient)operationsList.get(index).get(activeServiceIndex);
+					serviceClient.execute();
+				}//for
 
 				timeNow = System.currentTimeMillis();
-			}
+			}//while
 			
-			for (AbstractServiceClient client : clientList){
-				ServiceClient serviceClient = (ServiceClient)client;
-				System.out.println(serviceClient.getID() +"\t"+ serviceClient.getReliability() +"\t"+ serviceClient.getNominalReliability());
-			}
-			
+			printActiveServicesFeatures();
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-		};
+		}
      }
     
+    
+    
+    private void printActiveServicesFeatures(){
+		System.out.println("\nFinal active services reliability \n-------------------------------------- \nID\tREP/REQ\t\tRel. vs Nominal Rel.");
+		for (int index=0; index< activeServicesArray.length; index++){
+			int activeServiceIndex = activeServicesArray[index];
+			AbstractServiceClient serviceClient = (AbstractServiceClient)operationsList.get(index).get(activeServiceIndex);
+			System.out.println(serviceClient.getID() +"\t"+ serviceClient.getReliabilityAsString() +"\t\t["+ 
+					   serviceClient.getReliability() +" vs "+ ((ServiceClient)serviceClient).getNominalReliability() +"]");
+		}
+    }
 }
