@@ -1,7 +1,6 @@
 package managingSystem;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import auxiliary.Utility;
@@ -130,7 +129,17 @@ public class ManagingSystem implements Runnable{
     private void runQV(){
     	//get the cartesian product
     	int counter = 0;
+    	
+    	//clear up previous configuration results
     	configurationResults.clear();
+    	
+    	//calculate services reliability
+    	for (int operation=0; operation<operationsList.size(); operation++){
+    		for (int service=0; service<operationsList.get(operation).size(); service++){
+    			AbstractServiceClient serviceClient = operationsList.get(operation).get(service);
+    			serviceClient.calculateReliability();
+    		}
+    	}
     	
     	for (int indexList0=0; indexList0<operationsList.get(0).size(); indexList0++){
     		AbstractServiceClient srv0 = operationsList.get(0).get(indexList0);
