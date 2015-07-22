@@ -37,9 +37,9 @@ module forex
 	[fxStart]	state = 0 	->	0.66 : (state'=1) + 0.34 : (state'=9);
 
 	//Op1: Market watch
-	[startOp1]		state = 1	->	1.0  : (state'=2);  	//invoke op1
+	[startOp1]		state = 1	->	1.0  : (state'=2);  //invoke op1
 	[endOp1Fail]	state = 2 	->	1.0  : (state'=5);	//failed op1
-	[endOp1Succ] 	state = 2	->	1.0  : (state'=3) ;  	//succ   op1
+	[endOp1Succ] 	state = 2	->	1.0  : (state'=3) ; //succ   op1
 
 	//Op2: Technical Analysis
 	[startOp2]		state = 3	->	1.0  : (state'=4);	//invoke op2
