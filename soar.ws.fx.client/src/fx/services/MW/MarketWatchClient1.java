@@ -128,22 +128,16 @@ public class MarketWatchClient1 extends AbstractServiceClient{
 		} catch(ClassNotFoundException cnfe){
 			cnfe.printStackTrace();
 		} catch (NoSuchMethodException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -171,7 +165,6 @@ public class MarketWatchClient1 extends AbstractServiceClient{
 			MarketWatchService1Stub.GetNominalReliabilityResponse relResponse = stub.getNominalReliability(reliabilityFunction);
 			return (relResponse.get_return());
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return 0;
@@ -194,7 +187,6 @@ public class MarketWatchClient1 extends AbstractServiceClient{
 
 	@Override
 	public void execute() {
-		// TODO Auto-generated method stub
 		
 	}		
 	
@@ -234,22 +226,16 @@ public class MarketWatchClient1 extends AbstractServiceClient{
 		} catch(ClassNotFoundException cnfe){
 			cnfe.printStackTrace();
 		} catch (NoSuchMethodException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

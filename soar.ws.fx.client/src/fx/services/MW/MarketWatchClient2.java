@@ -41,7 +41,6 @@ public class MarketWatchClient2 {
 			MarketWatchService2Stub.GetNominalReliabilityResponse relResponse = stub.getNominalReliability(reliabilityFunction);
 			return (relResponse.get_return());
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return 0;

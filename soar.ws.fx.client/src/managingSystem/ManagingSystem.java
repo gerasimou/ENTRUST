@@ -35,6 +35,12 @@ public class ManagingSystem implements Runnable{
 	/** time between successive managing system invocations*/
 	private final long TIME_WINDOW;
 	
+	/** keeps the results of QoS properties for all possible system configurations */
+	private List<List<Double>> configurationResults;
+	
+	/** System reliability constraint*/
+	private final double RELIABILITY_THRESHOLD = 0.9;
+	
 	public ManagingSystem(SBS theSystem){
 		this.sbs 			= theSystem;
 		this.operationsList = this.sbs.getOperationsList();
@@ -47,10 +53,13 @@ public class ManagingSystem implements Runnable{
 		this.modelAsString = Utility.readFile(modelFileName);		
 		
 		//initialise simulation time
-    	SIMULATION_TIME = Long.parseLong(Utility.getProperty("SIMULATION_TIME"));
+    	this.SIMULATION_TIME = Long.parseLong(Utility.getProperty("SIMULATION_TIME"));
 		
 		//initialise time window
 		this.TIME_WINDOW		= Long.parseLong(Utility.getProperty("TIME_WINDOW"));
+		
+		//initialise configuration results list
+		this.configurationResults = new ArrayList<List<Double>>();
 		
 		//initialise PRISM instance
 		this.prism = new PrismAPI();
@@ -85,12 +94,23 @@ public class ManagingSystem implements Runnable{
 				if (timeNow >=  managingSystemCallTime){
 					System.err.println("{t: "+ ((timeNow-startTime)/1000.0) +"} ManagingSystem.run()");
 					managingSystemCallTime = timeNow + TIME_WINDOW; //update the time, i.e., to invoke the managing system again +TIME_WINDOW from now
+					
+					//carry out quantitative verification
 					runQV();
-					sbs.setActiveServicesList(new int[]{0,1,0,0,0,0});
+    				
+					//select the best configuration considering system QoS requirements
+					int bestConfiguration = analyse();
+										
+					//find which services comprise this configuration
+					int[] servicesConfiguration = configurationToServices(bestConfiguration);
+					
+					//active the new set of services
+					sbs.setActiveServicesList(servicesConfiguration);
+
 					sbs.printActiveServices();
 				}//if
 				
-				//when I am interrupted
+				//when I am interrupted, I should stop
 				if (Thread.currentThread().isInterrupted()){
 					System.err.println("ManagingSystem exiting");
 					return;
@@ -103,19 +123,14 @@ public class ManagingSystem implements Runnable{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-		
-//		System.err.println("ManagingSystem.execute()");
-//		sbs.setActiveServicesList(new int[]{0,1,0,0,0,0});
-//		runQV();
 	}
 	
 	
     /** Set up the  system configuration considering nominal values for the services*/
     private void runQV(){
     	//get the cartesian product
-    	
-    	List<List<Double>> configurationResults = new ArrayList<List<Double>>();
+    	int counter = 0;
+    	configurationResults.clear();
     	
     	for (int indexList0=0; indexList0<operationsList.get(0).size(); indexList0++){
     		AbstractServiceClient srv0 = operationsList.get(0).get(indexList0);
@@ -137,17 +152,20 @@ public class ManagingSystem implements Runnable{
                 			        
                 				double[][] srvFeatures = new double[][]{srv0.getFeatures(), srv1.getFeatures(), srv2.getFeatures(),
                 														srv3.getFeatures(), srv4.getFeatures(), srv5.getFeatures()};
-                				
+                				//Generate a correct PRISM model									
                 				String modelString = realiseProbabilisticModel(srvFeatures);
                    				                		
                 				//load the PRISM model
                 				prism.loadModel(modelString);
 
                 				//run PRISM
-                				List<Double> results = prism.runPrism();
+                				List<Double> prismResult = prism.runPrism();
+                				configurationResults.add(prismResult);
                 				
-                				System.out.println(Arrays.toString(results.toArray()));
-                				                				
+                				String srvsID = "[" + srv0.getID() +","+ srv1.getID() +","+ srv2.getID() +","+
+                									  srv3.getID() +","+ srv4.getID() +","+ srv5.getID() +"]\t";
+                				
+//                				System.out.println(counter++ +"), "+ Arrays.toString(prismResult.toArray()));                				                				
                 			}                			
                 		}    			            			
             		}    			
@@ -173,4 +191,68 @@ public class ManagingSystem implements Runnable{
     	return model.toString();
     }
 	
+
+    /**
+     * Checks the possible system configurations and determines which configuration 
+     * satisfies system QoS requirements and optimises a fitness function
+     * 	min(w_1*cost + w_2	*responseTime)
+     * @return best configuration
+     */
+    private int analyse(){
+    	int bestConfiguration	= -1;
+    	double bestResult		= Double.MAX_VALUE;
+    	double w1 				= 2;
+    	double w2 				= 8;
+    	
+    	double[] configResultsArray = new double[configurationResults.size()];
+    	
+    	double result;
+    	for (int configuration=0; configuration<configurationResults.size(); configuration++){
+    		List<Double> resultList = configurationResults.get(configuration); 
+    		double reliability 	= resultList.get(0);
+    		double cost			= resultList.get(1);
+    		double time			= resultList.get(2);			
+    		if (reliability < RELIABILITY_THRESHOLD){
+    			result = Double.MAX_VALUE;
+    		}
+    		else{
+    			result = w1 * cost + w2 * time;
+    			if (result < bestResult){ //minimisation is the goal
+    				bestResult 			= result;
+    				bestConfiguration	= configuration;
+    			}
+    		}
+    		configResultsArray[configuration] = result;
+    	}
+    	return bestConfiguration;
+    }
+    
+    
+    private int[] configurationToServices(int bestConfiguration){    	
+    	final int OPERATIONS = operationsList.size();
+    	final int SERVICES   = operationsList.get(0).size();
+    	
+    	int[] servicesConfiguration = new int[OPERATIONS];
+    	
+    	//generate the divisors
+    	int[] divisor = new int[OPERATIONS];//{243, 81, 27, 9, 3, 1}; //{#srv^(#op-1), #srv^(#op-2), ..., #srv^(0)}
+    	for (int i=0; i<OPERATIONS; i++){
+    		divisor[OPERATIONS-1-i] = (int) Math.pow(SERVICES, i);
+    	}
+//    	System.out.println(Arrays.toString(divisor));
+    	
+    	int x, num;
+    	System.out.printf("%d)\t", bestConfiguration);
+    	for (int i=0; i<divisor.length; i++){
+        	x = bestConfiguration / divisor[i];
+        	
+        	System.out.print(x +" ");
+        	servicesConfiguration[i] = x;
+        	bestConfiguration -= (divisor[i] * x);
+    	}//for    	
+    	
+    	return servicesConfiguration;
+    }
+    
+    
 }

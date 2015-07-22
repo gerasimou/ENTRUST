@@ -51,17 +51,27 @@ public abstract class AbstractServiceClient {
 	
 	/** Returns the service reliability as a string */
 	public String getReliabilityAsString(){
-		return "(" + timesSucceeded +"/"+ timesInvoked +")";
+//		return "(" + timesSucceeded +"/"+ timesInvoked +")";
+		return "("+ this.actualReliability +")"; 
 	}
 	
 	
 	/** Returns the service reliability (actually it calculates the reliability first) */
-	public double getReliability(){
+	public double setAndGetReliability(){
 		if (timesInvoked==0)
 			this.actualReliability = this.nominalReliability;
 		else
 			this.actualReliability = timesSucceeded / (timesInvoked + 0.0);
+		
+//		resetReliability();
+		
 		return this.actualReliability;
+	}
+	
+	
+	private void resetReliability(){
+		this.timesInvoked 	= 0;
+		this.timesSucceeded	= 0;
 	}
 	
 	
@@ -85,7 +95,7 @@ public abstract class AbstractServiceClient {
 	
 	/** Returns service features as a double array */
 	public double[] getFeatures(){
-		return new double[]{getReliability(), this.costPerInvocation, this.timePerInvocation};
+		return new double[]{setAndGetReliability(), this.costPerInvocation, this.timePerInvocation};
 	}
 	
 	
