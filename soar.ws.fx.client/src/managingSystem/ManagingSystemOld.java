@@ -8,7 +8,7 @@ import fx.services.AbstractServiceClient;
 import prism.PrismAPI;
 import sbs.SBS;
 
-public class ManagingSystem implements Runnable{
+public class ManagingSystemOld implements Runnable{
 	
 	/** PRISM instance */
 	PrismAPI prism;
@@ -40,7 +40,7 @@ public class ManagingSystem implements Runnable{
 	/** System reliability constraint*/
 	private final double RELIABILITY_THRESHOLD = 0.9;
 	
-	public ManagingSystem(SBS theSystem){
+	public ManagingSystemOld(SBS theSystem){
 		this.sbs 			= theSystem;
 		this.operationsList = this.sbs.getOperationsList();
 		

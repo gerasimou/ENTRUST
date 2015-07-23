@@ -14,7 +14,7 @@ import auxiliary.Utility;
 import fx.services.AbstractServiceClient;
 import fx.services.ServiceClient;
 import fx.services.ServiceFactory;
-import managingSystem.ManagingSystem;
+import managingSystem.ManagingSystemOld;
 
 /**
  * Main Class
@@ -45,7 +45,7 @@ public class SBS implements Runnable{
 	private final long TIME_WINDOW;
 	
 	/** Managing system handler*/
-	private ManagingSystem managingSystem;
+	private ManagingSystemOld managingSystem;
 	
 	
 	
@@ -73,7 +73,7 @@ public class SBS implements Runnable{
     	SIMULATION_TIME = Long.parseLong(Utility.getProperty("SIMULATION_TIME"));
     	TIME_WINDOW		= Long.parseLong(Utility.getProperty("TIME_WINDOW"));
     	
-    	managingSystem = new ManagingSystem(this);
+    	managingSystem = new ManagingSystemOld(this);
 
     	//make initialisations
     	initServiceClients();

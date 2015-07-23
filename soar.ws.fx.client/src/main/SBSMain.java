@@ -1,8 +1,9 @@
-package sbs;
+package main;
 
 import java.util.Arrays;
 
-import managingSystem.ManagingSystem;
+import managingSystem.ManagingSystemOld;
+import sbs.SBS;
 
 /**
  * Main Class
