@@ -23,6 +23,10 @@ public abstract class AbstractServiceClient {
 	/** number of times the service replied (within the advertised response time) */
 	protected int timesSucceeded;
 
+	/** how long the service is idle */
+	private final int MAX_IDLE = 10;
+	private int idle = MAX_IDLE;
+	
 	
 	/**
 	 * Constructor: A new object that represents a specific client for a given service
@@ -55,23 +59,28 @@ public abstract class AbstractServiceClient {
 		return "("+ this.actualReliability +")"; 
 	}
 	
-	
-	/** Returns the service reliability (actually it calculates the reliability first) */
-	public double setAndGetReliability(){
-		if (timesInvoked==0)
-			this.actualReliability = this.nominalReliability;
-		else
-			this.actualReliability = timesSucceeded / (timesInvoked + 0.0);
-		
-//		resetReliability();
-		
-		return this.actualReliability;
+	/** Returns the service reliability */
+	public double getReliability(){
+		return this.actualReliability; 
 	}
 	
 	
-	private void resetReliability(){
-		this.timesInvoked 	= 0;
-		this.timesSucceeded	= 0;
+	/** Returns the service reliability (actually it calculates the reliability first) */
+	public void calculateReliability(){
+		if (timesInvoked==0)
+			if (idle==MAX_IDLE){
+				this.idle = 0;
+				this.actualReliability = this.nominalReliability;
+				//reset
+				this.timesInvoked 	= 0;
+				this.timesSucceeded	= 0;
+			}
+			else{
+				idle++;
+			}
+		else{
+			this.actualReliability = timesSucceeded / (timesInvoked + 0.0);
+		}
 	}
 	
 	
@@ -95,7 +104,7 @@ public abstract class AbstractServiceClient {
 	
 	/** Returns service features as a double array */
 	public double[] getFeatures(){
-		return new double[]{setAndGetReliability(), this.costPerInvocation, this.timePerInvocation};
+		return new double[]{this.actualReliability, this.costPerInvocation, this.timePerInvocation};
 	}
 	
 	

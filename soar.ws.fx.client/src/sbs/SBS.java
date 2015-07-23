@@ -118,10 +118,10 @@ public class SBS implements Runnable{
      * @param activeServices
      */
     public void setActiveServicesList(int[] activeServices){
-    	for (int index=0; index < activeServices.length; index++){
+//    	for (int index=0; index < activeServices.length; index++){
     		activeServicesArray = activeServices;
 //    		activeServicesList.set(index, operationsList.get(index).get(activeServiceIndex));
-    	}
+//    	}
     }
     
     
@@ -177,7 +177,7 @@ public class SBS implements Runnable{
 			int activeServiceIndex = activeServicesArray[index];
 			AbstractServiceClient serviceClient = (AbstractServiceClient)operationsList.get(index).get(activeServiceIndex);
 			System.out.println(serviceClient.getID() +"\t"+ serviceClient.getReliabilityAsString() +"\t\t["+ 
-					   serviceClient.getReliability() +" vs "+ ((ServiceClient)serviceClient).getNominalReliability() +"]");
+					   serviceClient.getReliabilityAsString() +" vs "+ ((ServiceClient)serviceClient).getNominalReliability() +"]");
 		}
     }
     
