@@ -1,4 +1,4 @@
-package sbs;
+package main;
 
 import fx.services.MW.MarketWatchClient2;
 import fx.services.TA.TechnicalAnalysisClient;
