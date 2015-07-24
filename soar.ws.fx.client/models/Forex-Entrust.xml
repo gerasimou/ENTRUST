@@ -2,7 +2,7 @@
 <!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_2.dtd'>
 <nta>
 	<declaration>// Service Configuration
-const int MAX_NUM = 3;
+const int MAX_NUM = 2;
 typedef int[1, MAX_NUM] s_id;
 const int MAX_TYPE = 6;
 typedef int [1, MAX_TYPE] s_type;
@@ -561,9 +561,9 @@ const int WAIT_TIME = 9;
 
 
 void sendMeasurements(){
-    
-    for(s:s_type){
-        for(i:s_id){
+    int s, i;
+    for(s = 1; s &lt;=MAX_TYPE; s++){
+        for(i = 1; i &lt;= MAX_NUM; i++){
             currentAvgFRates[s][i] = services[s][i].reliability;
         }
     }
@@ -678,7 +678,7 @@ void analyze(){
 	//double RELIABILITY_THRESHOLD = 0.9; //defined globally
     int RELIABILITY_THRESHOLD = 90; //defined globally *100
 
-	int bestConfiguration		= -1;
+	int bestConfiguration	= -1;
 	int bestResult			= MAX;
 	int w1 					= 2;
 	int w2 					= 8;
@@ -1230,18 +1230,4 @@ Effector,Probe,
 system
 Monitor, Analysis, RQV, Planning, Execution;
 </system>
-	<queries>
-		<query>
-			<formula>E&lt;&gt; not MarketWatch2.Invoked
-			</formula>
-			<comment>
-			</comment>
-		</query>
-		<query>
-			<formula>A[] not deadlock
-			</formula>
-			<comment>
-			</comment>
-		</query>
-	</queries>
 </nta>
