@@ -28,12 +28,20 @@ Service services[s_type][s_id] =
 //{{NS, 1, 956, 1364, 1076},	{NS, 2, 969, 6541, 580},    {NS, 3, 969, 2296, 4086}}};
 
 
-{{{MW, 1, 990, 785, 128},	{MW, 2, 979, 1339, 338},	{MW, 3, 960, 312, 166}},	
-{{TA, 1, 967, 109, 480},	{TA, 2, 971, 1308, 367},	{TA, 3, 999, 1137, 165}},	
-{{FA, 1, 971, 632, 454},	{FA, 2, 995, 653, 419},	    {FA, 3, 954, 1197, 246}},	
-{{OS, 1, 972, 500, 85},	    {OS, 2, 959, 206, 203},	    {OS, 3, 976, 363, 396}},	
-{{AS, 1, 955, 1034, 386},   {AS, 2, 958, 792, 479},	    {AS, 3, 967, 1033, 456}},	
-{{NS, 1, 956, 136, 108},	{NS, 2, 969, 654, 58},      {NS, 3, 969, 231, 409}}};
+//{{{MW, 1, 990, 785, 128},	{MW, 2, 979, 1339, 338},	{MW, 3, 960, 312, 166}},	
+//{{TA, 1, 967, 109, 480},	{TA, 2, 971, 1308, 367},	{TA, 3, 999, 1137, 165}},	
+//{{FA, 1, 971, 632, 454},	{FA, 2, 995, 653, 419},	    {FA, 3, 954, 1197, 246}},	
+//{{OS, 1, 972, 500, 85},	    {OS, 2, 959, 206, 203},	    {OS, 3, 976, 363, 396}},	
+//{{AS, 1, 955, 1034, 386},   {AS, 2, 958, 792, 479},	    {AS, 3, 967, 1033, 456}},	
+//{{NS, 1, 956, 136, 108},	{NS, 2, 969, 654, 58},      {NS, 3, 969, 231, 409}}};
+
+{{{MW, 1, 990, 785, 128},	{MW, 2, 979, 1339, 338}},	
+{{TA, 1, 967, 109, 480},	{TA, 2, 971, 1308, 367}},	
+{{FA, 1, 971, 632, 454},	{FA, 2, 995, 653, 419}},	
+{{OS, 1, 972, 500, 85},	    {OS, 2, 959, 206, 203}},	
+{{AS, 1, 955, 1034, 386},   {AS, 2, 958, 792, 479}},	
+{{NS, 1, 956, 136, 108},	{NS, 2, 969, 654, 58}}};
+
 
 // Channels
 // Trader
@@ -676,7 +684,7 @@ const int MAX = 32767;
 
 void analyze(){
 	//double RELIABILITY_THRESHOLD = 0.9; //defined globally
-    int RELIABILITY_THRESHOLD = 90; //defined globally *100
+    int RELIABILITY_THRESHOLD = 900; //defined globally *1000
 
 	int bestConfiguration	= -1;
 	int bestResult			= MAX;
@@ -1010,8 +1018,8 @@ checkServiceConfig()</label>
 	<template>
 		<name>Execution</name>
 		<declaration>int planStep;
-int serviceType;
-int serviceId;
+//int serviceType;
+//int serviceId;
 int index;
 Step step;
 
@@ -1040,6 +1048,7 @@ bool allPlanStepsExecutedF(){
 void resetPlans(){
     plan = initialPlan;
     sConfig = newConfig;
+    plan.totalSteps=0;
 }</declaration>
 		<location id="id59" x="612" y="102">
 			<name x="510" y="59">ChangeNotificationService</name>

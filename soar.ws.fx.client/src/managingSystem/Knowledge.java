@@ -12,15 +12,18 @@ public class Knowledge {
 	
 	private static final List<List<ServiceCharacteristics>> operationCharacteristicsList = new ArrayList<List<ServiceCharacteristics>>();
 	
+	/** List that keep the services per operation */
+	private static List<List<AbstractServiceClient>> operationsList;
+
 	
 	
     /** Create a list for storing services characteristics that will be used when carrying out RQV*/
-	public static void initKnowledge (List<List<AbstractServiceClient>> operationsList){
-    	for (int operation=0; operation<operationsList.size(); operation++){
+	public static void initKnowledge (List<List<AbstractServiceClient>> opsList){
+    	for (int operation=0; operation<opsList.size(); operation++){
     		List<ServiceCharacteristics> servicesCharacteristicsList = new ArrayList<ServiceCharacteristics>();
 
-    		for (int service=0; service<operationsList.get(operation).size(); service++){
-    			AbstractServiceClient serviceClient = operationsList.get(operation).get(service);
+    		for (int service=0; service<opsList.get(operation).size(); service++){
+    			AbstractServiceClient serviceClient = opsList.get(operation).get(service);
     			Object[] serviceCharacteristics = serviceClient. getServiceCharacteristics();
     			servicesCharacteristicsList.add(new ServiceCharacteristics((String)serviceCharacteristics[0], (double)serviceCharacteristics[1], 
     																	   (double)serviceCharacteristics[2], (double)serviceCharacteristics[3]));
@@ -28,11 +31,18 @@ public class Knowledge {
     		operationCharacteristicsList.add(servicesCharacteristicsList);
 
     	}//for
+    	
+    	operationsList = opsList;
     }//
 	
 	
 	public static List<List<ServiceCharacteristics>> getKnowledge(){
 		return operationCharacteristicsList;
+	}
+	
+	
+	public static List<List<AbstractServiceClient>> getOperationsList(){
+		return operationsList;
 	}
 
 	

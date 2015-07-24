@@ -40,6 +40,7 @@ public class ManagingSystemOld implements Runnable{
 	/** System reliability constraint*/
 	private final double RELIABILITY_THRESHOLD = 0.9;
 	
+	
 	public ManagingSystemOld(SBS theSystem){
 		this.sbs 			= theSystem;
 		this.operationsList = this.sbs.getOperationsList();

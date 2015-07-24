@@ -8,7 +8,6 @@ import main.ManagingSystem;
 
 public class Effector implements Synchronizer{
 
-//    private Sensor[] sensors;
 	private int[] newConfiguration;
     private ManagingSystem managingSystem;
     private ActivFORMSEngine engine;
@@ -19,6 +18,8 @@ public class Effector implements Synchronizer{
     public Effector(ActivFORMSEngine engine, ManagingSystem managingSystem){
 		this.engine 		= engine;
 		this.managingSystem	= managingSystem;
+		
+		this.newConfiguration = new int[this.managingSystem.NUM_OF_OPERATIONS];
 	
 		changeService 			= engine.getChannel("changeService");
 		allPlanStepsExecuted	= engine.getChannel("allPlanStepsExecuted");
@@ -33,40 +34,38 @@ public class Effector implements Synchronizer{
 
     
     @Override
-    public boolean readyToReceive(int arg0) {
-//    	System.out.println("Effector.readyToreceive()");
-    	return true;
-    }
-
-    @Override
     public void receive(int channelId, HashMap<String, Object> data) {
 //    	System.out.println("Effector.receive()");
 		System.out.println(data.get("sConfig"));
 		if (channelId == changeService){
 		    int serviceId = (Integer) data.get("serviceId");
 		    int serviceType = (Integer) data.get("serviceType");
-//		    mainX.setSpeed(newSpeed);
+
 		    // Service should be changed here
+		    newConfiguration[serviceType-1] = serviceId-1;
 		}
 		else if (channelId == allPlanStepsExecuted){
-//			System.out.println("All Plan Steps Executed");
-//			int datad = (int) data.get("allDone");
-//			new Thread(new Runnable() {
-//				@Override
-//				public void run() {
-					// TODO Auto-generated method stub
-					managingSystem.returnResult(newConfiguration);	
-//				}
-//			}).start();;
+			System.out.println("All Plan Steps Executed");
+			managingSystem.returnResult(newConfiguration);	
 		}
 		else if (channelId == noPlanningNeeded || channelId == noAnalysisRequired){
-//			System.out.println("No Planning Needed");
+			System.out.println("No Planning Needed");
 			managingSystem.returnResult(newConfiguration);	
 			
 		}
 		
     }
     
+    
+    
+    
+    
+
+    @Override
+    public boolean readyToReceive(int arg0) {
+//    	System.out.println("Effector.readyToreceive()");
+    	return true;
+    }
 
     
     @Override

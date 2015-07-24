@@ -40,11 +40,11 @@ public class Probe implements Synchronizer {
 		int index = 0;
 		for(int operation = 0; operation < numOfOperations; operation++){
 		    for (int service = 0; service < numOfServicesPerOperation; service++){
-			avgRates[index++] = "currentAvgFRates[" + operation + "][" + service + "]=" + avgFRates[operation][service];
+			avgRates[index++] = "currentAvgFRates[" + (operation+1) + "][" + (service+1) + "]=" + avgFRates[operation][service];
 		    }	
 		}
 			
-		engine.send(setAverageFRates,this, avgRates);
+		engine.send(setAverageFRates, this, avgRates);
 //		System.out.println("Measurement Taken SensorId=" + sensorId);
     }
     

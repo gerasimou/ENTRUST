@@ -2,6 +2,8 @@ package managingSystem;
 
 import java.util.Arrays;
 
+import main.ManagingSystem;
+
 
 //class that represents a data structure for storing an RQVResult
 public class RQVResult{
@@ -40,9 +42,9 @@ public class RQVResult{
 	 */
 	public RQVResult (int sConfig[], double req1Result, double req2Result, double req3Result){
 		this.sConfig = sConfig;
-		this.req1Result	= (int) Math.round(req1Result);
-		this.req2Result	= (int) Math.round(req2Result);
-		this.req3Result = (int) Math.round(req3Result);
+		this.req1Result	= (int) (ManagingSystem.MULTIPLIER_RELIABILITY * req1Result); //Math.round(req1Result);
+		this.req2Result	= (int) (ManagingSystem.MULTIPLIER * req2Result);//Math.round(req2Result);
+		this.req3Result = (int) (ManagingSystem.MULTIPLIER * req3Result);//Math.round(req3Result);
 	}
 	
 	

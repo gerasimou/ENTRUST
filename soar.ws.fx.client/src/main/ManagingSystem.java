@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -14,6 +15,7 @@ import activforms.goalmanagement.Goal;
 import auxiliary.Utility;
 import fx.services.AbstractServiceClient;
 import managingSystem.Effector;
+import managingSystem.Knowledge;
 import managingSystem.Probe;
 import prism.PrismPlugin;
 import sbs.GoalChecker;
@@ -22,7 +24,8 @@ import sbs.SBS;
 public class ManagingSystem implements Runnable{
 
 	/** Multiplier for use in ActiveForms (no use of doubles, hence converted to integers)*/
-	public static final double MULTIPLIER = 1000;
+	public static final double MULTIPLIER_RELIABILITY = 1000;
+	public static final double MULTIPLIER 			  = 10;
 	
 	/** Probe handle*/
 	private Probe probe;
@@ -55,9 +58,12 @@ public class ManagingSystem implements Runnable{
 	private final long TIME_WINDOW;
 
     /** System characteristics*/
-    private final int NUM_OF_OPERATIONS;
-    private final int NUM_OF_SERVICES;	
+    public final int NUM_OF_OPERATIONS;
+    public final int NUM_OF_SERVICES;	
 
+    /** flag for run loop to carry on*/
+    boolean runCarryOn = false;
+    
 	
 	/**
 	 * Class constructor
@@ -91,14 +97,16 @@ public class ManagingSystem implements Runnable{
 		    
 		    //setup system QoS requirements
 		    //TODO: application specific --> need to be FX compatible
-		    engine.addGoal(new Goal("Requirement1", "currentConfiguration.req1Result > 20", new GoalChecker(), ""));
-		    engine.addGoal(new Goal("Requirement2", "currentConfiguration.req2Result < 120", new GoalChecker(), ""));
+//		    engine.addGoal(new Goal("Requirement1", "sConfig.sConfig > 20", new GoalChecker(), ""));
+//		    engine.addGoal(new Goal("Requirement2", "sConfig.req2Result < 120", new GoalChecker(), ""));
 		    
 		    //start the engine
 		    engine.start();
 		    
 		    //and start listening
 //		    startListening();
+//		    generateServiceCharacteristics();
+		    Knowledge.initKnowledge(operationsList);
 
 		} catch (Exception e) {
 		    e.printStackTrace();
@@ -150,9 +158,7 @@ public class ManagingSystem implements Runnable{
 	public void run() {
        	long startTime  = System.currentTimeMillis(); 	//time that the simulation started. i.e., now
     	long managingSystemCallTime	= 0;				//time for the latest managing system invocation
-
 		long timeNow 	= startTime;
-		
 		boolean firstTime = true;
 		
 		try{
@@ -164,10 +170,11 @@ public class ManagingSystem implements Runnable{
 
 					//TODO: FX
 					int[][] servicesReliability = getServicesReliability();
-					 probe.sendAverageRates(servicesReliability, NUM_OF_OPERATIONS, NUM_OF_SERVICES);
+					runCarryOn = false;
+					probe.sendAverageRates(servicesReliability, NUM_OF_OPERATIONS, NUM_OF_SERVICES);
 					
 					 //wait until the first configuration is established
-					 //....
+					 while (!runCarryOn);
 					 
 					//wake up (start) SBS
 					 if (firstTime){
@@ -195,7 +202,7 @@ public class ManagingSystem implements Runnable{
 	}
 	
 	
-	
+	/** Gets service reliability before sending this information to the Analyser*/
 	private int[][] getServicesReliability(){
 		int[][] servicesReliability = new int [NUM_OF_OPERATIONS][NUM_OF_SERVICES];
 		
@@ -204,32 +211,36 @@ public class ManagingSystem implements Runnable{
     		for (int service=0; service<operationsList.get(operation).size(); service++){
     			AbstractServiceClient serviceClient = operationsList.get(operation).get(service);
     			serviceClient.calculateReliability();
-    			servicesReliability[operation][service] = (int)(serviceClient.getReliability() * MULTIPLIER);
+    			servicesReliability[operation][service] = (int)(serviceClient.getReliability() * MULTIPLIER_RELIABILITY);
     		}
     	}		
     	return servicesReliability;
 	}
-	
-	
-	
-	
-	
-	
-	
+    
+    
+//    /** Create a list for storing services characteristics that will be used when carrying out RQV*/
+//    private void generateServiceCharacteristics(){
+//    	List<List<ServiceCharacteristics>> operationCharacteristicsList = new ArrayList<List<ServiceCharacteristics>>();
+//    	for (int operation=0; operation<operationsList.size(); operation++){
+//    		List<ServiceCharacteristics> servicesCharacteristicsList = new ArrayList<ServiceCharacteristics>();
+//
+//    		for (int service=0; service<operationsList.get(operation).size(); service++){
+//    			AbstractServiceClient serviceClient = operationsList.get(operation).get(service);
+//    			Object[] serviceCharacteristics = serviceClient. getServiceCharacteristics();
+//    			servicesCharacteristicsList.add(new ServiceCharacteristics((String)serviceCharacteristics[0], (double)serviceCharacteristics[1], 
+//    																	   (double)serviceCharacteristics[2], (double)serviceCharacteristics[3]));
+//    		}//for
+//    		operationCharacteristicsList.add(servicesCharacteristicsList);
+//
+//    	}//for
+//    }//
+    
+    
     public void returnResult(int [] newConfiguration){
-    	String output = "";
-    	for (int index=0; index<newConfiguration.length; index++){
-    		int tempResult = newConfiguration[index];
-    		if (index==3 && tempResult!=-1)
-    			output += tempResult/100.0;
-    		else
-    			output += tempResult +",";
-    	}
-//    	output = "1,0,1,3.0";
-    	System.out.println(output);
-    	
-    	out.println(output);
-    	out.flush();
+    	sbs.setActiveServicesList(newConfiguration);
+    	runCarryOn = true;    	
+//    	out.println(output);
+//    	out.flush();
 //    	resetNewConfiguration();
     }
     
@@ -237,7 +248,50 @@ public class ManagingSystem implements Runnable{
     public void resetNewConfiguration(){
     	Arrays.fill(newConfiguration, -1);
     }
-
     
+    
+    
+    //private class
+    class ServiceCharacteristics{
+    	/** service actual reliability*/
+    	private double reliability;
+    	
+    	/** cost per invocation*/
+    	private double costPerInvocation;
+    	
+    	/** time required to carry out its functionality per invocation*/
+    	private double timePerInvocation;
+    	
+    	/** Service ID*/
+    	private String id;
+    	    	
+    	public ServiceCharacteristics(String id, double costPerInvocation, double timePerInvocation, double reliability) {
+    		this.id 				= id;
+    		this.costPerInvocation 	= costPerInvocation;
+    		this.timePerInvocation	= timePerInvocation;
+    		this.reliability		= reliability;
+		}
+
+    	
+    	public double getCostPerInvocation(){
+    		return this.costPerInvocation;
+    	}
+    	
+    	public double getTimePerInvocation(){
+    		return this.timePerInvocation;
+    	}
+    	
+    	public String getID(){
+    		return this.id;
+    	}
+    	
+    	public double getReliability(){
+    		return this.reliability;
+    	}
+    	
+    	public void setReliability(double reliability){
+    		this.reliability = reliability;
+    	}
+    }
 }
 
