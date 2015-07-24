@@ -6,7 +6,7 @@ import activforms.engine.ActivFORMSEngine;
 import activforms.engine.Synchronizer;
 import main.ManagingSystem;
 
-public class Effector implements Synchronizer{
+public class Effector extends Synchronizer{
 
 	private int[] newConfiguration;
     private ManagingSystem managingSystem;
@@ -36,8 +36,8 @@ public class Effector implements Synchronizer{
     @Override
     public void receive(int channelId, HashMap<String, Object> data) {
 //    	System.out.println("Effector.receive()");
-		System.out.println(data.get("sConfig"));
 		if (channelId == changeService){
+			System.out.println("ChangeService:\t" + data.get("sConfig"));
 		    int serviceId = (Integer) data.get("serviceId");
 		    int serviceType = (Integer) data.get("serviceType");
 
@@ -56,21 +56,5 @@ public class Effector implements Synchronizer{
 		
     }
     
-    
-    
-    
-    
-
-    @Override
-    public boolean readyToReceive(int arg0) {
-//    	System.out.println("Effector.readyToreceive()");
-    	return true;
-    }
-
-    
-    @Override
-    public void accepted(int arg0) {
-	
-    }
-
+        
 }

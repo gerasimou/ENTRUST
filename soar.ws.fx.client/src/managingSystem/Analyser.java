@@ -137,7 +137,7 @@ public class Analyser {
 //                				String srvsID = "[" + srv0.getID() +","+ srv1.getID() +","+ srv2.getID() +","+
 //                									  srv3.getID() +","+ srv4.getID() +","+ srv5.getID() +"]\t";
                 				
-                				System.out.println(index +"), "+ Arrays.toString(prismResult.toArray()));                				                				
+//                				System.out.println(index +"), "+ Arrays.toString(prismResult.toArray()));                				                				
                 			}//for op6                			
                 		}//for op5    			            			
             		}//for op6    			

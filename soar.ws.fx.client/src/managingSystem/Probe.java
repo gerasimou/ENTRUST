@@ -6,7 +6,7 @@ import activforms.engine.ActivFORMSEngine;
 import activforms.engine.Synchronizer;
 import main.ManagingSystem;
 
-public class Probe implements Synchronizer {
+public class Probe extends Synchronizer {
     
 	/** ActivFORMS engine*/
     private ActivFORMSEngine engine;
@@ -49,17 +49,6 @@ public class Probe implements Synchronizer {
     }
     
     
-    @Override
-    public void accepted(int arg0) {
-//    	System.out.println("Probe.accepted()");
-    }
-
-    @Override
-    public boolean readyToReceive(int arg0) {
-//    	System.out.println("Probe.readyToReceive()");
-    	return false;
-    }
-
     @Override
     public void receive(int arg0, HashMap<String, Object> arg1) {
 //    	System.out.println("Probe.receive()");

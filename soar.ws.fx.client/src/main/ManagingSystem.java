@@ -9,6 +9,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import activforms.engine.ActivFORMSEngine;
 import activforms.goalmanagement.Goal;
@@ -62,7 +63,7 @@ public class ManagingSystem implements Runnable{
     public final int NUM_OF_SERVICES;	
 
     /** flag for run loop to carry on*/
-    boolean runCarryOn = false;
+     AtomicBoolean runCarryOn = new AtomicBoolean(false);
     
 	
 	/**
@@ -170,11 +171,11 @@ public class ManagingSystem implements Runnable{
 
 					//TODO: FX
 					int[][] servicesReliability = getServicesReliability();
-					runCarryOn = false;
+					runCarryOn.set(false);
 					probe.sendAverageRates(servicesReliability, NUM_OF_OPERATIONS, NUM_OF_SERVICES);
 					
 					 //wait until the first configuration is established
-					 while (!runCarryOn);
+					 while (!runCarryOn.get());
 					 
 					//wake up (start) SBS
 					 if (firstTime){
@@ -189,6 +190,7 @@ public class ManagingSystem implements Runnable{
 				//when I am interrupted, I should stop
 				if (Thread.currentThread().isInterrupted()){
 					System.err.println("ManagingSystem exiting");
+					engine.stop();
 					return;
 				}
 				
@@ -238,7 +240,7 @@ public class ManagingSystem implements Runnable{
     
     public void returnResult(int [] newConfiguration){
     	sbs.setActiveServicesList(newConfiguration);
-    	runCarryOn = true;    	
+    	runCarryOn.set(true);    	
 //    	out.println(output);
 //    	out.flush();
 //    	resetNewConfiguration();

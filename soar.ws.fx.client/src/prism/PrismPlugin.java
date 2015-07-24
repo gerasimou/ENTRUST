@@ -8,7 +8,7 @@ import activforms.types.UppaalType;
 import managingSystem.Analyser;
 import managingSystem.RQVResult;
 
-public class PrismPlugin implements Synchronizer{
+public class PrismPlugin extends Synchronizer{
     
 	/** Analyser handle*/
     private Analyser analyser;
@@ -92,21 +92,8 @@ public class PrismPlugin implements Synchronizer{
 //	
 		    
 		    //return output to ActivFORMS
-		    System.out.println("Sending probability");
+		    System.out.println("Sending RQV results");
 		    engine.send(finishRQV, this);
 		}
-    }
-    
-    
-    @Override
-    public void accepted(int arg0) {
-	if (arg0 == startRQV){}
-//	    System.out.println("Probability accepted");
-    }
-
-    
-    @Override
-    public boolean readyToReceive(int arg0) {
-    	return true;
-    }
+    }    
 }

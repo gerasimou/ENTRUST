@@ -108,6 +108,13 @@ public abstract class AbstractServiceClient {
 	}
 	
 	
+	/** Returns all service characteristics as an Object array
+	 * [0]:ID; [1]:reliability; [2]:cost; [3]:time */
+	public Object[] getServiceCharacteristics(){
+		return new Object[]{this.id, this.nominalReliability, this.costPerInvocation, this.timePerInvocation};
+	}
+	
+	
 	/** Main service client function that invokes the service*/
 	public abstract void execute();
 }
