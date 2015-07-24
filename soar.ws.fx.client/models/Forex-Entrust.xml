@@ -1192,8 +1192,7 @@ void resetPlans(){
 			<target ref="id66"/>
 			<label kind="assignment" x="-36" y="-102">planStep = nextPlanStep(),
 serviceType = nextPlanServiceType(),
-serviceId = nextPlanServiceId(),
-index++</label>
+serviceId = nextPlanServiceId()</label>
 		</transition>
 		<transition>
 			<source ref="id70"/>
@@ -1239,4 +1238,6 @@ Effector,Probe,
 system
 Monitor, Analysis, RQV, Planning, Execution;
 </system>
+	<queries>
+	</queries>
 </nta>
