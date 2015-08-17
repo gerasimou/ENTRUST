@@ -51,13 +51,13 @@ public class PrismPlugin extends Synchronizer{
     	
 		if (channelId == startRQV){
 		    HashMap<Integer, HashMap<Integer,Integer>> avgFRates = (HashMap<Integer, HashMap<Integer,Integer>>)data.get("avgFRates");
-		    System.out.println(avgFRates);
+		    System.err.println(avgFRates);
 
 		    int servicesPerOperation    = analyser.getNumOfServicesPerOperation();
 		    int[][] servicesReliability = new int[analyser.getNumOfOperations()][servicesPerOperation];
 		    int row=-1;
 		    for (int i=0; i<avgFRates.size(); i++){
-		    	System.err.println(avgFRates.get(i+1));
+//		    	System.err.println(avgFRates.get(i+1));
 		    	
 		    	HashMap<Integer, Integer> operationRates = avgFRates.get(i+1);
 		    	for (int serviceIndex=0; serviceIndex<operationRates.size(); serviceIndex++){
