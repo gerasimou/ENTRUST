@@ -1,4 +1,4 @@
-package mainX;
+package managingSystem;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,67 +9,71 @@ import java.net.Socket;
 import java.util.Arrays;
 
 import activforms.engine.ActivFORMSEngine;
+import auxiliary.Utility;
 import managingSystem.Effector;
 import managingSystem.Probe;
 
-public class MainX {
+public class ManagingSystem {
 
+	/** Multiplier for use in ActiveForms (no use of doubles, hence converted to integers)*/
 	public static final double MULTIPLIER = 1000;
-	
-//    private int speed 	= 25;
-//    Sensor[] sensors 	= new Sensor[3];
-//    int []count 		= new int[3];
+
+    /** ActivForms engine*/
+	private ActivFORMSEngine engine;
+
+	/** PRISM plugin*/
+	private PrismPlugin prismPlugin;
+
+	/** Probe handle*/
+	private Probe probe;
+ 
+	/** Effector handle*/
+	private Effector effector;
+
+	/** Communication handles*/
+    private ServerSocket serverSocket;		// 	= new ServerSocket(portNumber);
+    private Socket clientSocket;			//	= serverSocket.accept();
+    private PrintWriter out;				// 	= new PrintWriter(clientSocket.getOutputStream(), true);
+    private BufferedReader in;				//	= new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+
+    /** new UUV configuration */
 	int [] newConfiguration = new int[4];
-    Probe probe;
-    Effector effector;
-    ServerSocket serverSocket;// 	= new ServerSocket(portNumber);
-    Socket clientSocket;//		= serverSocket.accept();
-    PrintWriter out;// 			= new PrintWriter(clientSocket.getOutputStream(), true);
-    BufferedReader in;//			= new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-
-
-    /**
-     * @param args
-     */
-    public static void main(String[] args) {
-    	
-		// Declaring managed system
-		MainX mainX = new MainX();
 	
-		// Declaring managing system
-		ActivFORMSEngine engine = null;
-		try {
-		    engine = new ActivFORMSEngine("models/uuv-avg.xml", 9999);
-		    engine.setRealTimeUnit(1000);
+	
+	/**
+	 * Managing System constructor
+	 */
+	public ManagingSystem() {
+		
+		//initialise ActiveFORMS engine
+	    try {
+			this.engine = new ActivFORMSEngine(Utility.getProperty("ACTIVFORMS_MODEL_FILE"), 9999);
+		    this.engine.setRealTimeUnit(1000);
 
-		    // Setting Probe
-		    mainX.probe = new Probe(engine, null);
-		    mainX.resetNewConfiguration();
-	
-		    // Prism plugin
-//		    PrismPlugin prismPlugin = new PrismPlugin(engine);
-	
-//		    engine.addGoal(new Goal("Requirement1", "currentConfiguration.req1Result > 20", new GoalChecker(), ""));
-//		    engine.addGoal(new Goal("Requirement2", "currentConfiguration.req2Result < 120", new GoalChecker(), ""));
-			    	
+		    //init probe
+		    this.probe = new Probe(engine, this);
+		    resetNewConfiguration();
 		    
-		    // Setting Effector
-		    mainX.effector = new Effector(engine, null);
-		    mainX.effector.setNewConfigurationArray(mainX.newConfiguration);
-//		    effector.setSensors(mainX.sensors);
-//		    mainX.effector.setMainX(mainX);
-//			   mainX.changeSensorStatus(true, true, true);
-	
+		    //init effector
+		    this.effector = new Effector(engine, this);
+		    effector.setNewConfigurationArray(newConfiguration);
+		    
+		    //init PRISM plugin
+		    this.prismPlugin = new PrismPlugin(engine);
+		    
+		    //start the engine
 		    engine.start();
-		    mainX.startListening();
-	
-		} 
-		catch (Exception e) {
-		    e.printStackTrace();
+	    } 
+	    catch (Exception e) {
+			e.printStackTrace();
 		}
-    }
-    
-    
+	}
+	
+	
+	/**
+	 * Listen for a message from the managed system
+	 * @throws IOException
+	 */
     public void startListening() throws IOException{
 		 int portNumber = 56567;
 		 serverSocket 	= new ServerSocket(portNumber);
@@ -106,6 +110,10 @@ public class MainX {
     }
     
     
+    /** return the result to the managed system
+     * 
+     * @param newConfiguration
+     */
     public void returnResult(int [] newConfiguration){
     	String output = "";
     	for (int index=0; index<newConfiguration.length; index++){
@@ -122,11 +130,14 @@ public class MainX {
     	out.flush();
 //    	resetNewConfiguration();
     }
-    
-    public void resetNewConfiguration(){
+	
+	
+	
+	/**
+	 * Reset the configuration; initialisation function
+	 */
+    private void resetNewConfiguration(){
     	Arrays.fill(newConfiguration, -1);
     }
-
-    
+	
 }
-

@@ -1,5 +1,6 @@
-package prismWrapper;
+package prism;
 
+import managingSystem.ManagingSystem;
 
 //class that represents a data structure for storing an RQVResult
 public class RQVResult{
@@ -24,8 +25,8 @@ public class RQVResult{
 		this.sensor2 	= CSC%4>1 ? 1 : 0;
 		this.sensor3 	= CSC%8>3 ? 1 : 0;
 		this.speed   	= (int) (speed * 10);
-		this.req1Result	= (int) Math.round(req1Result);
-		this.req2Result	= (int) Math.round(req2Result);
+		this.req1Result	= (int) (Math.round(req1Result) * ManagingSystem.MULTIPLIER);
+		this.req2Result	= (int) (Math.round(req2Result) * ManagingSystem.MULTIPLIER);
 	}
 	
 	@Override

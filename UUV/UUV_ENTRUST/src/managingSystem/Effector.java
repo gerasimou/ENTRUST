@@ -1,24 +1,31 @@
-package managingsystem;
+package managingSystem;
 
 import java.util.HashMap;
 
-import mainX.MainX;
 import activforms.engine.ActivFORMSEngine;
 import activforms.engine.Synchronizer;
 
 public class Effector extends Synchronizer{
 
-//    private Sensor[] sensors;
-	private int[] newConfiguration;
-    private MainX mainX;
+	/** ActivFORMS engine*/
     private ActivFORMSEngine engine;
+
+    /** Managing system handle*/
+    private ManagingSystem managingSystem;
     
-    // Signals
+    /** new UUV configuration*/
+    private int[] newConfiguration;
+    
+    /** Signal(s)*/
     int onSensor, offSensor, changeSpeed, allPlanStepsExecuted, noPlanningNeeded, noAnalysisRequired;
+
     
-    public Effector(ActivFORMSEngine engine){
-		this.engine = engine;
+    public Effector(ActivFORMSEngine engine, ManagingSystem managingSystem){
+    	//assign handles
+    	this.engine 		= engine;
+		this.managingSystem	= managingSystem;
 	
+		//get signals
 		onSensor 				= engine.getChannel("onSensor");
 		offSensor 				= engine.getChannel("offSensor");
 		changeSpeed 			= engine.getChannel("changeSpeed");
@@ -26,6 +33,7 @@ public class Effector extends Synchronizer{
 		noPlanningNeeded		= engine.getChannel("noPlanningNeeded");
 		noAnalysisRequired		= engine.getChannel("noAnalysisRequired");
 		
+		//register signals
 		engine.register(onSensor, this, "sensorId", "currentConfiguration");
 		engine.register(offSensor, this, "sensorId", "currentConfiguration");
 		engine.register(changeSpeed, this, "newSpeed", "currentConfiguration");
@@ -34,11 +42,7 @@ public class Effector extends Synchronizer{
 		engine.register(noAnalysisRequired, this, "currentConfiguration");
     }
 
-    @Override
-    public boolean readyToReceive(int arg0) {
-//    	System.out.println("Effector.readyToreceive()");
-    	return true;
-    }
+
 
     @Override
     public void receive(int channelId, HashMap<String, Object> data) {
@@ -65,14 +69,13 @@ public class Effector extends Synchronizer{
 //			new Thread(new Runnable() {
 //				@Override
 //				public void run() {
-					// TODO Auto-generated method stub
-					mainX.returnResult(newConfiguration);	
+					managingSystem.returnResult(newConfiguration);	
 //				}
 //			}).start();;
 		}
 		else if (channelId == noPlanningNeeded || channelId == noAnalysisRequired){
 //			System.out.println("No Planning Needed");
-			mainX.returnResult(newConfiguration);	
+			managingSystem.returnResult(newConfiguration);	
 		}
     }
     
@@ -83,15 +86,6 @@ public class Effector extends Synchronizer{
     
     public void setNewConfigurationArray(int[] newConfiguration){
     	this.newConfiguration = newConfiguration;
-    }
-
-    public void setMainX(MainX mainX) {
-    	this.mainX = mainX;
-    }
-    
-    @Override
-    public void accepted(int arg0) {
-	
-    }
+    }    
 
 }

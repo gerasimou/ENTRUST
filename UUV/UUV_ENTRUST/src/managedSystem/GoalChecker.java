@@ -1,4 +1,4 @@
-package managedsystem;
+package managedSystem;
 
 import activforms.goalmanagement.Goal;
 import activforms.goalmanagement.GoalClient;

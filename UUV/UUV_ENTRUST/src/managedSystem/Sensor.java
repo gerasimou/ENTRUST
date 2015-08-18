@@ -1,4 +1,4 @@
-package managedsystem;
+package managedSystem;
 
 public class Sensor implements Runnable{
 

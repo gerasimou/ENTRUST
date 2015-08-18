@@ -2,17 +2,17 @@
 ctmc
 
 //Parameters (MOOS)
-const double r1; 	 // sensor's 1 rate
-const double r2;	 // sensor's 2 rate
-const double r3; 	 // sensor's 3 rate
+//const double r1; 	 // sensor's 1 rate
+//const double r2;	 // sensor's 2 rate
+//const double r3; 	 // sensor's 3 rate
 
-const double p1;	// sensor's 1 success probability
-const double p2;	// sensor's 2 success probability
-const double p3;	// sensor's 3 success probability
+//const double p1;	// sensor's 1 success probability
+//const double p2;	// sensor's 2 success probability
+//const double p3;	// sensor's 3 success probability
 
-const int CSC; 		// current  sensors configuration
-const int PSC;		// previous sensors configuration
-const double s;		// uuv speed 
+//const int CSC; 		// current  sensors configuration
+//const int PSC;		// previous sensors configuration
+//const double s;		// uuv speed 
 
 //--------------------------------------------------------------
 

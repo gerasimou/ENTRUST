@@ -1,12 +1,12 @@
-package mainX;
+package managingSystem;
 
 import java.util.HashMap;
 
-import prismWrapper.Analyser;
-import prismWrapper.RQVResult;
 import activforms.engine.ActivFORMSEngine;
 import activforms.engine.Synchronizer;
 import activforms.types.UppaalType;
+import mainX.MainX;
+import prism.RQVResult;
 
 public class PrismPlugin extends Synchronizer{
 
@@ -28,18 +28,6 @@ public class PrismPlugin extends Synchronizer{
 		receive_probability = engine.getChannel("receive_probability");
     }
 
-    
-    @Override
-    public void accepted(int arg0) {
-	if (arg0 == receive_probability){}
-//	    System.out.println("Probability accepted");
-    }
-
-    
-    @Override
-    public boolean readyToReceive(int arg0) {
-    	return true;
-    }
     
     
     @Override
