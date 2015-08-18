@@ -39,17 +39,13 @@ public class Probe extends Synchronizer {
     */
     public void sendAverageRates(double r1, double r2, double r3) {
 //    	System.out.println("Probe.sendAverageRates()");
-//		int[] measurements = mainX.getMeasurements();
+
 		String [] avgRates = new String[3];
 		avgRates[0] = "avgRates[0]=" + (int)(r1*MainX.MULTIPLIER);
 		avgRates[1] = "avgRates[1]=" + (int)(r2*MainX.MULTIPLIER);
 		avgRates[2] = "avgRates[2]=" + (int)(r3*MainX.MULTIPLIER);
-//		for (int i = 0; i < measurements.length; i++) {
-//		    avgRates[i] = "avgRates[" + i + "]=" + measurements[i];///10;
-//		    measurements[i] = 0;
-//		}
+
 		engine.send(setAverageMRates,this, avgRates);
-//		System.out.println("Measurement Taken SensorId=" + sensorId);
     }
     
     

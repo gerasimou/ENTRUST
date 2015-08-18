@@ -9,32 +9,43 @@ import mainX.MainX;
 import prism.RQVResult;
 
 public class PrismPlugin extends Synchronizer{
-
-    static String fileName	= "data/dataFile.txt";
     
-    Analyser analyser;
-    private int calculate_probability, receive_probability;
-    private ActivFORMSEngine engine;
-
+    /** ActivForms engine*/
+	private ActivFORMSEngine engine;
     
+    /** Analyser */
+    private Analyser analyser;
+
+    /** Signal(s)*/
+	private int calculate_probability, receive_probability;
+   
+    
+   /**
+    * Constructor: create a new PrismPlugin instance 
+    * @param engine
+    */
     public PrismPlugin(ActivFORMSEngine engine){
-	
-		analyser = new Analyser(fileName);
-		this.engine = engine;
+    	//assign handles
+		this.analyser = new Analyser();
+		this.engine   = engine;
 		
+		//get signals
 		calculate_probability = engine.getChannel("calculate_probability");
-		engine.register(calculate_probability, this, "avgRates", "currentConfiguration", "&RQVResultsArray");
-		
 		receive_probability = engine.getChannel("receive_probability");
+
+		//register signals
+		engine.register(calculate_probability, this, "avgRates", "currentConfiguration", "&RQVResultsArray");		
     }
 
     
     
     @Override
     public void receive(int channelId, HashMap<String, Object> data) {
+    	System.out.println(this.getClass().getSimpleName() + ".receive()");
+    	
 		if (channelId == calculate_probability){
 		    HashMap<Integer, Integer> avgRates = (HashMap<Integer, Integer>)data.get("avgRates");
-//		    System.out.println(avgRates);
+
 		    double R1 = avgRates.get(0)/MainX.MULTIPLIER;
 		    double R2 = avgRates.get(1)/MainX.MULTIPLIER;
 		    double R3 = avgRates.get(2)/MainX.MULTIPLIER;
@@ -45,6 +56,7 @@ public class PrismPlugin extends Synchronizer{
 		    System.out.println("Calculating probability-R1:" + R1 + " R2:" + R2 + " R3:" + R3 + " PSC:" + PSC);
 		    RQVResult[] results = analyser.doAnalysis(R1, R2, R3, PSC);
 		    HashMap<Integer, HashMap<String, Object>> array = (HashMap<Integer, HashMap<String, Object>>)data.get("&RQVResultsArray");
+
 		    HashMap<String, Object> RQV;
 		    for(int i = 0; i < results.length; i++){
 				RQV = array.get(i);
@@ -56,7 +68,6 @@ public class PrismPlugin extends Synchronizer{
 				((UppaalType)RQV.get("req2Result")).setValue(results[i].getReq2Result());
 		    }
 	
-//		    System.out.println("Sending probability");
 		    engine.send(receive_probability, this);
 		}
     }

@@ -83,10 +83,9 @@ public class ManagingSystem {
 		 out 			= new PrintWriter(clientSocket.getOutputStream(), true);
 		 in				= new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 		 System.out.println("Connection established");
-		 String input;
-		 
+
 		 while (true){
-			 input = in.readLine();
+			 String input = in.readLine();
 			 try{
 				if (input.toLowerCase().equals("done"))
 					break;
@@ -96,7 +95,8 @@ public class ManagingSystem {
 				 double r1  = Double.parseDouble(inputs[0]);
 				 double r2  = Double.parseDouble(inputs[1]);
 				 double r3  = Double.parseDouble(inputs[2]);
-				 System.out.println(r1 +","+ r2 +","+ r3);
+				 System.out.println("{Rates}: " + r1 +","+ r2 +","+ r3);
+
 				 probe.sendAverageRates(r1,r2,r3);
 //				 returnResult(newConfiguration);
 			 }
@@ -115,20 +115,19 @@ public class ManagingSystem {
      * @param newConfiguration
      */
     public void returnResult(int [] newConfiguration){
-    	String output = "";
+    	String result = "";
+
     	for (int index=0; index<newConfiguration.length; index++){
     		int tempResult = newConfiguration[index];
     		if (index==3 && tempResult!=-1)
-    			output += tempResult/100.0;
+    			result += tempResult/100.0;
     		else
-    			output += tempResult +",";
+    			result += tempResult +",";
     	}
-//    	output = "1,0,1,3.0";
-    	System.out.println(output);
-    	
-    	out.println(output);
+
+    	System.out.println("Result:\t" + result);
+    	out.println(result);
     	out.flush();
-//    	resetNewConfiguration();
     }
 	
 	

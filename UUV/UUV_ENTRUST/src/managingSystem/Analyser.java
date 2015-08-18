@@ -59,7 +59,7 @@ public class Analyser {
     /**
      * Constructor
      */
-    public Analyser(String filename){
+    public Analyser(){
 		//Read  model and properties parameters
 		this.modelFileName 		= Utility.getProperty("MODEL_FILE");
 		this.propertiesFileName	= Utility.getProperty("PROPERTIES_FILE");
@@ -157,8 +157,10 @@ public class Analyser {
 			return (result < 0) ? 0 : result;
 		}
 	}
+		
 	
 	
+	@SuppressWarnings("unused")
 	public void plan(double r1, double r2, double r3){
     	RQVResult bestConfiguration = null; // Hint: the best configuration is the one with the lowest utility function
     	double    bestConfigurationResult = Integer.MAX_VALUE;
@@ -186,13 +188,8 @@ public class Analyser {
  
     	System.out.println("Best Configuration \n ------------------\n" + bestConfiguration.toString());
     	System.out.println("Best result:\t" + bestConfigurationResult);
-    	writeToFile(fileName, "\nBest Configuration \n ------------------\n" + bestConfiguration.toString());
-    	writeToFile(fileName, "Best result:\t" + bestConfigurationResult);
+    	Utility.exportToFile(fileName, "\nBest Configuration \n ------------------\n" + bestConfiguration.toString(), true);
+    	Utility.exportToFile(fileName, "Best result:\t" + bestConfigurationResult, true);
     }
 	
-	
-	
-	private void writeToFile(String filename, String output){
-		Utility.exportToFile(filename, output, true);
-	}
 }
