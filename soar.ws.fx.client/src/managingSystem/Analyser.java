@@ -16,17 +16,12 @@
 //==========================================================================================//
 package managingSystem;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 
 import auxiliary.Utility;
 import fx.services.AbstractServiceClient;
 import managingSystem.Knowledge.ServiceCharacteristics;
 import prism.PrismAPI;
-import prism.PrismWrapper;
 
 
 
@@ -91,6 +86,7 @@ public class Analyser {
 	    this.RQVResultsArray = new RQVResult [NUM_OF_CONFIGURATIONS];
     }	
 	
+    
     
     
     public RQVResult[] runQV(int[][] servicesReliability){

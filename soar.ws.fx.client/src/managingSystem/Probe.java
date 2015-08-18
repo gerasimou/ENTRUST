@@ -12,7 +12,7 @@ public class Probe extends Synchronizer {
     private ActivFORMSEngine engine;
 
     /** MainX handle*/
-//    private ManagingSystem mainX;
+//    private ManagingSystem managingSystem;
     
     /** Signal(s)*/
     private int setAverageFRates;
@@ -23,9 +23,12 @@ public class Probe extends Synchronizer {
      * @param engine
      * @param mainX
      */
-    public Probe(ActivFORMSEngine engine, ManagingSystem mainX){
-//		this.mainX = mainX;
+    public Probe(ActivFORMSEngine engine, ManagingSystem  managingSystem){
+    	//assign handles
 		this.engine = engine;
+		//this.managingSystem	= managingSystem;
+
+		//get signals
 		setAverageFRates = engine.getChannel("setAverageFRates");
     }
 

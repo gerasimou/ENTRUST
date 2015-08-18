@@ -8,24 +8,36 @@ import main.ManagingSystem;
 
 public class Effector extends Synchronizer{
 
-	private int[] newConfiguration;
-    private ManagingSystem managingSystem;
+	/** ActivFORMS engine*/
     private ActivFORMSEngine engine;
+
+    /** Managing system handle*/
+    private ManagingSystem managingSystem;
     
-    // Signals
+    /** new UUV configuration*/
+    private int[] newConfiguration;
+    
+    /** Signal(s)*/
     int changeService, allPlanStepsExecuted, noPlanningNeeded, noAnalysisRequired;
+
     
+    /**
+    * Constructor: create a new effector instance
+	**/
     public Effector(ActivFORMSEngine engine, ManagingSystem managingSystem){
+    	//assign handles
 		this.engine 		= engine;
 		this.managingSystem	= managingSystem;
 		
 		this.newConfiguration = new int[this.managingSystem.NUM_OF_OPERATIONS];
 	
+		//get signals
 		changeService 			= engine.getChannel("changeService");
 		allPlanStepsExecuted	= engine.getChannel("allPlanStepsExecuted");
 		noPlanningNeeded		= engine.getChannel("noPlanningNeeded");
 		noAnalysisRequired		= engine.getChannel("noAnalysisRequired");
 		
+		//register the signals
 		this.engine.register(changeService, this, "serviceType", "serviceId", "sConfig");
 		this.engine.register(allPlanStepsExecuted, this, "newConfig", "sConfig");
 		this.engine.register(noPlanningNeeded, this, "sConfig");
