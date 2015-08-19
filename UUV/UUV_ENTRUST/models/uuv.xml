@@ -31,7 +31,8 @@ PlanStep steps[MAX_PLAN];
 int stepCount;
 }plan;
 
-const int R1 = 20;
+const int R1 = 2000;
+const int R2 = 12000;
 const int NUM_OF_SENSORS = 3;
 const int NUM_OF_SENSOR_CONFIGS	= 7; //possible sensor configurations
 //const int NUM_OF_SPEED_CONFIGS = 50; // [0,50], discrete steps
@@ -256,7 +257,7 @@ void analyze(){
 	    		for (speedConfig=0; speedConfig&lt;NUM_OF_SPEED_CONFIGS; speedConfig++){
 	    			// index = sensorConfig*speedConfig;
                     index = (sensorConfig*NUM_OF_SPEED_CONFIGS) + speedConfig;
-	    			if (RQVResultsArray[index].req1Result&gt;R1){ // (r1) is satisfied
+	    			if (RQVResultsArray[index].req1Result&gt;R1 &amp; RQVResultsArray[index].req2Result&lt;R2){ // (r1) is satisfied
 	    				functionResult = 5 * RQVResultsArray[index].req2Result + 5/RQVResultsArray[index].speed;
 					if (avgRates[0]&lt;=2 &amp;&amp; (sensorConfig+1)%2&gt;0) functionResult += 50;
     					if (avgRates[1]&lt;=2 &amp;&amp; (sensorConfig+1)%4&gt;1) functionResult += 50;
