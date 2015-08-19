@@ -50,8 +50,10 @@ if [ ${KILLALL} = "yes" ]; then
 fi
 
 if [ ${REMOVE} = "yes" ]; then
+	printf "Deleting log "		
 	rm -f    .LastOpenedMOOSLogDirectory
 	rm -rf  $VERBOSE MOOSLog_*  LOG_* 
 	rm -rf  $VERBOSE *~ targ_* *.moos++
 	rm -f logfile/*
+	printf "\t(DONE)\n\n"		
 fi
