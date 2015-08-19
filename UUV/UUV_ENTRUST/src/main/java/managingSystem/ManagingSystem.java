@@ -77,7 +77,7 @@ public class ManagingSystem {
     public void startListening() throws IOException{
 		 int portNumber = 56567;
 		 serverSocket 	= new ServerSocket(portNumber);
-		 System.out.println("Prism(server) ready - awaiting requests\n");
+		 System.out.println("Managing system ready - awaiting requests\n");
 
 		 clientSocket	= serverSocket.accept();
 		 out 			= new PrintWriter(clientSocket.getOutputStream(), true);
