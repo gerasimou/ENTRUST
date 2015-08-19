@@ -24,9 +24,9 @@ public class RQVResult{
 		this.sensor1 	= CSC%2;
 		this.sensor2 	= CSC%4>1 ? 1 : 0;
 		this.sensor3 	= CSC%8>3 ? 1 : 0;
-		this.speed   	= (int) (speed * 10);
-		this.req1Result	= (int) (Math.round(req1Result) * ManagingSystem.MULTIPLIER);
-		this.req2Result	= (int) (Math.round(req2Result) * ManagingSystem.MULTIPLIER);
+		this.speed   	= (int) (speed * ManagingSystem.MULTIPLIER);
+		this.req1Result	= (int) (Math.round(req1Result * ManagingSystem.MULTIPLIER));
+		this.req2Result	= (int) (Math.round(req2Result * ManagingSystem.MULTIPLIER));
 	}
 	
 	@Override

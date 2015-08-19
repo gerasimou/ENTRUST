@@ -106,7 +106,7 @@ public class Analyser {
 				double p3 	= estimateP(s/10.0, 2.5, 2.5,85);
 				
 				//Generate a correct PRISM model									
-				String modelString = realiseProbabilisticModel(r1, r2, r3, p1, p2, p3, CSC, PSC, s);
+				String modelString = realiseProbabilisticModel(r1, r2, r3, p1, p2, p3, CSC, PSC, s/10.0);
    				                		
 				//load the PRISM model
 				prism.loadModel(modelString);
@@ -116,7 +116,7 @@ public class Analyser {
 				double req1result = prismResult.get(0);
 				double req2result = prismResult.get(1);
 				
-				RQVResultsArray[index] = new RQVResult(CSC, s, req1result, req2result);
+				RQVResultsArray[index] = new RQVResult(CSC, s/10.0, req1result, req2result);
 			}
 		}
 

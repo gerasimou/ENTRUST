@@ -16,7 +16,8 @@ import managingSystem.Probe;
 public class ManagingSystem {
 
 	/** Multiplier for use in ActiveForms (no use of doubles, hence converted to integers)*/
-	public static final double MULTIPLIER = 1000;
+	public static final double MULTIPLIER 		= 100;
+	public static final double MULTIPLIER_RATES = 1000;
 
     /** ActivForms engine*/
 	private ActivFORMSEngine engine;
@@ -75,6 +76,7 @@ public class ManagingSystem {
 	 * @throws IOException
 	 */
     public void startListening() throws IOException{
+//    	probe.sendAverageRates(5, 4, 4);
 		 int portNumber = 56567;
 		 serverSocket 	= new ServerSocket(portNumber);
 		 System.out.println("Managing system ready - awaiting requests\n");
@@ -120,7 +122,7 @@ public class ManagingSystem {
     	for (int index=0; index<newConfiguration.length; index++){
     		int tempResult = newConfiguration[index];
     		if (index==3 && tempResult!=-1)
-    			result += tempResult/100.0;
+    			result += tempResult/ManagingSystem.MULTIPLIER;
     		else
     			result += tempResult +",";
     	}

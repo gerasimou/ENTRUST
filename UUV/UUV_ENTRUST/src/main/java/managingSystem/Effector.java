@@ -51,19 +51,23 @@ public class Effector extends Synchronizer{
     	if (channelId == onSensor){
 		    int sensorId = (Integer) data.get("sensorId");
 		    newConfiguration[sensorId] = 1;
+		    System.out.println("\t Sensor " + sensorId +": ON");
 		}
 		else if (channelId == offSensor){
 		    int sensorId = (Integer) data.get("sensorId");
 		    newConfiguration[sensorId] = 0;
+		    System.out.println("\t Sensor " + sensorId +": OFF");
 		}
 		else if (channelId == changeSpeed){
 		    int newSpeed = (Integer) data.get("newSpeed");
 		    newConfiguration[3] = newSpeed;
+		    System.out.println("\t Speed: " + newSpeed);
 		}
 		else if (channelId == allPlanStepsExecuted){
-			managingSystem.returnResult(newConfiguration);	
+			managingSystem.returnResult(newConfiguration);
 		}
 		else if (channelId == noPlanningNeeded || channelId == noAnalysisRequired){
+		    System.out.println("\t No change");
 			managingSystem.returnResult(newConfiguration);	
 		}
     }

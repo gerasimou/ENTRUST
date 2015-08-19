@@ -46,9 +46,9 @@ public class PrismPlugin extends Synchronizer{
 		if (channelId == calculate_probability){
 		    HashMap<Integer, Integer> avgRates = (HashMap<Integer, Integer>)data.get("avgRates");
 
-		    double R1 = avgRates.get(0)/MainX.MULTIPLIER;
-		    double R2 = avgRates.get(1)/MainX.MULTIPLIER;
-		    double R3 = avgRates.get(2)/MainX.MULTIPLIER;
+		    double R1 = avgRates.get(0)/ManagingSystem.MULTIPLIER_RATES;
+		    double R2 = avgRates.get(1)/ManagingSystem.MULTIPLIER_RATES;
+		    double R3 = avgRates.get(2)/ManagingSystem.MULTIPLIER_RATES;
 	
 		    HashMap<Integer, HashMap> currentConfiguration = (HashMap<Integer, HashMap>)data.get("currentConfiguration");
 		    String binaryString = "" + currentConfiguration.get("sensors").get(0) + currentConfiguration.get("sensors").get(1) + currentConfiguration.get("sensors").get(2);
@@ -67,9 +67,26 @@ public class PrismPlugin extends Synchronizer{
 				((UppaalType)RQV.get("req1Result")).setValue(results[i].getReq1Result());
 				((UppaalType)RQV.get("req2Result")).setValue(results[i].getReq2Result());
 		    }
-	
+		    
+			plan(results);
 		    engine.send(receive_probability, this);
 		}
+    }
+    
+    
+    private void plan(RQVResult[] results){
+    	int maxR1 = 0;
+    	int maxR2 = 0;
+    	for (RQVResult result :results){
+    		if (result.getReq1Result() > maxR1){
+    			maxR1 = result.getReq1Result();
+    		}
+    		if (result.getReq2Result() > maxR2){
+    			maxR2 = result.getReq2Result();
+    		}
+    	}
+//    	System.out.println(maxR1 +"\t"+ maxR2);
+    	
     }
 
 }

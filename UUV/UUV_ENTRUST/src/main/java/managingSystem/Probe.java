@@ -41,9 +41,9 @@ public class Probe extends Synchronizer {
 //    	System.out.println("Probe.sendAverageRates()");
 
 		String [] avgRates = new String[3];
-		avgRates[0] = "avgRates[0]=" + (int)(r1*MainX.MULTIPLIER);
-		avgRates[1] = "avgRates[1]=" + (int)(r2*MainX.MULTIPLIER);
-		avgRates[2] = "avgRates[2]=" + (int)(r3*MainX.MULTIPLIER);
+		avgRates[0] = "avgRates[0]=" + (int)(r1*ManagingSystem.MULTIPLIER_RATES);
+		avgRates[1] = "avgRates[1]=" + (int)(r2*ManagingSystem.MULTIPLIER_RATES);
+		avgRates[2] = "avgRates[2]=" + (int)(r3*ManagingSystem.MULTIPLIER_RATES);
 
 		engine.send(setAverageMRates,this, avgRates);
     }
