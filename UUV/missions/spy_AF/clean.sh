@@ -1,6 +1,5 @@
 #!/bin/bash 
 
-
 KILLALL="no"
 REMOVE="no"
 
@@ -9,7 +8,7 @@ function killAll {
 	processesVehicle=(uSimMarine pNodeReporter pMarinePID pHelmIvP pLogger sSonarSensor sRQVMOOS_ActivForms )
 	printf "Shoreside:\t"
 	for i in ${processesShoreside[@]}; do
-		printf "%s\t" ${i}
+		printf "%s\t" ${i} 
 		kill -9 $(ps aux | grep ${i} | awk '{print $2}')
 	done
 	printf "\nVehicle:\ts"

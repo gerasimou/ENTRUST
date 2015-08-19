@@ -41,13 +41,13 @@ RQVMOOS::RQVMOOS(): FIXED_DISTANCE(10), MIN_SPEED(0.1), ARRAY_SIZE(147), CSLPROP
 
   m_maximum_power_consumption_per_iteration			= 0; //
 
-  m_uuv_speed				= 0; // Current UUV speed
-  m_uuv_speed_threshold		= 3.8;
-  m_uuv_speed_maximum 		= 4.0;
+  m_uuv_speed							= 0; // Current UUV speed
+  m_uuv_speed_threshold					= 3.8;
+  m_uuv_speed_maximum 					= 4.0;
 
-  m_previous_sensor_configuration 	= 0;
-  m_current_sensor_configuration 	= -1;
-  M_COOLING_OFF_PERIOD				= 10;
+  m_previous_sensor_configuration 		= 0;
+  m_current_sensor_configuration 		= -1;
+  M_COOLING_OFF_PERIOD					= 10;
 
   m_desired_sensors_configuration		= -1;
   m_desired_uuv_speed					= -1;
@@ -64,8 +64,8 @@ RQVMOOS::RQVMOOS(): FIXED_DISTANCE(10), MIN_SPEED(0.1), ARRAY_SIZE(147), CSLPROP
   MIN_SUCC_READINGS	  		= 5;
   MAX_POWER_CONSUMPTION		= 200;
 
-  m_previous_iterate_call = GetAppStartTime();
-  m_current_iterate_call = 0;
+  m_previous_iterate_call               =  MOOSTime(true)-10;//GetAppStartTime();
+  m_current_iterate_call                = MOOSTime(true);
 
   m_resultRQV = "";
 
@@ -227,7 +227,7 @@ bool RQVMOOS::Iterate()
   AppCastingMOOSApp::Iterate();
   m_iterations++;
 
-  m_current_iterate_call = MOOSTime(true);
+
 
   if (m_current_iterate_call-m_previous_iterate_call > M_COOLING_OFF_PERIOD){
 
@@ -248,6 +248,8 @@ bool RQVMOOS::Iterate()
 
 	  m_previous_iterate_call = m_current_iterate_call;
   }
+
+    m_current_iterate_call = MOOSTime(true);
 
   AppCastingMOOSApp::PostReport();
   return(true);
@@ -386,34 +388,6 @@ bool RQVMOOS::buildReport()
 
 	m_msgs << "\n\n\nEND" << endl;
 	return true;
-
-
-
-
-//	m_msgs << "Total cost:\t\t" 			<<	m_desired_configuration_cost <<" = "
-//											<< m_RQV_results_array[index][0] <<"/"<< m_maximum_power_consumption_per_iteration << " + ("
-//											<< m_uuv_speed_maximum <<"/"<< m_desired_uuv_speed <<")\n";
-//
-//	m_msgs << "\nSuccessful Readings:\t" << m_RQV_results_array[index][1];
-//	m_msgs << "\nPower Consumption:\t" << m_RQV_results_array[index][0];
-//
-//	m_msgs <<"\nPower Consumption\n";
-//	double powerConsumptionResult;
-//	for (int counter=0; counter<ARRAY_SIZE; counter++){
-//		powerConsumptionResult = m_RQV_results_array[counter][0]>MAX_POWER_CONSUMPTION?-1:m_RQV_results_array[counter][0];
-//		m_msgs << powerConsumptionResult << "\t";
-//		if ((counter+1)%21==0)
-//			m_msgs << endl;
-//	}
-//
-//	m_msgs <<"\n\nSensor Accuracy\n";
-//	double sensorAccuracyResult;
-//	for (int counter=0; counter<ARRAY_SIZE; counter++){
-//		sensorAccuracyResult = m_RQV_results_array[counter][1]<MIN_SUCC_READINGS?-1:m_RQV_results_array[counter][1] ;
-//		m_msgs << sensorAccuracyResult << "\t";
-//		if ((counter+1)%21==0)
-//			m_msgs << endl;
-//	}
 //
 //	m_msgs << "\n\nConfiguration Result\n";
 //	double configurationResult;
@@ -491,15 +465,14 @@ bool RQVMOOS::invokeManagingSystem(){
 	std::ostringstream ss;
 	ss	<< sensor1AvgReadingRate <<","<< sensor2AvgReadingRate <<","<< sensor3AvgReadingRate <<"\n";
 //		<< "1.0" <<","<< "1.0" <<","<< "1.0" <<","<< m_current_sensor_configuration <<","<< "1"  <<","<< "1.0"  <<","<< 0 <<"\n";
-	if (sensor1AvgReadingRate<=0 && sensor2AvgReadingRate<=0 && sensor3AvgReadingRate<0){
-//		string str = "5,4,4,95,90,85,1,5,3.5,0\n";
-		string str = "5,4,4\n";
-		strcpy(variables, str.c_str());
-	}
-	else{
+//	if (sensor1AvgReadingRate<=0.1 && sensor2AvgReadingRate<=0.1 && sensor3AvgReadingRate<=0.1){
+//		string str = "5,4,4\n";
+//		strcpy(variables, str.c_str());
+//	}
+//	else{
 		memset(variables, 0, sizeof(char)*256);
 		strcpy(variables, (ss.str().c_str()));
-	}
+//	}
 
 	runPrism(variables);
 	m_resultRQV.assign(variables);
@@ -564,7 +537,8 @@ void RQVMOOS::updateSensorsState(){
 		  if 		(sensor3ON>0) itS3->second.newState = 2; 													//ON
 		  else if (sensor3State==-1 || sensor3State==1)	itS3->second.newState = itS3->second.currentState;	//FAIL or RETRY
 		  else	itS3->second.newState = 0;																	//IDLE
-	}
+}
+
 
 
 //---------------------------------------------------------
@@ -747,31 +721,44 @@ bool RQVMOOS::estimateDistanceCovered(){
 string RQVMOOS::createLogData(double loopTime){
 	std::stringstream stringStream;
 
-	stringStream << MOOSTime(true) - GetAppStartTime() <<",,";
-	for (int sensorNum=0; sensorNum<7; sensorNum++){
-		int index 					= m_RQV_best_configuration_per_sensor[sensorNum];//sensorNum*21+(int)((m_desired_uuv_speed-2.0)*10);
-		double successfulReadings	= m_RQV_results_array[index][1];
-		double powerConsumption		= m_RQV_results_array[index][0];
-		double	cost				= m_RQV_results_array[index][2];
-		double rate;
-		switch (sensorNum){
-			case 0 : {rate= m_sensor_map["SONAR_SENSOR_SONAR1"].readingRateAvg; break;}
-			case 1 : {rate= m_sensor_map["SONAR_SENSOR_SONAR2"].readingRateAvg; break;}
-			case 3 : {rate= m_sensor_map["SONAR_SENSOR_SONAR3"].readingRateAvg; break;}
-			default :{rate = -1; break;							}
-
-		}
-		stringStream << successfulReadings <<","<< powerConsumption <<","<< cost <<","<< rate <<",,";
-	}
-
-	int newState =  m_desired_sensors_configuration;
+    int newState =  m_desired_sensors_configuration;
 	newState     += m_sensor_map["SONAR_SENSOR_SONAR1"].newState == 1 ?  1 : 0;
 	newState     += m_sensor_map["SONAR_SENSOR_SONAR2"].newState == 1 ?  2 : 0;
 	newState     += m_sensor_map["SONAR_SENSOR_SONAR3"].newState == 1 ?  4 : 0;
 
-	stringStream << m_desired_sensors_configuration <<","<< newState <<","
-				 << m_RQV_results_array[m_desired_results_index][1] <<","<<  m_RQV_results_array[m_desired_results_index][0]<<","
-				 << m_desired_configuration_cost <<","<< m_desired_uuv_speed <<","<<loopTime <<endl;
+	stringStream << MOOSTime(true) - GetAppStartTime() <<",,"
+                 << m_sensor_map["SONAR_SENSOR_SONAR1"].readingRateAvg << ","
+                 << m_sensor_map["SONAR_SENSOR_SONAR2"].readingRateAvg << ","
+                 << m_sensor_map["SONAR_SENSOR_SONAR3"].readingRateAvg << ","
+                 << m_desired_sensors_configuration                    <<","
+                 << newState <<","
+                 << m_desired_uuv_speed <<","
+                 << loopTime <<endl;
+
+//    for (int sensorNum=0; sensorNum<7; sensorNum++){
+//		int index 					= m_RQV_best_configuration_per_sensor[sensorNum];//sensorNum*21+(int)((m_desired_uuv_speed-2.0)*10);
+//		double successfulReadings	= m_RQV_results_array[index][1];
+//		double powerConsumption		= m_RQV_results_array[index][0];
+//		double	cost				= m_RQV_results_array[index][2];
+//		double rate;
+//		switch (sensorNum){
+//			case 0 : {rate= m_sensor_map["SONAR_SENSOR_SONAR1"].readingRateAvg; break;}
+//			case 1 : {rate= m_sensor_map["SONAR_SENSOR_SONAR2"].readingRateAvg; break;}
+//			case 3 : {rate= m_sensor_map["SONAR_SENSOR_SONAR3"].readingRateAvg; break;}
+//			default :{rate = -1; break;							}
+//
+//		}
+//		stringStream << successfulReadings <<","<< powerConsumption <<","<< cost <<","<< rate <<",,";
+//	}
+
+//	int newState =  m_desired_sensors_configuration;
+//	newState     += m_sensor_map["SONAR_SENSOR_SONAR1"].newState == 1 ?  1 : 0;
+//	newState     += m_sensor_map["SONAR_SENSOR_SONAR2"].newState == 1 ?  2 : 0;
+//	newState     += m_sensor_map["SONAR_SENSOR_SONAR3"].newState == 1 ?  4 : 0;
+
+//	stringStream << m_desired_sensors_configuration <<","<< newState <<","
+//				 << m_RQV_results_array[m_desired_results_index][1] <<","<<  m_RQV_results_array[m_desired_results_index][0]<<","
+//				 << m_desired_configuration_cost <<","<< m_desired_uuv_speed <<","<<loopTime <<endl;
 	return stringStream.str();
 }
 
@@ -786,8 +773,7 @@ bool RQVMOOS::logToFile(std::string message){
   if (firstTimeFlag){
   	myfile.open ("logfile/output_RQVMOOS_log.csv");
     //append the headers
-  	myfile <<   "Time,,S1_R1,S1_R2,S1_R3,S1_r,,S2_R2,S2_R2,S2_R3,S2_r,,S3_R1,S3_R2,S3_R3,S3_r,,S4_R1,S4_R2,S4_R3,S4_r"
-  		   <<       ",,S5_R1,S5_R2,S5_R3,S5_r,,S6_R1,S6_R2,S6_R3,S6_r,,S7_R1,S7_R2,S7_R3,S7_r,,Best_Config,Best_newState,Best_R1,Best_R2,Best_R3,Best_Speed,LOOP\n";
+  	myfile <<   "Time,,S1,S2,S3,Best_Config,Best_newState,Best_Speed,LOOP\n";
 	firstTimeFlag = false;
   }
   else{
@@ -819,197 +805,6 @@ bool writeToFile(string fileName, string message){
 	myfile.close();
 	return true;
 }
-
-
-
-
-
-///////////////////////////////////////////////////////////////////////////
-/* 			Old FUNCTIONS												*/
-//////////////////////////////////////////////////////////////////////////
-
-/*
-//---------------------------------------------------------
-// Procedure: quantitativeVerification
-//---------------------------------------------------------
-bool RQVMOOS::quantitativeVerification(){
-	double T;								// T = FIXED_DISTANCE / uuv_speed --> simulation time
-	double resultRQV;						// stores result return from PRISM invocation
-	int RQV_results_array_index		= 0;	// index in the array that keeps the result for the examined CSL properties
-
-	double sensor1AvgReadingRate 	;//= estimateReadingRate("1");//"SONAR_SENSOR_SONAR1");
-	double sensor2AvgReadingRate 	;//= estimateReadingRate("2");//"SONAR_SENSOR_SONAR2");
-	double sensor3AvgReadingRate 	;//= estimateReadingRate("3");//"SONAR_SENSOR_SONAR3");
-	double sensor1SuccessRate		;
-	double sensor2SuccessRate		;
-	double sensor3SuccessRate		;
-
-	estimateReadingRate(sensor1AvgReadingRate, sensor2AvgReadingRate, sensor3AvgReadingRate);
-
-	//reset RQV_result_array
-	memset(m_RQV_results_array, 0, sizeof(m_RQV_results_array));
-//	memset(m_RQV_speed_flag_array, 0, sizeof(m_RQV_speed_flag_array));
-
-	m_maximum_power_consumption_per_iteration		= 0;
-
-
-	for (int sensor_configuration=0; sensor_configuration<7; sensor_configuration++){
-		for (int uuv_speed_index = 20; uuv_speed_index<=m_uuv_speed_maximum*10; uuv_speed_index+=1){
-
-			double uuv_speed = uuv_speed_index/10.0;
-
-			RQV_results_array_index    = (uuv_speed_index-20) + (sensor_configuration)*21;
-
-			T = FIXED_DISTANCE /uuv_speed;
-
-			sensor1SuccessRate		= estimateSuccessRate(sensor1_threshold, uuv_speed,1.5, 95);
-			sensor2SuccessRate		= estimateSuccessRate(sensor2_threshold, uuv_speed, 1.5, 90);
-			sensor3SuccessRate		= estimateSuccessRate(sensor3_threshold, uuv_speed, 2.5, 60);
-
-			//this works
-		  char variables[256] = "5,4,4,95,90,85,1,5,3.5,0\n";
-
-		  for (int cslProperty=0; cslProperty<CSLPROPPERTIES; cslProperty++){
-				std::ostringstream ss;
-				ss << sensor1AvgReadingRate <<","<< sensor2AvgReadingRate <<","<< sensor3AvgReadingRate <<","<<
-										sensor1SuccessRate <<","<< sensor2SuccessRate <<","<< sensor3SuccessRate <<","<<
-										m_current_sensor_configuration <<","<< sensor_configuration+1  <<","<< uuv_speed  <<","<< cslProperty <<"\n";
-				if (sensor1AvgReadingRate<0 || sensor2AvgReadingRate<0 || sensor3AvgReadingRate<0){
-					string str = "5,4,4,95,90,85,1,5,3.5,0\n";
-					strcpy(variables, str.c_str());
-				}
-				else{
-					memset(variables, 0, sizeof(char)*256);
-					strcpy(variables, (ss.str().c_str()));
-				}
-				runPrism(variables);
-				resultRQV = atof(variables);
-
-
-//				resultRQV= mainJNIWrapper( sensor1AvgReadingRate, sensor2AvgReadingRate, sensor3AvgReadingRate,
-//											 sensor1SuccessRate, sensor2SuccessRate, sensor3SuccessRate,
-//											 m_current_sensor_configuration+1, sensor_configuration+1, uuv_speed, T, cslProperty);
-				m_RQV_results_array[RQV_results_array_index][cslProperty] = resultRQV;
-		  }
-
-			//find the maximum power consumption
-			if (m_maximum_power_consumption_per_iteration < m_RQV_results_array[RQV_results_array_index][0]){
-				m_maximum_power_consumption_per_iteration = m_RQV_results_array[RQV_results_array_index][0];
-			}
-		}
-	  }
-
-	return true;
-}
-
-
-
-//---------------------------------------------------------
-// Procedure: findBestConfiguration
-//---------------------------------------------------------
-bool RQVMOOS::findBestConfiguration(){
-	//Best overall results
-	double  bestConfigurationResult				= 10000;
-	int 	bestSensorsConfiguration			= -1;
-	double	bestSpeed							= -1;
-	int		bestArrayIndex						= -1;
-
-	//Best results per sensor configuration
-	double bestConfigurationResultPerSensor 	= 10000;
-	double bestSpeedPerSensor					= -1;
-	int   bestConfigurationIndexPerSensor		= -1;
-
-	//Other variables
-	double configurationResult					= -1;
-	int 	arrayIndex							= -1;
-
-
-	estimateDistanceCovered();
-	double normalisationFactor = (2000 - m_total_distance) / (m_uuv_speed_maximum);
-
-	//reset m_RQV_best_configuration_per_sensor
-	memset(m_RQV_best_configuration_per_sensor, -1, sizeof(m_RQV_best_configuration_per_sensor));
-
-	for (int sensor_configuration=0; sensor_configuration<7; sensor_configuration++){
-		bestConfigurationResultPerSensor 	= 10000;
-		bestSpeedPerSensor					= -1;
-		bestConfigurationIndexPerSensor		= -1;
-
-		//sensors operate with degraded service
-		double cost  =0;
-		if ((sensor_configuration+1)%2>0 && m_sensor_map["SONAR_SENSOR_SONAR1"].readingRateAvg<0.75*5){
-			cost +=0.5;
-		}
-		if ((sensor_configuration+1)%4>1 && m_sensor_map["SONAR_SENSOR_SONAR2"].readingRateAvg<0.75*4){
-			cost +=0.5;
-		}
-		if ((sensor_configuration+1)%8>3 && m_sensor_map["SONAR_SENSOR_SONAR3"].readingRateAvg<0.75*4){
-			cost +=0.5;
-		}
-
-		for (int uuv_speed = 0; uuv_speed<21; uuv_speed++){
-			arrayIndex = sensor_configuration * 21 + uuv_speed;
-				//utility function  = powerConsumption as estimated by PRISM + 1/selectedSpeed
-				configurationResult = (m_RQV_results_array[arrayIndex][0] / m_maximum_power_consumption_per_iteration) +
-									  (2 / (2.0+uuv_speed*0.1))   + cost;
-
-			//if the result complies with the requirements check for the best
-			if ( (m_RQV_results_array[arrayIndex][0]<=MAX_POWER_CONSUMPTION) && //requirements satisfied
-				 (m_RQV_results_array[arrayIndex][0]>0) &&
-				 (m_RQV_results_array[arrayIndex][1]>=MIN_SUCC_READINGS)){
-
-					//find best result overall
-					if (configurationResult<bestConfigurationResult){
-						bestConfigurationResult 	= configurationResult;
-						bestSensorsConfiguration 	= sensor_configuration;
-						bestSpeed					= 2+uuv_speed*0.1;
-						bestArrayIndex				= arrayIndex;
-					}
-
-					//find best result per sensor configuration
-					if (configurationResult< bestConfigurationResultPerSensor){
-						m_RQV_best_configuration_per_sensor[sensor_configuration] = arrayIndex;
-					}
-			}
-//			else {																//requirements NOT satisfied
-//				configurationResult = -1;
-//			}
-			m_RQV_results_array[arrayIndex][2] = configurationResult;
-
-			//if no valid configuration is found, then put the last one (monotonically decreasing)
-			if (m_RQV_best_configuration_per_sensor[sensor_configuration]==-1){
-				m_RQV_best_configuration_per_sensor[sensor_configuration] = arrayIndex;
-			}
-
-		}//end uuv_speed for loop
-
-	}//end sensor_configuration for loop
-
-
-	m_desired_sensors_configuration = bestSensorsConfiguration;
-	m_desired_uuv_speed				= bestSpeed;
-	m_desired_configuration_cost	= bestConfigurationResult;
-	m_desired_results_index			= bestArrayIndex;
-	m_previous_sensor_configuration	= m_current_sensor_configuration;
-	m_current_sensor_configuration 	= m_desired_sensors_configuration;
-
-	return true;
-}
-
-//---------------------------------------------------------
-// Procedure: estimateSuccessRate
-//---------------------------------------------------------
-double RQVMOOS::estimateSuccessRate(double speed_threshold, double uuv_speed, double alpha, double beta){
-	if (uuv_speed <= speed_threshold){
-		return (100 - (alpha) / speed_threshold * uuv_speed);
-	}
-	else{
-		double result;
-		result = beta - 30 * (uuv_speed - speed_threshold) / (m_uuv_speed_maximum+1.0);
-		return (result < 0) ? 0 : result;
-	}
-}
-*/
 
 
 

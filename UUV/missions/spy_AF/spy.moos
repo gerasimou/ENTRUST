@@ -19,36 +19,38 @@ LongOrigin = -70.330400
 // LongOrigin = -71.087589
 
 
+
 //------------------------------------------
 // Antler configuration  block
 ProcessConfig = ANTLER
 {
   MSBetweenLaunches = 200
 
-  Run = MOOSDB			           @ NewConsole = false
-//  Run = pLogger                 @ NewConsole = false
-  Run = uSimMarine		          @ NewConsole = false
-  Run = pMarinePID		          @ NewConsole = false
-  Run = pHelmIvP		            @ NewConsole = false
-  Run = pMarineViewer	          @ NewConsole = false
-  Run = uProcessWatch	          @ NewConsole = false
-  Run = pNodeReporter	          @ NewConsole = false
+  //Generic
+  Run = MOOSDB                  @ NewConsole = false
+  Run = uSimMarine                @ NewConsole = false
+  Run = pMarinePID                @ NewConsole = false
+  Run = pHelmIvP                  @ NewConsole = false
+  Run = pMarineViewer             @ NewConsole = false
+  Run = uProcessWatch             @ NewConsole = false
+  Run = pNodeReporter             @ NewConsole = false
 
-  Run = sRQVMOOS_ActivForms 	 @ NewConsole = false
-  Run = sSonarSensor_AF 	     @ NewConsole = false ~ SONAR1
-  Run = sSonarSensor_AF 	     @ NewConsole = false ~ SONAR2
-  Run = sSonarSensor_AF 	     @ NewConsole = false ~ SONAR3
-  
-  //Run = uTimerScript 	@ NewConsole = false ~ AutoStartScript
+  //Application specific
+  Run = sSonarSensor            @ NewConsole = false ~ SONAR1
+  Run = sSonarSensor            @ NewConsole = false ~ SONAR2
+  Run = sSonarSensor            @ NewConsole = false ~ SONAR3
+  Run = sRQVMOOS_ActivForms     @ NewConsole = false  
 }
 
-//------------------------------------------
-// uProcessWatch config block
 
+
+//------------------------------------------
+// uProcessWatch
+//------------------------------------------
 ProcessConfig = uProcessWatch
 {
-	AppTick 	= 2
-	CommsTick	= 2
+  AppTick   = 2
+  CommsTick = 2
 
 
   summary_wait = 5
@@ -61,40 +63,41 @@ ProcessConfig = uProcessWatch
 }
 
 
-//------------------------------------------
-// pLogger config block
 
+//------------------------------------------
+// pLogger
+//------------------------------------------
 ProcessConfig = pLogger
 {
-	AppTick 	= 2
-	CommsTick	= 2
+  AppTick   = 2
+  CommsTick = 2
 
 
   
-  File 		= logfile 		// all file names begin with this
-  Path		= ./			// the root log directory
-  FileTimeStamp = true		// append each created log directory with a timestamp
-  AsyncLog = true 			// 
-  SyncLog  = true @ 0.2 	//
+  File    = logfile     // all file names begin with this
+  Path    = ./      // the root log directory
+  FileTimeStamp = true    // append each created log directory with a timestamp
+  AsyncLog = true       // 
+  SyncLog  = true @ 0.2   //
   
-//	LogAuxSrc = true
+//  LogAuxSrc = true
 //  WildCardLogging = false
   
-  DoublePrecision = 4 		//Precision of floating point data
-  	Log = DESIRED_SENSOR_CONFIGURATION @ 0.2
-  	Log = DESIRED_UUV_SPEED @ 0.2
-  	Log = DESIRED_CONFIGURATION_COST @ 0.2
+  DoublePrecision = 4     //Precision of floating point data
+    Log = DESIRED_SENSOR_CONFIGURATION @ 0.2
+    Log = DESIRED_UUV_SPEED @ 0.2
+    Log = DESIRED_CONFIGURATION_COST @ 0.2
 }
 
 
 
 //------------------------------------------
-// uSimMarine config block
-
+// uSimMarine
+//------------------------------------------
 ProcessConfig = uSimMarine
 {
-	AppTick 	= 2
-	CommsTick	= 2
+  AppTick   = 2
+  CommsTick = 2
 
 
   start_x       = 0
@@ -111,13 +114,13 @@ ProcessConfig = uSimMarine
 
 
 //------------------------------------------
-// pHelmIvP config block
-
+// pHelmIvP
+//------------------------------------------
 ProcessConfig = pHelmIvP
 {
   MaxAppTick = 10
-	AppTick 	= 2
-	CommsTick	= 2
+  AppTick   = 2
+  CommsTick = 2
 
   term_report_interval=0
 
@@ -131,12 +134,12 @@ ProcessConfig = pHelmIvP
 
 
 //------------------------------------------
-// pMarinePID config block
-
+// pMarinePID
+//------------------------------------------
 ProcessConfig = pMarinePID
 {
-	AppTick 	= 2
-	CommsTick	= 2
+  AppTick   = 2
+  CommsTick = 2
 
 
   VERBOSE       = true
@@ -145,15 +148,15 @@ ProcessConfig = pMarinePID
   // SIM_INSTABILITY = 20
 
   // Yaw PID controller
-  YAW_PID_KP		 = 1.2
-  YAW_PID_KD		 = 0.0
-  YAW_PID_KI		 = 0.3
+  YAW_PID_KP     = 1.2
+  YAW_PID_KD     = 0.0
+  YAW_PID_KI     = 0.3
   YAW_PID_INTEGRAL_LIMIT = 0.07
 
   // Speed PID controller
-  SPEED_PID_KP		 = 1.0
-  SPEED_PID_KD		 = 0.0
-  SPEED_PID_KI		 = 0.0
+  SPEED_PID_KP     = 1.0
+  SPEED_PID_KD     = 0.0
+  SPEED_PID_KI     = 0.0
   SPEED_PID_INTEGRAL_LIMIT = 0.07
 
   //MAXIMUMS
@@ -168,8 +171,8 @@ ProcessConfig = pMarinePID
 
 
 //------------------------------------------
-// pMarineViewer config block
-
+// pMarineViewer
+//------------------------------------------
 ProcessConfig = pMarineViewer
 {
   AppTick    = 2
@@ -177,15 +180,26 @@ ProcessConfig = pMarineViewer
 
   tiff_file            = forrest19.tif
 
-  set_pan_x            = -90
-  set_pan_y            = -280
-  zoom                 = 0.65
-  vehicle_shape_scale  = 1.5
+  // Backview
+  set_pan_x            = -62
+  set_pan_y            = -100
+  zoom                 = 0.5
   hash_delta           = 50
   hash_shade           = 0.4
-  hash_viewable        = true
+  hash_viewable        = false
 
-  trails_point_size   = 1
+
+  //Vehicle variables
+  vehicle_shape_scale     = 5
+  vehicles_name_mode      = names
+  trails_connect_viewable = false
+  vehicles_active_color   = red
+  vehicles_inactive_color = red
+  vehicles_viewable       = true
+  trails_viewable         = false
+
+
+//  trails_point_size   = 1
 
   // Appcast configuration
   appcast_height       = 75
@@ -195,7 +209,8 @@ ProcessConfig = pMarineViewer
   nodes_font_size      = medium
   procs_font_size      = medium
   appcast_font_size    = small
-  
+
+
   //datum_viewable = true
   //datum_size     = 18
   //gui_size = small
@@ -210,13 +225,6 @@ ProcessConfig = pMarineViewer
 
   left_context[polyvert] = POLY_VERT=x=$(XPOS),y=$(YPOS)
 
-//  scope  = RETURN
-//  scope  = WPT_STAT
-//  scope  = VIEW_SEGLIST
-//  scope  = VIEW_POINT
-//  scope  = VIEW_POLYGON
-//  scope  = MVIEWER_LCLICK
-//  scope  = MVIEWER_RCLICK
   scope = SENSORS_RATES
   scope = LOOP_TIME
   scope = TOTAL_DISTANCE
@@ -237,13 +245,13 @@ ProcessConfig = pMarineViewer
 
 
 //------------------------------------------
-// pNodeReporter config block
-
+// pNodeReporter
+//------------------------------------------
 ProcessConfig = pNodeReporter
 {
   MaxAppTick    = 2
-  AppTick	= 2
-  CommsTick	= 2
+  AppTick = 2
+  CommsTick = 2
 
   platform_type   = KAYAK
   platform_length = 4
@@ -251,63 +259,77 @@ ProcessConfig = pNodeReporter
 
 
 
+//------------------------------------------
+// sRQVMOOS_ActivForms
+//------------------------------------------
 ProcessConfig = sRQVMOOS_ActivForms
 {
-	AppTick 	= 2
-	CommsTick	= 2
-	
-	SPEED_THRESHOLD 	     = 3.8
-	SPEED_MAXIMUM		       = 4.0
-	COOLING_OFF_PERIOD	   = 10
-	MIN_SUCC_READINGS	     = 20
-	MAX_POWER_CONSUMPTION	 = 120;
+  AppTick   = 2
+  CommsTick = 2
+  
+  SPEED_THRESHOLD           = 3.8
+  SPEED_MAXIMUM             = 4.0
+  COOLING_OFF_PERIOD        = 10
+  MIN_SUCC_READINGS         = 20
+  MAX_POWER_CONSUMPTION     = 120;
 }
 
 
+
+//------------------------------------------
+// SONAR1
+//------------------------------------------
 ProcessConfig = SONAR1
 {
   AppTick   = 5
   CommsTick = 5
   
-  SPEED_THRESHOLD   = 3.5
-  SPEED_MAXIMUM     = 4.0
   NAME              = SONAR_SENSOR_SONAR1
   FAIL_PATTERN      = 
   DEGRADATION_VALUE =
 }
 
+
+
+//------------------------------------------
+// SONAR2
+//------------------------------------------
 ProcessConfig = SONAR2
 {
   AppTick     = 4
   CommsTick   = 4
   
-  SPEED_THRESHOLD   = 3.0
-  SPEED_MAXIMUM     = 4.0
   NAME              = SONAR_SENSOR_SONAR2
-  FAIL_PATTERN      = 
+  //FAIL_PATTERN  = 300:330
   DEGRADATION_VALUE =
 }
 
 
+
+//------------------------------------------
+// SONAR3
+//------------------------------------------
 ProcessConfig = SONAR3
 {
   AppTick         = 4
   CommsTick       = 4
   
-  SPEED_THRESHOLD   = 2.5
-  SPEED_MAXIMUM     = 4.0
-  NAME              = SONAR_SENSOR_SONAR3
-  FAIL_PATTERN      = 
-  DEGRADATION_VALUE =
+  NAME                      = SONAR_SENSOR_SONAR3
+  FAIL_PATTERN              = 50:200
+  DEGRADATION_VALUE_PATTERN = 0.2
 } 
 
 
+
+//------------------------------------------
+// AutoStartScript
+//------------------------------------------
 ProcessConfig = AutoStartScript
 {
-	AppTick 	= 2
-	CommsTick	= 2
+  AppTick   = 2
+  CommsTick = 2
 
-	event = var=MOOS_MANUAL_OVERIDE, val=false
-	event = var=DEPLOY, val=true
-	event = quit, time=20:30
+  event = var=MOOS_MANUAL_OVERIDE, val=false
+  event = var=DEPLOY, val=true
+  event = quit, time=20:30
 }
