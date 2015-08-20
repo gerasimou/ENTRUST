@@ -53,8 +53,9 @@ class RQVMOOS : public AppCastingMOOSApp
 
    bool		estimateDistanceCovered();
    double 	estimateSuccessRate(double speed_threshold, double speed, double alpha, double beta);
-   bool		estimateReadingRate(double &sensor1AvgReadingRate, double &sensor2AvgReadingRate, double &sensor3AvgReadingRate);
-   void		sendNotifications(double looptime);
+//   bool		estimateReadingRate(double &sensor1AvgReadingRate, double &sensor2AvgReadingRate, double &sensor3AvgReadingRate);
+  double	estimateReadingRate(string sensorName, double sensorNormalOperatingRate, int sensorConfigurationActive);
+  void		sendNotifications(double looptime);
 
    string	createLogData(double loopTime);
    bool 	logToFile(string message);
@@ -90,8 +91,8 @@ class RQVMOOS : public AppCastingMOOSApp
    	double 		readingRateSum;
    	int			readingRateTimes;
    	double		readingRateAvg;
-   	int			waitFailedTimes;
-   	int			currentState;		// (-1)->failure, (0)->RETRY, (1)->ON,
+   	int			sensorIdleTimes;
+   	int			currentState;		// (-1)->FAIL, (0)->IDLE, (1)->RETRY, (2)->ON
    	int 		newState;
    };
    typedef std::map<string, Sensor> sensorMap;
@@ -132,11 +133,13 @@ class RQVMOOS : public AppCastingMOOSApp
 	double sensor2_threshold;
 	double sensor3_threshold;
 
+    double tempVariable;
+
 	string m_active_behaviour;
 	std::stringstream sstm;
 
-	double m_previous_iterate_call;
-	double m_current_iterate_call;
+	double m_previous_iterate_timestamp;
+	double m_current_iterate_timestamp;
 
 //	double m_previous_reading_rate_estimation_timestamp;
 //	double m_current_reading_rate_estimation_timestamp;
