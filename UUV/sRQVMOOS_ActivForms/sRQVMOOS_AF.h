@@ -53,8 +53,10 @@ class RQVMOOS : public AppCastingMOOSApp
 
    bool		estimateDistanceCovered();
    double 	estimateSuccessRate(double speed_threshold, double speed, double alpha, double beta);
-   bool		estimateReadingRate(double &sensor1AvgReadingRate, double &sensor2AvgReadingRate, double &sensor3AvgReadingRate);
-   void		sendNotifications(double looptime);
+  // bool		estimateReadingRate(double &sensor1AvgReadingRate, double &sensor2AvgReadingRate, double &sensor3AvgReadingRate);
+   bool     estimateReadingRate(string sensorName, double sensorNormalOperatingRate, int sensorConfigurationActive,
+                                double &sensorAvgReadingRate);
+  void		sendNotifications(double looptime);
 
    string	createLogData(double loopTime);
    bool 	logToFile(string message);
@@ -131,6 +133,8 @@ class RQVMOOS : public AppCastingMOOSApp
 	double sensor1_threshold;
 	double sensor2_threshold;
 	double sensor3_threshold;
+
+    double tempVariable;
 
 	string m_active_behaviour;
 	std::stringstream sstm;

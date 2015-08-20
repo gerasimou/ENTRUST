@@ -64,11 +64,12 @@ RQVMOOS::RQVMOOS(): FIXED_DISTANCE(10), MIN_SPEED(0.1), ARRAY_SIZE(147), CSLPROP
   MIN_SUCC_READINGS	  		= 5;
   MAX_POWER_CONSUMPTION		= 200;
 
-  m_previous_iterate_call               =  MOOSTime(true)-10;//GetAppStartTime();
-  m_current_iterate_call                = MOOSTime(true);
+  m_previous_iterate_call   = MOOSTime(true) + 10;//GetAppStartTime();
+  m_current_iterate_call    = MOOSTime(true);
 
   m_resultRQV = "";
 
+    tempVariable = -1;
 }
 
 
@@ -222,37 +223,45 @@ bool RQVMOOS::OnNewMail(MOOSMSG_LIST &NewMail)
 // Procedure: Iterate()
 //            happens AppTick times per second
 //---------------------------------------------------------
-bool RQVMOOS::Iterate()
-{
-  AppCastingMOOSApp::Iterate();
-  m_iterations++;
+bool RQVMOOS::Iterate() {
 
+    static bool firstTimeIterate = true;
 
+    AppCastingMOOSApp::Iterate();
+    m_iterations++;
 
-  if (m_current_iterate_call-m_previous_iterate_call > M_COOLING_OFF_PERIOD){
+    if (firstTimeIterate){
+        resetSensorsAverageReadingRate();
+        m_previous_iterate_call = MOOSTime(true);
+        firstTimeIterate = false;
+        return true;
+    }
 
-	  //perform RQV
-	  double timeBefore = MOOSTime(true);
-	  invokeManagingSystem();
-	  updateSensorsState();
-	  double timeAfter = MOOSTime(true);
+    if (m_current_iterate_call-m_previous_iterate_call > M_COOLING_OFF_PERIOD){
 
-	  //Create and write log data
-	  string logData 	= createLogData(timeAfter-timeBefore);
-	  logToFile(logData);
+        //perform RQV
+	    double timeBefore = MOOSTime(true);
+	    invokeManagingSystem();
+	    updateSensorsState();
+	    double timeAfter = MOOSTime(true);
 
-	  sendNotifications(timeAfter-timeBefore);
+	    //Create and write log data
+	    string logData 	= createLogData(timeAfter-timeBefore);
+	    logToFile(logData);
 
-	  //Reset Sensors reading rates after iteration
-	  resetSensorsAverageReadingRate();
+	    //send notifications
+        sendNotifications(timeAfter-timeBefore);
 
-	  m_previous_iterate_call = m_current_iterate_call;
-  }
+	    //Reset Sensors reading rates after iteration
+	    resetSensorsAverageReadingRate();
+
+	    m_previous_iterate_call = m_current_iterate_call;
+    }
 
     m_current_iterate_call = MOOSTime(true);
 
-  AppCastingMOOSApp::PostReport();
-  return(true);
+    AppCastingMOOSApp::PostReport();
+    return(true);
 }
 
 
@@ -264,90 +273,89 @@ bool RQVMOOS::Iterate()
 //---------------------------------------------------------
 void RQVMOOS::sendNotifications(double looptime){
 
-	  //Publish results
-	  Notify("TOTAL_DISTANCE", m_total_distance);
-	  Notify("SPEED_THRESHOLD", m_uuv_speed_threshold);
-	  Notify("SPEED_MAXIMUM", m_uuv_speed_maximum);
-	  Notify("LOOP_TIME", looptime);
-	  Notify("DESIRED_SENSOR_CONFIGURATION", m_desired_sensors_configuration+1);
-	  Notify("DESIRED_UUV_SPEED", m_desired_uuv_speed);
-	  Notify("DESIRED_CONFIGURATION_COST", m_desired_configuration_cost);
-	  Notify("M_ITERATIONS", m_iterations);
-	  Notify("ACTIVE_BEHAVIOUR_RQVMOOS", m_active_behaviour);
+    //Publish results
+    Notify("TOTAL_DISTANCE", m_total_distance);
+    Notify("LOOP_TIME", looptime);
+    Notify("DESIRED_SENSOR_CONFIGURATION", m_desired_sensors_configuration+1);
+    Notify("DESIRED_UUV_SPEED", m_desired_uuv_speed);
+    Notify("DESIRED_CONFIGURATION_COST", m_desired_configuration_cost);
+    Notify("M_ITERATIONS", m_iterations);
 
-	  string sensorsRates;
-	  double timeStamp = m_current_iterate_call - m_previous_iterate_call;
-	  sensorsRates =doubleToString(m_sensor_map.find("SONAR_SENSOR_SONAR1")->second.readingRateTimes / timeStamp) +" - "+
-			  	  	doubleToString(m_sensor_map.find("SONAR_SENSOR_SONAR2")->second.readingRateTimes / timeStamp) +" - "+
-					doubleToString(m_sensor_map.find("SONAR_SENSOR_SONAR3")->second.readingRateTimes / timeStamp);
-	  Notify("SENSORS_RATES", sensorsRates);
+    string sensorsRates;
+    double timeStamp = m_current_iterate_call - m_previous_iterate_call;
+    sensorsRates =doubleToString(m_sensor_map.find("SONAR_SENSOR_SONAR1")->second.readingRateTimes / timeStamp) +" - "+
+                doubleToString(m_sensor_map.find("SONAR_SENSOR_SONAR2")->second.readingRateTimes / timeStamp) +" - "+
+                doubleToString(m_sensor_map.find("SONAR_SENSOR_SONAR3")->second.readingRateTimes / timeStamp);
+    Notify("SENSORS_RATES", sensorsRates);
 
 
 
-	  Notify("UPDATES_BHV_CONSTANT_SPEED", "speed="+doubleToString(m_desired_uuv_speed));
 
-	  //Sensor1
-	  Sensor sensor1 = m_sensor_map["SONAR_SENSOR_SONAR1"];
-	  int sensor1NewState = sensor1.newState;
-	  string sensor1color = "";
-	  if (sensor1NewState == -1){
-		  sensor1color = "red";
-	  }
-	  else if (sensor1NewState == 0){
-		  sensor1color = "white";
-	  }
-	  else if (sensor1NewState == 1){
-		  sensor1color = "orange";
-	  }
-	  else if (sensor1NewState == 2){
-		  sensor1color = "green";
-	  }
-	  Notify("VIEW_MARKER", "type=circle,x=25,y=-50,scale=2,label=Sensor_1,color=" + sensor1color + ",width=12");
-	  Notify("VIEW_MARKER", "type=circle,x=25,y=-65,scale=2,msg=r1:" + doubleToString(sensor1.readingRateAvg).substr(0,5) +",label=r1,color=darkblue,width=1");
+    //Visualation in pMarineViewer
+
+    //Sensor1
+    Sensor sensor1 = m_sensor_map["SONAR_SENSOR_SONAR1"];
+    int sensor1NewState = sensor1.newState;
+    string sensor1color = "";
+    if (sensor1NewState == -1){
+        sensor1color = "red";
+    }
+    else if (sensor1NewState == 0){
+        sensor1color = "white";
+    }
+    else if (sensor1NewState == 1){
+        sensor1color = "orange";
+    }
+    else if (sensor1NewState == 2){
+        sensor1color = "green";
+    }
+    Notify("VIEW_MARKER", "type=circle,x=25,y=-50,scale=2,label=Sensor_1,color=" + sensor1color + ",width=12");
+    Notify("VIEW_MARKER", "type=circle,x=25,y=-65,scale=2,msg=r1:" + doubleToString(sensor1.readingRateAvg).substr(0,5) +",label=r1,color=darkblue,width=1");
 
 
-	  //Sensor2
-	  Sensor sensor2 	  = m_sensor_map["SONAR_SENSOR_SONAR2"];
-	  int sensor2NewState = sensor2.newState;
-	  string sensor2color = "";
-	  if (sensor2NewState == -1){
-		  sensor2color = "red";
-	  }
-	  else if (sensor2NewState == 0){
-		  sensor2color = "white";
-	  }
-	  else if (sensor2NewState == 1){
-		  sensor2color = "orange";
-	  }
-	  else if (sensor2NewState == 2){
-		  sensor2color = "green";
-	  }
-	  Notify("VIEW_MARKER", "type=circle,x=75,y=-50,scale=2,label=Sensor_2,color=" + sensor2color + ",width=12");
-	  Notify("VIEW_MARKER", "type=circle,x=75,y=-65,scale=2,msg=r2:" + doubleToString(sensor2.readingRateAvg).substr(0,5) +",label=r2,color=darkblue,width=1");
+    //Sensor2
+    Sensor sensor2 	  = m_sensor_map["SONAR_SENSOR_SONAR2"];
+    int sensor2NewState = sensor2.newState;
+    string sensor2color = "";
+    if (sensor2NewState == -1){
+        sensor2color = "red";
+    }
+    else if (sensor2NewState == 0){
+        sensor2color = "white";
+    }
+    else if (sensor2NewState == 1){
+        sensor2color = "orange";
+    }
+    else if (sensor2NewState == 2){
+        sensor2color = "green";
+    }
+    Notify("VIEW_MARKER", "type=circle,x=75,y=-50,scale=2,label=Sensor_2,color=" + sensor2color + ",width=12");
+    Notify("VIEW_MARKER", "type=circle,x=75,y=-65,scale=2,msg=r2:" + doubleToString(sensor2.readingRateAvg).substr(0,5) +",label=r2,color=darkblue,width=1");
 
 
 	//Sensor3
-	  Sensor sensor3 	  =  m_sensor_map["SONAR_SENSOR_SONAR3"];
-	  int sensor3NewState =sensor3.newState;
-	  string sensor3color = "";
-	  if (sensor3NewState == -1){
-		  sensor3color = "red";
-	  }
-	  else if (sensor3NewState == 0){
-		  sensor3color = "white";
-	  }
-	  else if (sensor3NewState == 1){
-		  sensor3color = "orange";
-	  }
-	  else if (sensor3NewState == 2){
-		  sensor3color = "green";
-	  }
-	  Notify("VIEW_MARKER", "type=circle,x=125,y=-50,scale=2,label=Sensor_3,color=" + sensor3color + ",width=12");
-	  Notify("VIEW_MARKER", "type=circle,x=125,y=-65,scale=2,msg=r3:" + doubleToString(sensor3.readingRateAvg).substr(0,5) +",label=r3,color=darkblue,width=1");
+    Sensor sensor3 	  =  m_sensor_map["SONAR_SENSOR_SONAR3"];
+    int sensor3NewState =sensor3.newState;
+    string sensor3color = "";
+    if (sensor3NewState == -1){
+        sensor3color = "red";
+    }
+    else if (sensor3NewState == 0){
+        sensor3color = "white";
+    }
+    else if (sensor3NewState == 1){
+        sensor3color = "orange";
+    }
+    else if (sensor3NewState == 2){
+        sensor3color = "green";
+    }
+    Notify("VIEW_MARKER", "type=circle,x=125,y=-50,scale=2,label=Sensor_3,color=" + sensor3color + ",width=12");
+    Notify("VIEW_MARKER", "type=circle,x=125,y=-65,scale=2,msg=r3:" + doubleToString(sensor3.readingRateAvg).substr(0,5) +",label=r3,color=darkblue,width=1");
 
 
-	  //speed
-	  Notify("VIEW_MARKER", "type=circle,x=75,y=-80,scale=2,msg=Speed:" + doubleToString(m_desired_uuv_speed).substr(0,4) +",label=speed,color=darkblue,width=1");
+    //speed
+    Notify("UPDATES_BHV_CONSTANT_SPEED", "speed="+doubleToString(m_desired_uuv_speed));
+    Notify("VIEW_MARKER", "type=circle,x=75,y=-80,scale=2,msg=Speed:" + doubleToString(m_desired_uuv_speed).substr(0,4) +",label=speed,color=darkblue,width=1");
 
 }
 
@@ -457,7 +465,10 @@ bool RQVMOOS::invokeManagingSystem(){
 	double sensor3AvgReadingRate 	;
 
 	//Calculate sensors average rates
-	estimateReadingRate(sensor1AvgReadingRate, sensor2AvgReadingRate, sensor3AvgReadingRate);
+//	estimateReadingRate(sensor1AvgReadingRate, sensor2AvgReadingRate, sensor3AvgReadingRate);
+    estimateReadingRate("SONAR_SENSOR_SONAR1", 5, 2, sensor1AvgReadingRate);
+    estimateReadingRate("SONAR_SENSOR_SONAR2", 4, 4, sensor2AvgReadingRate);
+    estimateReadingRate("SONAR_SENSOR_SONAR3", 4, 8, sensor3AvgReadingRate);
 
 	//Invoke ActiveForms using sockets
 	char variables[256] = "5,4,4,95,90,85,1,5,3.5,0\n";
@@ -470,14 +481,14 @@ bool RQVMOOS::invokeManagingSystem(){
 //		strcpy(variables, str.c_str());
 //	}
 //	else{
-		memset(variables, 0, sizeof(char)*256);
-		strcpy(variables, (ss.str().c_str()));
+    memset(variables, 0, sizeof(char)*256);
+    strcpy(variables, (ss.str().c_str()));
 //	}
 
 	runPrism(variables);
 	m_resultRQV.assign(variables);
 
-	writeToFile("receivedFromServer.txt", m_resultRQV+"\n");
+	writeToFile("receivedFromServer.txt", m_resultRQV);
 
 	int sensor1 = m_current_sensor_configuration % 2 > 0 ? 1 : 0;
 	int sensor2 = m_current_sensor_configuration % 4 > 1 ? 1 : 0;
@@ -516,27 +527,36 @@ bool RQVMOOS::invokeManagingSystem(){
 // Procedure: updateSensorsState
 //---------------------------------------------------------
 void RQVMOOS::updateSensorsState(){
-	 int bestSensorsConfiguration = m_current_sensor_configuration;
-		  sensorMap::iterator itS1 	= m_sensor_map.find("SONAR_SENSOR_SONAR1");
-		  bool sensor1ON 				= bestSensorsConfiguration%2>0;
-		  int sensor1State			= itS1->second.currentState;
-		  if 		(sensor1ON) itS1->second.newState = 2; 													//ON
-		  else if (sensor1State==-1 || sensor1State==1)	itS1->second.newState = itS1->second.currentState;	//FAIL or RETRY
-		  else	itS1->second.newState = 0;																	//IDLE
+    int bestSensorsConfiguration = m_current_sensor_configuration;
+    sensorMap::iterator itS1 	= m_sensor_map.find("SONAR_SENSOR_SONAR1");
+    bool sensor1ON 				= bestSensorsConfiguration%2>0;
+    int sensor1State			= itS1->second.currentState;
+    if (sensor1ON)
+        itS1->second.newState = 2; 													//ON
+    else if (sensor1State==-1 || sensor1State==1)
+        itS1->second.newState = itS1->second.currentState;	                        //FAIL or RETRY
+    else
+        itS1->second.newState = 0;													//IDLE
 
-		  sensorMap::iterator itS2 	= m_sensor_map.find("SONAR_SENSOR_SONAR2");
-		  bool sensor2ON 				= bestSensorsConfiguration%4>1;
-		  int sensor2State			= itS2->second.currentState;
-		  if 		(sensor2ON) itS2->second.newState = 2; 													//ON
-		  else if (sensor2State==-1 || sensor2State==1)	itS2->second.newState = itS2->second.currentState;	//FAIL or RETRY
-		  else	itS2->second.newState = 0;																	//IDLE
+    sensorMap::iterator itS2 	= m_sensor_map.find("SONAR_SENSOR_SONAR2");
+    bool sensor2ON 				= bestSensorsConfiguration%4>1;
+    int sensor2State			= itS2->second.currentState;
+    if 	(sensor2ON)
+        itS2->second.newState = 2; 													//ON
+    else if (sensor2State==-1 || sensor2State==1)
+        itS2->second.newState = itS2->second.currentState;	                        //FAIL or RETRY
+    else
+        itS2->second.newState = 0;													//IDLE
 
-		  sensorMap::iterator itS3 	= m_sensor_map.find("SONAR_SENSOR_SONAR3");
-		  bool sensor3ON 				= bestSensorsConfiguration%8>3;
-		  int sensor3State			= itS3->second.currentState;
-		  if 		(sensor3ON>0) itS3->second.newState = 2; 													//ON
-		  else if (sensor3State==-1 || sensor3State==1)	itS3->second.newState = itS3->second.currentState;	//FAIL or RETRY
-		  else	itS3->second.newState = 0;																	//IDLE
+    sensorMap::iterator itS3 	= m_sensor_map.find("SONAR_SENSOR_SONAR3");
+    bool sensor3ON 				= bestSensorsConfiguration%8>3;
+    int sensor3State			= itS3->second.currentState;
+    if  (sensor3ON>0)
+        itS3->second.newState = 2; 													//ON
+    else if (sensor3State==-1 || sensor3State==1)
+        itS3->second.newState = itS3->second.currentState;	                        //FAIL or RETRY
+    else
+        itS3->second.newState = 0;													//IDLE
 }
 
 
@@ -544,171 +564,99 @@ void RQVMOOS::updateSensorsState(){
 //---------------------------------------------------------
 // Procedure: estimateReadingRate
 //---------------------------------------------------------
-bool RQVMOOS::estimateReadingRate(double &sensor1AvgReadingRate, double &sensor2AvgReadingRate, double &sensor3AvgReadingRate){
+bool RQVMOOS::estimateReadingRate(string sensorName, double sensorNormalOperatingRate, int sensorConfigurationActive,
+                                  double &sensorAvgReadingRate){
 	double readingRate;
 	int currentSensorConfiguration = m_current_sensor_configuration;
-	 double timeStamp = m_current_iterate_call - m_previous_iterate_call;
+    double timeStamp = m_current_iterate_call - m_previous_iterate_call;
 
-	 //Sensor1
-	 sensorMap::iterator itS1 =  m_sensor_map.find("SONAR_SENSOR_SONAR1");
-	 double sensor1AVGReadingRate = itS1->second.readingRateTimes / timeStamp;
-	 if (sensor1AVGReadingRate < 0.75*5){ 							//FAILURE
-		 if (currentSensorConfiguration%2<=0 && itS1->second.waitFailedTimes==0){
-			 sensor1AvgReadingRate 			= 5;
-			 itS1->second.currentState		= 0;
-		 }
-		 else
-		 if (++itS1->second.waitFailedTimes==5){					//RETRY	--> ORANGE
-			 itS1->second.currentState	  	= 1;
-			 itS1->second.waitFailedTimes 	= 0;
-			 sensor1AvgReadingRate 			= 0.001;
-		 }
-		 else{
-			 itS1->second.currentState 		= -1;							//FAIL   --> RED
-			 sensor1AvgReadingRate 			= 0.001;
-		 }
-	 }
-	 else {
-		 if (itS1->second.waitFailedTimes==0){
-			 if (currentSensorConfiguration%2>0){ //ON
-				 sensor1AvgReadingRate 				= sensor1AVGReadingRate;
-				 itS1->second.waitFailedTimes 		= 0;
-				 itS1->second.currentState			= 2;						//ON	--> GREEN
-			 }
-			 else if (currentSensorConfiguration%2<=0){ //IDLE
-				 sensor1AvgReadingRate 				= 5;
-				 itS1->second.waitFailedTimes 		= 0;
-				 itS1->second.currentState			= 0;						//IDLE	--> WHITE
-			 }
-		 }
-		 else if (++itS1->second.waitFailedTimes<5){
-			 itS1->second.currentState 		= -1;							//FAIL   --> RED
-			 sensor1AvgReadingRate 			= 0.001;
-		 }
-		 else if (itS1->second.waitFailedTimes==5){					//RETRY	--> ORANGE
-			 itS1->second.currentState	  	= 1;
-			 itS1->second.waitFailedTimes 	= 0;
-			 sensor1AvgReadingRate 			= 0.001;
-		 }
-	 }
-	 itS1->second.readingRateAvg = sensor1AvgReadingRate;
+    double failurePercentage = 0.1;
 
+    //Sensor1
+    sensorMap::iterator itS 		=  m_sensor_map.find(sensorName);
+    double sensorAVGReadingRate = itS->second.readingRateTimes / timeStamp;
+    tempVariable = sensorAVGReadingRate;
 
-	 //Sensor2
-	 sensorMap::iterator itS2 =  m_sensor_map.find("SONAR_SENSOR_SONAR2");
-	 double sensor2AVGReadingRate = itS2->second.readingRateTimes / timeStamp;
-	 if (sensor2AVGReadingRate < 0.75*4){ 							//FAILURE
-		 if (currentSensorConfiguration%4<=1 && itS2->second.waitFailedTimes==0){
-			 sensor2AvgReadingRate 			= 4;
-			 itS2->second.waitFailedTimes 	= 0;
-			 itS2->second.currentState		= 0;
-		 }
-		 else
-		 if (++itS2->second.waitFailedTimes==5){					//RETRY	--> ORANGE
-			 itS2->second.currentState	  	= 1;
-			 itS2->second.waitFailedTimes 	= 0;
-			 sensor2AvgReadingRate 			= 0.001;
-		 }
-		 else{
-			 itS2->second.currentState 		= -1;							//FAIL   --> RED
-			 sensor2AvgReadingRate 			= 0.001;
-		 }
-	 }
-	 else {
-		 if (itS2->second.waitFailedTimes==0){
-			 if (currentSensorConfiguration%4>1){ //ON
-				 sensor2AvgReadingRate 				= sensor2AVGReadingRate;
-				 itS2->second.waitFailedTimes 		= 0;
-				 itS2->second.currentState			= 2;						//ON	--> GREEN
-			 }
-			 else if (currentSensorConfiguration%4<=1){ //IDLE
-				 sensor2AvgReadingRate 				= 4;
-				 itS2->second.waitFailedTimes 		= 0;
-				 itS2->second.currentState			= 0;						//IDLE	--> WHITE
-			 }
-		 }
-		 else if (++itS2->second.waitFailedTimes<5){
-			 itS2->second.currentState 		= -1;							//FAIL   --> RED
-			 sensor2AvgReadingRate 			= 0.001;
-		 }
-		 else if (itS2->second.waitFailedTimes==5){					//RETRY	--> ORANGE
-			 itS2->second.currentState	  	= 1;
-			 itS2->second.waitFailedTimes 	= 0;
-			 sensor2AvgReadingRate 			= 0.001;
-		 }
-	 }
-	 itS2->second.readingRateAvg = sensor2AvgReadingRate;
+    if (sensorAVGReadingRate < failurePercentage*sensorNormalOperatingRate) {       //FAILURE
+        if (++itS->second.waitFailedTimes==5){                                      //RETRY	--> ORANGE
+            itS->second.currentState    = 1;
+            itS->second.waitFailedTimes = 0;
+        }
+        else{
+            itS->second.currentState 	= -1;							            //FAIL   --> RED
+        }
+        sensorAvgReadingRate 			= 0.002;
+    }
+    else{
+        if (itS->second.waitFailedTimes==0){
+            if (currentSensorConfiguration%sensorConfigurationActive>0) {           //ON
+                sensorAvgReadingRate 				= sensorAVGReadingRate;
+                itS->second.waitFailedTimes 		= 0;
+                itS->second.currentState			= 2;
+            }
+            else if (currentSensorConfiguration%sensorConfigurationActive<=0){      //IDLE
+                sensorAvgReadingRate 				= sensorNormalOperatingRate;
+                itS->second.waitFailedTimes 		= 0;
+                itS->second.currentState			= 0;						    //IDLE	--> WHITE
+            }
+        }
+        else if (++itS->second.waitFailedTimes<5){                                  //FAIL   --> RED
+            itS->second.currentState 		= -1;
+            sensorAvgReadingRate 			= 0.003;
+        }
+        else if (itS->second.waitFailedTimes==5) {                                    //RETRY	--> ORANGE
+            itS->second.currentState	  	= 1;
+            itS->second.waitFailedTimes     = 0;
+            sensorAvgReadingRate 			= 0.004;
+        }
+    }
+    itS->second.readingRateAvg              = sensorAvgReadingRate;
 
-
-	 //Sesnor3
-	 sensorMap::iterator itS3 =  m_sensor_map.find("SONAR_SENSOR_SONAR3");
-	 double sensor3AVGReadingRate = itS3->second.readingRateTimes / timeStamp;
-	 if (sensor3AVGReadingRate < 0.75*4){ 							//FAILURE
-		 if (currentSensorConfiguration%8<=3 && itS3->second.waitFailedTimes==0){
-			 sensor3AvgReadingRate 			= 4;
-			 itS3->second.waitFailedTimes 	= 0;
-			 itS3->second.currentState		= 0;
-		 }
-		 else
-//
-		 if (++itS3->second.waitFailedTimes==5){					//RETRY	--> ORANGE
-			 itS3->second.currentState	  	= 1;
-			 itS3->second.waitFailedTimes 	= 0;
-			 sensor3AvgReadingRate 			= 0.001;
-		 }
-		 else{
-			 itS3->second.currentState 		= -1;							//FAIL   --> RED
-			 sensor3AvgReadingRate 			= 0.001;
-		 }
-	 }
-	 else {
-		 if (itS3->second.waitFailedTimes==0){
-			 if (currentSensorConfiguration%8>3){ //ON
-				 sensor3AvgReadingRate 				= sensor3AVGReadingRate;
-				 itS3->second.waitFailedTimes 		= 0;
-				 itS3->second.currentState			= 2;						//ON	--> GREEN
-			 }
-			 else if (currentSensorConfiguration%8<=3){ //IDLE
-				 sensor3AvgReadingRate 				= 4;
-				 itS3->second.waitFailedTimes 		= 0;
-				 itS3->second.currentState			= 0;						//IDLE	--> WHITE
-			 }
-		 }
-		 else if (++itS3->second.waitFailedTimes<5){
-			 itS3->second.currentState 		= -1;							//FAIL   --> RED
-			 sensor3AvgReadingRate 			= 0.001;
-		 }
-		 else if (itS3->second.waitFailedTimes==5){					//RETRY	--> ORANGE
-			 itS3->second.currentState	  	= 1;
-			 itS3->second.waitFailedTimes 	= 0;
-			 sensor3AvgReadingRate 			= 0.001;
-		 }
-	 }
-	 itS3->second.readingRateAvg = sensor3AvgReadingRate;
+//    if (sensor1AVGReadingRate < 0.5*sensorNormalOperatingRate){ 			        //FAILURE
+//		 if (currentSensorConfiguration%2<=0 && itS1->second.waitFailedTimes==0){
+//			 sensor1AvgReadingRate 			= sensorNormalOperatingRate;
+//			 itS1->second.currentState		= 0;
+//		 }
+//		 else
+//		 if (++itS1->second.waitFailedTimes==5){					                //RETRY	--> ORANGE
+//			 itS1->second.currentState	  	= 1;
+//			 itS1->second.waitFailedTimes 	= 0;
+//			 sensor1AvgReadingRate 			= 0.001;
+//		 }
+//		 else{
+//			 itS1->second.currentState 		= -1;							        //FAIL   --> RED
+//			 sensor1AvgReadingRate 			= 0.001;
+//		 }
+//	 }
+//	 else {
+//		 if (itS1->second.waitFailedTimes==0){
+//			 if (currentSensorConfiguration%2>0){ //ON
+//				 sensor1AvgReadingRate 				= sensor1AVGReadingRate;
+//				 itS1->second.waitFailedTimes 		= 0;
+//				 itS1->second.currentState			= 2;						    //ON	--> GREEN
+//			 }
+//			 else if (currentSensorConfiguration%2<=0){ //IDLE
+//				 sensor1AvgReadingRate 				= 5;
+//				 itS1->second.waitFailedTimes 		= 0;
+//				 itS1->second.currentState			= 0;						    //IDLE	--> WHITE
+//			 }
+//		 }
+//		 else if (++itS1->second.waitFailedTimes<5){
+//			 itS1->second.currentState 		= -1;							        //FAIL   --> RED
+//			 sensor1AvgReadingRate 			= 0.001;
+//		 }
+//		 else if (itS1->second.waitFailedTimes==5){					                //RETRY	--> ORANGE
+//			 itS1->second.currentState	  	= 1;
+//			 itS1->second.waitFailedTimes 	= 0;
+//			 sensor1AvgReadingRate 			= 0.001;
+//		 }
+//	 }
+//	 itS1->second.readingRateAvg = sensor1AvgReadingRate;
 
 
 	return true;
 }
 
-
-
-//---------------------------------------------------------
-// Procedure: estimateDistanceCovered
-//---------------------------------------------------------
-bool RQVMOOS::estimateDistanceCovered(){
-	  m_current_distance   = sqrt( (pow(m_current_x - m_previous_x,2)) + (pow(m_current_y - m_previous_y,2)) );
-	  //If this is the first iteration, turn the flag "m_first_reading" to true
-	  if (!m_first_reading){
-		m_first_reading = true;
-		m_total_distance = m_current_distance;
-	  }
-	  else{
-		  m_total_distance += m_current_distance;
-	  }
-	  m_previous_x = m_current_x;
-	  m_previous_y = m_current_y;
-	  return true;
-}
 
 
 ///////////////////////////////////////////////////////////////////////////
