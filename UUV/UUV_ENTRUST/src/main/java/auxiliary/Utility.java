@@ -29,17 +29,29 @@ public class Utility {
 		}
 	}
 	
+	public static void setup(){
+		try {
+			System.setProperty( "java.library.path", "/Users/sgerasimou/Documents/Prism/prism-4.2.1/lib");
+		    
+			ClassLoader.class.getDeclaredField( "sys_paths" ).set(null, null);
+			ClassLoader.class.getDeclaredField( "sys_paths" ).setAccessible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
 	public static Set<Entry<Object, Object>> getPropertiesEntrySet(){
 		return properties.entrySet();
 	}
 
+	
 	public static String getProperty (String key){
 		String result = properties.getProperty(key); 
 		if (result == null)
 			  throw new IllegalArgumentException(key.toUpperCase() + " name not found!");
 		return result;		
 	}	
+	
 	
 	public static void exportToFile(String fileName, String output, boolean append){
 		try {

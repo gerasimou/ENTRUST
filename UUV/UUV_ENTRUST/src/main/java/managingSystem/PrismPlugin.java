@@ -41,7 +41,6 @@ public class PrismPlugin extends Synchronizer{
     
     @Override
     public void receive(int channelId, HashMap<String, Object> data) {
-    	System.out.println(this.getClass().getSimpleName() + ".receive()");
     	
 		if (channelId == calculate_probability){
 		    HashMap<Integer, Integer> avgRates = (HashMap<Integer, Integer>)data.get("avgRates");
@@ -53,7 +52,7 @@ public class PrismPlugin extends Synchronizer{
 		    HashMap<Integer, HashMap> currentConfiguration = (HashMap<Integer, HashMap>)data.get("currentConfiguration");
 		    String binaryString = "" + currentConfiguration.get("sensors").get(0) + currentConfiguration.get("sensors").get(1) + currentConfiguration.get("sensors").get(2);
 		    int PSC = Integer.parseInt(binaryString, 2);
-		    System.out.println("Calculating probability-R1:" + R1 + " R2:" + R2 + " R3:" + R3 + " PSC:" + PSC);
+		    System.out.println("Running RQV -R1:" + R1 + " R2:" + R2 + " R3:" + R3 + " PSC:" + PSC);
 		    RQVResult[] results = analyser.doAnalysis(R1, R2, R3, PSC);
 		    HashMap<Integer, HashMap<String, Object>> array = (HashMap<Integer, HashMap<String, Object>>)data.get("&RQVResultsArray");
 

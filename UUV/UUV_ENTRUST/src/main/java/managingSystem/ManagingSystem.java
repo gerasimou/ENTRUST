@@ -53,7 +53,7 @@ public class ManagingSystem {
 
 		    //init probe
 		    this.probe = new Probe(engine, this);
-		    resetNewConfiguration();
+//		    resetNewConfiguration();
 		    
 		    //init effector
 		    this.effector = new Effector(engine, this);
@@ -127,7 +127,8 @@ public class ManagingSystem {
     			result += tempResult +",";
     	}
 
-    	System.out.println("Result:\t" + result);
+    	System.out.println("{New Config}:\t" + result);
+    	Utility.exportToFile("sendToManagedSystem.txt", result, true);
     	out.println(result);
     	out.flush();
     }
