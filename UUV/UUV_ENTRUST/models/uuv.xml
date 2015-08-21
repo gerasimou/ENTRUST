@@ -19,7 +19,7 @@ chan monitor, calculate_probability, receive_probability, setAverageMRates, star
 
 const int MAX_PLAN = SENSORS + 1;
 
-const int ON_SENSOR = 1, OFF_SENSOR = 2, CHANGE_SPEED = 3;
+const int DO_NOTHING = 1, ON_SENSOR = 2, OFF_SENSOR = 3, CHANGE_SPEED = 4;
 
 typedef struct {
 int step;
@@ -272,8 +272,8 @@ void analyze(){
 }
 
 bool adaptationNeeded(){
-	return  false;//bestConfiguration.sensors != currentConfiguration.sensors ||
-             //bestConfiguration.speed != currentConfiguration.speed;
+	return  bestConfiguration.sensors != currentConfiguration.sensors ||
+             bestConfiguration.speed != currentConfiguration.speed;
 }</declaration>
 		<location id="id13" x="-128" y="64">
 			<name x="-216" y="16">NoAdaptationNeeded</name>
@@ -1379,7 +1379,8 @@ void createPlan(){
 }
 */
 
-const int DO_NOTHING = 1, TURN_ON = 2, TURN_OFF = 3;
+//const int DO_NOTHING = 1, TURN_ON = 2, TURN_OFF = 3;
+
 bool changeSensorConfigs(){
     return bestConfiguration.sensors != currentConfiguration.sensors;
 }
@@ -1388,7 +1389,7 @@ int checkSensorConfig(int sensorId){
     if (bestConfiguration.sensors[sensorId] == currentConfiguration.sensors[sensorId])
         return DO_NOTHING;
     else{
-         return bestConfiguration.sensors[sensorId]? TURN_ON: TURN_OFF;
+         return bestConfiguration.sensors[sensorId]? ON_SENSOR: OFF_SENSOR;
     }
 }
 
@@ -1500,13 +1501,13 @@ void planCompleted(){
 		<transition>
 			<source ref="id27"/>
 			<target ref="id28"/>
-			<label kind="guard" x="527" y="25">step == TURN_OFF</label>
+			<label kind="guard" x="527" y="25">step == OFF_SENSOR</label>
 			<label kind="assignment" x="527" y="42">addStepOffSensor(sensorId)</label>
 		</transition>
 		<transition>
 			<source ref="id27"/>
 			<target ref="id28"/>
-			<label kind="guard" x="527" y="-25">step == TURN_ON</label>
+			<label kind="guard" x="527" y="-25">step == ON_SENSOR</label>
 			<label kind="assignment" x="527" y="-8">addStepOnSensor(sensorId)</label>
 			<nail x="510" y="17"/>
 			<nail x="748" y="17"/>
@@ -1674,5 +1675,95 @@ index++</label>
 //system UUV, Sensor, Probe, Effector, Monitor, Analyzer, Planner, RQV, Executor;
 system Monitor, Analyzer, Planner, Executor;//, Probe, RQV, Effector;</system>
 	<queries>
+		<query>
+			<formula>Executor.ChangeSpeed and newSpeed != uuvSpeed --&gt; UUV.SpeedChanged &amp;&amp; uuvSpeed == newSpeed
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>Executor.OffSensor and sensorId == 2 --&gt; Sensor(2).Off
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>Executor.OffSensor and sensorId == 3 --&gt; Sensor(3).Off
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>Executor.OffSensor and sensorId == 2 --&gt; Sensor(2).On
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>Executor.OffSensor and sensorId == 3 --&gt; Sensor(3).On
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>Executor.OnSensor and sensorId == 1 --&gt; Sensor(1).On
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>Executor.OffSensor and sensorId == 1 --&gt; Sensor(1).Off
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>Analyzer.AdaptationNeeded imply currentConfiguration == bestConfiguration
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>A[]Analyzer.AdaptationNeeded imply currentConfiguration != bestConfiguration
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>A[]Analyzer.NoAdaptationNeeded imply currentConfiguration == bestConfiguration
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>A[]Executor.PlanExecuted imply currentConfiguration.req2Result &lt; 120
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>A[]Executor.PlanExecuted imply currentConfiguration.req1Result &gt; 20
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>Planner.PlanCreated --&gt; Executor.PlanExecuted
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>Analyzer.AdaptationNeeded--&gt;Executor.PlanExecuted
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>A[] not deadlock
+			</formula>
+			<comment>
+			</comment>
+		</query>
 	</queries>
 </nta>
