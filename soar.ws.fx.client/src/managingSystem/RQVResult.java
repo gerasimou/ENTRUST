@@ -2,8 +2,6 @@ package managingSystem;
 
 import java.util.Arrays;
 
-import main.ManagingSystem;
-
 
 //class that represents a data structure for storing an RQVResult
 public class RQVResult{

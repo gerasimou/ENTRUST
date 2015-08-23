@@ -90,6 +90,7 @@ public class Analyser {
     
     
     public RQVResult[] runQV(int[][] servicesReliability){
+	    System.out.println("\tAnalyser.runQV()");
     	int index = 0;
     	
     	//get the characteristics of services from the knowledge
@@ -161,33 +162,7 @@ public class Analyser {
     	}    	
     	return model.toString();
     }
-	
     
-    
-	public RQVResult[] doAnalysis(double r1, double r2, double r3, int PSC){
-		double req1result;
-		double req2result;
-		int index;
-
-		for (int CSC=1; CSC<8; CSC++){
-			for (int s=20; s<=40; s++){
-				
-				index = ((CSC-1)*21)+(s-20);
-
-				double p1 	= 0;//estimateP(s/10.0, 3.5, 1.5,95);
-				double p2 	= 0;//estimateP(s/10.0, 3.0, 2.0,90);
-				double p3 	= 0;//estimateP(s/10.0, 2.5, 2.5,85);
-				
-//				req1result = Double.parseDouble(prismWrapper.runPrism(r1, r2, r3, p1, p2, p3, PSC, CSC, s/10.0, 10, 0));
-//				req2result = Double.parseDouble(prismWrapper.runPrism(r1, r2, r3, p1, p2, p3, PSC, CSC, s/10.0, 10, 1));
-//
-//					RQVResultsArray[index] = new RQVResult(CSC, s, req1result, req2result);
-			}
-		}
-
-		return RQVResultsArray;
-	}
-	
 	
 	public int getNumOfOperations(){
 		return this.NUM_OF_OPERATIONS;

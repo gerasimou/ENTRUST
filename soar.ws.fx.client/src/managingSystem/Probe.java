@@ -4,7 +4,6 @@ import java.util.HashMap;
 
 import activforms.engine.ActivFORMSEngine;
 import activforms.engine.Synchronizer;
-import main.ManagingSystem;
 
 public class Probe extends Synchronizer {
     

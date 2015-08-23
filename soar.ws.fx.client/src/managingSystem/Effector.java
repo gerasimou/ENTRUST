@@ -4,7 +4,6 @@ import java.util.HashMap;
 
 import activforms.engine.ActivFORMSEngine;
 import activforms.engine.Synchronizer;
-import main.ManagingSystem;
 
 public class Effector extends Synchronizer{
 
@@ -47,9 +46,9 @@ public class Effector extends Synchronizer{
     
     @Override
     public void receive(int channelId, HashMap<String, Object> data) {
-//    	System.out.println("Effector.receive()");
+    	System.out.println("\tEffector.receive()");
 		if (channelId == changeService){
-			System.out.println("ChangeService:\t" + data.get("sConfig"));
+			System.out.println("\t\tChangeService:\t" + data.get("sConfig"));
 		    int serviceId = (Integer) data.get("serviceId");
 		    int serviceType = (Integer) data.get("serviceType");
 
@@ -57,13 +56,12 @@ public class Effector extends Synchronizer{
 		    newConfiguration[serviceType-1] = serviceId-1;
 		}
 		else if (channelId == allPlanStepsExecuted){
-			System.out.println("All Plan Steps Executed");
+			System.out.println("\t\tAll Plan Steps Executed");
 			managingSystem.returnResult(newConfiguration);	
 		}
 		else if (channelId == noPlanningNeeded || channelId == noAnalysisRequired){
-			System.out.println("No Planning Needed");
+			System.out.println("\tNo Planning Needed");
 			managingSystem.returnResult(newConfiguration);	
-			
 		}
 		
     }

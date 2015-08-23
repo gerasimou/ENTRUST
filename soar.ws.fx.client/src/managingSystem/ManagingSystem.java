@@ -1,4 +1,4 @@
-package main;
+package managingSystem;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -7,16 +7,12 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import activforms.engine.ActivFORMSEngine;
 import auxiliary.Utility;
 import fx.services.AbstractServiceClient;
-import managingSystem.Effector;
-import managingSystem.Knowledge;
-import managingSystem.Probe;
 import prism.PrismPlugin;
 import sbs.SBS;
 
@@ -182,16 +178,7 @@ public class ManagingSystem implements Runnable{
     public void returnResult(int [] newConfiguration){
     	sbs.setActiveServicesList(newConfiguration);
     	runCarryOn.set(true);    	
-//    	out.println(output);
-//    	out.flush();
-//    	resetNewConfiguration();
-    }
-    
-    
-    public void resetNewConfiguration(){
-    	Arrays.fill(newConfiguration, -1);
-    }
-    
+    }    
     
     
     //private class

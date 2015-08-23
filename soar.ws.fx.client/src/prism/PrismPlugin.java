@@ -46,18 +46,17 @@ public class PrismPlugin extends Synchronizer{
      */
     @Override
     public void receive(int channelId, HashMap<String, Object> data) {
-    	System.err.println("PrismPlugin.receive()");
+    	System.out.println("\tPrismPlugin.receive()");
     	
     	
 		if (channelId == startRQV){
 		    HashMap<Integer, HashMap<Integer,Integer>> avgFRates = (HashMap<Integer, HashMap<Integer,Integer>>)data.get("avgFRates");
-		    System.err.println(avgFRates);
+		    System.err.println("\t\t" + avgFRates);
 
 		    int servicesPerOperation    = analyser.getNumOfServicesPerOperation();
 		    int[][] servicesReliability = new int[analyser.getNumOfOperations()][servicesPerOperation];
 		    int row=-1;
 		    for (int i=0; i<avgFRates.size(); i++){
-//		    	System.err.println(avgFRates.get(i+1));
 		    	
 		    	HashMap<Integer, Integer> operationRates = avgFRates.get(i+1);
 		    	for (int serviceIndex=0; serviceIndex<operationRates.size(); serviceIndex++){
@@ -68,8 +67,6 @@ public class PrismPlugin extends Synchronizer{
 		    	
 		    }//for
 
-		 
-		    System.out.println("Calling analyser.doAnalysis()");
 		    RQVResult [] results = analyser.runQV(servicesReliability);
 		    
 		    HashMap<Integer, HashMap<String, Object>> RQVResultsArray = (HashMap<Integer, HashMap<String, Object>>)data.get("&RQVResultsArray");
@@ -92,7 +89,7 @@ public class PrismPlugin extends Synchronizer{
 //	
 		    
 		    //return output to ActivFORMS
-		    System.out.println("Sending RQV results");
+//		    System.out.println("Sending RQV results");
 		    engine.send(finishRQV, this);
 		}
     }    

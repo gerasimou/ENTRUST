@@ -118,10 +118,7 @@ public class SBS implements Runnable{
      * @param activeServices
      */
     public void setActiveServicesList(int[] activeServices){
-//    	for (int index=0; index < activeServices.length; index++){
     		activeServicesArray = activeServices;
-//    		activeServicesList.set(index, operationsList.get(index).get(activeServiceIndex));
-//    	}
     }
     
     
