@@ -27,7 +27,14 @@ ProcessConfig = ANTLER
   MSBetweenLaunches = 200
 
   //Generic
-  Run = MOOSDB                  @ NewConsole = false
+  Run = MOOSDB                    @ NewConsole = false
+
+  //Application specific
+  Run = sSonarSensor              @ NewConsole = false ~ SONAR1
+  Run = sSonarSensor              @ NewConsole = false ~ SONAR2
+  Run = sSonarSensor              @ NewConsole = false ~ SONAR3
+  Run = sRQVMOOS_ActivForms       @ NewConsole = false  
+
   Run = uSimMarine                @ NewConsole = false
   Run = pMarinePID                @ NewConsole = false
   Run = pHelmIvP                  @ NewConsole = false
@@ -35,11 +42,6 @@ ProcessConfig = ANTLER
   Run = uProcessWatch             @ NewConsole = false
   Run = pNodeReporter             @ NewConsole = false
 
-  //Application specific
-  Run = sSonarSensor            @ NewConsole = false ~ SONAR1
-  Run = sSonarSensor            @ NewConsole = false ~ SONAR2
-  Run = sSonarSensor            @ NewConsole = false ~ SONAR3
-  Run = sRQVMOOS_ActivForms     @ NewConsole = false  
 }
 
 
@@ -284,9 +286,9 @@ ProcessConfig = SONAR1
   AppTick   = 5
   CommsTick = 5
   
-  NAME              = SONAR_SENSOR_SONAR1
-  FAIL_PATTERN      = 
-  DEGRADATION_VALUE =
+  NAME                      = SONAR_SENSOR_SONAR1
+  FAIL_PATTERN              = 
+  DEGRADATION_VALUE         =
 }
 
 
@@ -299,9 +301,9 @@ ProcessConfig = SONAR2
   AppTick     = 4
   CommsTick   = 4
   
-  NAME              = SONAR_SENSOR_SONAR2
-  //FAIL_PATTERN  = 300:330
-  DEGRADATION_VALUE =
+  NAME                      = SONAR_SENSOR_SONAR2
+  //FAIL_PATTERN            = 300:330
+  DEGRADATION_VALUE         =
 }
 
 
@@ -316,7 +318,7 @@ ProcessConfig = SONAR3
   
   NAME                      = SONAR_SENSOR_SONAR3
   FAIL_PATTERN              = 50:200
-  DEGRADATION_VALUE_PATTERN = 0.2
+  DEGRADATION_VALUE_PATTERN = 0.11
 } 
 
 
