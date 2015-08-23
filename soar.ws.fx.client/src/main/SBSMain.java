@@ -14,9 +14,7 @@ public class SBSMain
 {	
     public static void main( String[] args )
     {
-    	
-//    	numbers();
-    	
+    	    	
     	/** Managing system handler*/
     	ManagingSystem managingSystem;
 

@@ -8,6 +8,7 @@ import fx.services.AbstractServiceClient;
 import prism.PrismAPI;
 import sbs.SBS;
 
+@Deprecated
 public class ManagingSystemOld implements Runnable{
 	
 	/** PRISM instance */

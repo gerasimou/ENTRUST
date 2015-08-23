@@ -45,7 +45,7 @@ public class SBS implements Runnable{
 	private final long TIME_WINDOW;
 	
 	/** Managing system handler*/
-	private ManagingSystemOld managingSystem;
+//	private ManagingSystemOld managingSystem;
 	
 	
 	
@@ -73,7 +73,7 @@ public class SBS implements Runnable{
     	SIMULATION_TIME = Long.parseLong(Utility.getProperty("SIMULATION_TIME"));
     	TIME_WINDOW		= Long.parseLong(Utility.getProperty("TIME_WINDOW"));
     	
-    	managingSystem = new ManagingSystemOld(this);
+//    	managingSystem = new ManagingSystemOld(this);
 
     	//make initialisations
     	initServiceClients();

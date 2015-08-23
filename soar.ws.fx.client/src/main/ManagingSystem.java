@@ -12,14 +12,12 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import activforms.engine.ActivFORMSEngine;
-import activforms.goalmanagement.Goal;
 import auxiliary.Utility;
 import fx.services.AbstractServiceClient;
 import managingSystem.Effector;
 import managingSystem.Knowledge;
 import managingSystem.Probe;
 import prism.PrismPlugin;
-import sbs.GoalChecker;
 import sbs.SBS;
 
 public class ManagingSystem implements Runnable{
@@ -114,45 +112,6 @@ public class ManagingSystem implements Runnable{
 		    System.exit(-1);
 		}
 	}
-	
-    
-    
-    /**
-     * Start listening for incoming messages
-     * @throws IOException
-     */
-    public void startListening() throws IOException{
-		 int portNumber = 56567;
-		 serverSocket 	= new ServerSocket(portNumber);
-		 System.out.println("Prism(server) ready - awaiting requests\n");
-
-		 clientSocket	= serverSocket.accept();
-		 out 			= new PrintWriter(clientSocket.getOutputStream(), true);
-		 in				= new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-		 System.out.println("Connection established");
-		 String input;
-		 
-		 while (true){
-			 input = in.readLine();
-			 try{
-				if (input.toLowerCase().equals("done"))
-					break;
-			 
-				 String inputs[] = input.split(",");
-
-				 //TODO: FX
-				 probe.sendAverageRates(new int[][]{}, -1 , -1);
-//				 returnResult(newConfiguration);
-			 }
-			 catch (Exception e){
-				 e.printStackTrace();
-				 System.exit(-1);
-			 }
-		 }
-		 out.println("Done");
-		 System.exit(0);
-    }
-    
     
     
 	@Override
@@ -220,24 +179,6 @@ public class ManagingSystem implements Runnable{
 	}
     
     
-//    /** Create a list for storing services characteristics that will be used when carrying out RQV*/
-//    private void generateServiceCharacteristics(){
-//    	List<List<ServiceCharacteristics>> operationCharacteristicsList = new ArrayList<List<ServiceCharacteristics>>();
-//    	for (int operation=0; operation<operationsList.size(); operation++){
-//    		List<ServiceCharacteristics> servicesCharacteristicsList = new ArrayList<ServiceCharacteristics>();
-//
-//    		for (int service=0; service<operationsList.get(operation).size(); service++){
-//    			AbstractServiceClient serviceClient = operationsList.get(operation).get(service);
-//    			Object[] serviceCharacteristics = serviceClient. getServiceCharacteristics();
-//    			servicesCharacteristicsList.add(new ServiceCharacteristics((String)serviceCharacteristics[0], (double)serviceCharacteristics[1], 
-//    																	   (double)serviceCharacteristics[2], (double)serviceCharacteristics[3]));
-//    		}//for
-//    		operationCharacteristicsList.add(servicesCharacteristicsList);
-//
-//    	}//for
-//    }//
-    
-    
     public void returnResult(int [] newConfiguration){
     	sbs.setActiveServicesList(newConfiguration);
     	runCarryOn.set(true);    	
@@ -295,5 +236,66 @@ public class ManagingSystem implements Runnable{
     		this.reliability = reliability;
     	}
     }
+    
+    
+    
+    ///////////////////////////////////////////////
+    //DEPRECATED FUNCTIONS
+    ///////////////////////////////////////////////
+    /**
+     * Start listening for incoming messages
+     * @throws IOException
+     */
+    @Deprecated
+    public void startListening() throws IOException{
+		 int portNumber = 56567;
+		 serverSocket 	= new ServerSocket(portNumber);
+		 System.out.println("Prism(server) ready - awaiting requests\n");
+
+		 clientSocket	= serverSocket.accept();
+		 out 			= new PrintWriter(clientSocket.getOutputStream(), true);
+		 in				= new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+		 System.out.println("Connection established");
+		 String input;
+		 
+		 while (true){
+			 input = in.readLine();
+			 try{
+				if (input.toLowerCase().equals("done"))
+					break;
+			 
+				 String inputs[] = input.split(",");
+
+				 //TODO: FX
+				 probe.sendAverageRates(new int[][]{}, -1 , -1);
+//				 returnResult(newConfiguration);
+			 }
+			 catch (Exception e){
+				 e.printStackTrace();
+				 System.exit(-1);
+			 }
+		 }
+		 out.println("Done");
+		 System.exit(0);
+    }
+
+    
+    /** Create a list for storing services characteristics that will be used when carrying out RQV*/
+  @Deprecated
+  	private void generateServiceCharacteristics(){
+  	List<List<ServiceCharacteristics>> operationCharacteristicsList = new ArrayList<List<ServiceCharacteristics>>();
+  	for (int operation=0; operation<operationsList.size(); operation++){
+  		List<ServiceCharacteristics> servicesCharacteristicsList = new ArrayList<ServiceCharacteristics>();
+
+  		for (int service=0; service<operationsList.get(operation).size(); service++){
+  			AbstractServiceClient serviceClient = operationsList.get(operation).get(service);
+  			Object[] serviceCharacteristics = serviceClient. getServiceCharacteristics();
+  			servicesCharacteristicsList.add(new ServiceCharacteristics((String)serviceCharacteristics[0], (double)serviceCharacteristics[1], 
+  																	   (double)serviceCharacteristics[2], (double)serviceCharacteristics[3]));
+  		}//for
+  		operationCharacteristicsList.add(servicesCharacteristicsList);
+
+  	}//for
+  }//
 }
 
