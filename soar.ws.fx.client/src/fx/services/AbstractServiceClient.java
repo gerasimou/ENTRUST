@@ -24,7 +24,7 @@ public abstract class AbstractServiceClient {
 	protected int timesSucceeded;
 
 	/** how long the service is idle */
-	private final int MAX_IDLE = 10;
+	private final int MAX_IDLE = 5;
 	private int idle = MAX_IDLE;
 	
 	
@@ -69,17 +69,19 @@ public abstract class AbstractServiceClient {
 	public void calculateReliability(){
 		if (timesInvoked==0)
 			if (idle==MAX_IDLE){
-				this.idle = 0;
-				this.actualReliability = this.nominalReliability;
-				//reset
-				this.timesInvoked 	= 0;
-				this.timesSucceeded	= 0;
+				idle = 0;
+				actualReliability = this.nominalReliability;
 			}
 			else{
 				idle++;
 			}
 		else{
 			this.actualReliability = timesSucceeded / (timesInvoked + 0.0);
+			//reset
+//			if ((actualReliability * 1000)==1000)
+//				System.out.println(toString() +"\t"+ timesSucceeded +"/"+ timesInvoked);
+			timesInvoked 	= 0;
+			timesSucceeded	= 0;
 		}
 	}
 	
