@@ -48,8 +48,8 @@ Service services[s_type][s_id] =
 chan normalMode, expertMode, FAResult, TAResult, placeOrder, notification, alarm,  fundamentalAnalysis, marketWatch, error;
 
 // current selected services
-s_id sConfig[s_type] = {1,1,1,1,1,1};
-
+//s_id sConfig[s_type] = {1,1,1,1,1,1};
+int sConfig[s_type] = {-1,-1,-1,-1,-1,-1};
 
 // Abstract Service
 chan invokeOp[s_type][s_id], invoke[s_type], result, successful;
@@ -83,7 +83,8 @@ Plan plan;
 
 const int RQV_LENGTH = MAX_NUM * MAX_NUM * MAX_NUM * MAX_NUM * MAX_NUM * MAX_NUM;
 typedef struct{
-    s_id sConfig[s_type];
+//    s_id sConfig[s_type];
+    int sConfig[s_type];
     int RQV1Result;
     int RQV2Result;
     int RQV3Result;
@@ -92,7 +93,8 @@ typedef struct{
 RQVResult RQVResultsArray[RQV_LENGTH];
 int bestResult;
 int bestIndex;
-s_id newConfig[s_type];
+//s_id newConfig[s_type];
+int newConfig[s_type];
 
 chan startAnalysis, startPlanning, startExecuting;
 chan  changeService;
@@ -1236,7 +1238,7 @@ Effector,Probe,
 
 */
 system
-Monitor, Analysis, RQV, Planning, Execution;
+Monitor, Analysis, Planning, Execution;
 </system>
 	<queries>
 	</queries>
