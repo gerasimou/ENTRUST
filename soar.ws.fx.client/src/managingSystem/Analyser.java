@@ -90,7 +90,7 @@ public class Analyser {
     
     
     public RQVResult[] runQV(int[][] servicesReliability){
-	    System.out.println("\tAnalyser.runQV()");
+//	    System.out.println("\tAnalyser.runQV()");
     	int index = 0;
     	
     	//get the characteristics of services from the knowledge

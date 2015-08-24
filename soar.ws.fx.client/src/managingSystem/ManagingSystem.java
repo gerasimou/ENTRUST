@@ -176,7 +176,10 @@ public class ManagingSystem implements Runnable{
     
     
     public void returnResult(int [] newConfiguration){
-    	sbs.setActiveServicesList(newConfiguration);
+    	if (newConfiguration != null){
+    		sbs.setActiveServicesList(newConfiguration);
+    	}
+    	sbs.printActiveServices();
     	runCarryOn.set(true);    	
     }    
     

@@ -1,5 +1,6 @@
 package managingSystem;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 import activforms.engine.ActivFORMSEngine;
@@ -29,7 +30,8 @@ public class Effector extends Synchronizer{
 		this.managingSystem	= managingSystem;
 		
 		this.newConfiguration = new int[this.managingSystem.NUM_OF_OPERATIONS];
-	
+		Arrays.fill(newConfiguration, -1);
+
 		//get signals
 		changeService 			= engine.getChannel("changeService");
 		allPlanStepsExecuted	= engine.getChannel("allPlanStepsExecuted");
@@ -46,25 +48,25 @@ public class Effector extends Synchronizer{
     
     @Override
     public void receive(int channelId, HashMap<String, Object> data) {
-    	System.out.println("\tEffector.receive()");
 		if (channelId == changeService){
-			System.out.println("\t\tChangeService:\t" + data.get("sConfig"));
 		    int serviceId = (Integer) data.get("serviceId");
 		    int serviceType = (Integer) data.get("serviceType");
+	    	System.out.println("\tEffector: Service " + serviceType +":"+ newConfiguration[serviceType-1] +"=>"+ (serviceId-1) );
 
 		    // Service should be changed here
 		    newConfiguration[serviceType-1] = serviceId-1;
 		}
 		else if (channelId == allPlanStepsExecuted){
-			System.out.println("\t\tAll Plan Steps Executed");
-			managingSystem.returnResult(newConfiguration);	
+			System.out.println("\tEffector: All Plan Steps Executed");
+			managingSystem.returnResult(newConfiguration);
+//			Arrays.fill(newConfiguration, -1);
 		}
 		else if (channelId == noPlanningNeeded || channelId == noAnalysisRequired){
-			System.out.println("\tNo Planning Needed");
-			managingSystem.returnResult(newConfiguration);	
+			System.out.println("\tEffector: No Planning Needed");
+			managingSystem.returnResult(null);	
+//			Arrays.fill(newConfiguration, -1);
 		}
 		
-    }
-    
+    }    
         
 }

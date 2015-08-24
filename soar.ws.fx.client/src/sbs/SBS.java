@@ -118,7 +118,9 @@ public class SBS implements Runnable{
      * @param activeServices
      */
     public void setActiveServicesList(int[] activeServices){
-    		activeServicesArray = activeServices;
+    	for (int serviceIndex=0; serviceIndex<activeServicesArray.length; serviceIndex++){
+    		activeServicesArray[serviceIndex] = activeServices[serviceIndex];
+    	}
     }
     
     
@@ -163,6 +165,7 @@ public class SBS implements Runnable{
 			
 		} catch (Exception e) {
 			e.printStackTrace();
+			System.exit(-1);
 		}
      }
     
@@ -188,7 +191,7 @@ public class SBS implements Runnable{
 			activeServices.append(serviceClient.getID() + ",");
 		}
 		activeServices.append("]");
-    	System.out.printf("Active Services:\t %s\n\n", activeServices.toString());
+    	System.err.printf("Active Services:\t %s\n\n", activeServices.toString());
     }
 
 }

@@ -45,13 +45,12 @@ public class PrismPlugin extends Synchronizer{
      * When invoked, carry out QV
      */
     @Override
-    public void receive(int channelId, HashMap<String, Object> data) {
-    	System.out.println("\tPrismPlugin.receive()");
-    	
+    public void receive(int channelId, HashMap<String, Object> data) {    	
     	
 		if (channelId == startRQV){
 		    HashMap<Integer, HashMap<Integer,Integer>> avgFRates = (HashMap<Integer, HashMap<Integer,Integer>>)data.get("avgFRates");
-		    System.err.println("\t\t" + avgFRates);
+	    	System.out.print("\tPrismPlugin.receive()\t");
+	    	System.out.println("\t\t" + avgFRates);
 
 		    int servicesPerOperation    = analyser.getNumOfServicesPerOperation();
 		    int[][] servicesReliability = new int[analyser.getNumOfOperations()][servicesPerOperation];
