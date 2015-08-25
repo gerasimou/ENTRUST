@@ -37,6 +37,7 @@ public class ServiceFactory {
 		TECHNICAL_ANALYSIS_1 	("TA.TechnicalAnalysisService1Stub"),
 		TECHNICAL_ANALYSIS_2 	("TA.TechnicalAnalysisService2Stub"),
 		TECHNICAL_ANALYSIS_3 	("TA.TechnicalAnalysisService3Stub"),
+		TECHNICAL_ANALYSIS_4 	("TA.TechnicalAnalysisService4Stub"),
 		FUNDAMENTAL_ANALYSIS_1 	("FA.FundamentalAnalysisService1Stub"),
 		FUNDAMENTAL_ANALYSIS_2 	("FA.FundamentalAnalysisService2Stub"),
 		FUNDAMENTAL_ANALYSIS_3 	("FA.FundamentalAnalysisService3Stub"),

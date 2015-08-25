@@ -12,6 +12,7 @@ import activforms.engine.ActivFORMSEngine;
 import managingSystem.Effector;
 import managingSystem.Probe;
 
+@Deprecated
 public class MainX {
 
 	public static final double MULTIPLIER = 1000;
