@@ -128,7 +128,7 @@ public class ManagingSystemUUV {
     	}
 
     	System.out.println("{New Config}:\t" + result);
-    	Utility.exportToFile("sendToManagedSystem.txt", result, true);
+//    	Utility.exportToFile("sendToManagedSystem.txt", result, true);
     	out.println(result);
     	out.flush();
     }
