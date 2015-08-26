@@ -257,11 +257,11 @@ void analyze(){
 	    		for (speedConfig=0; speedConfig&lt;NUM_OF_SPEED_CONFIGS; speedConfig++){
 	    			// index = sensorConfig*speedConfig;
                     index = (sensorConfig*NUM_OF_SPEED_CONFIGS) + speedConfig;
-	    			if (RQVResultsArray[index].req1Result&gt;R1 &amp; RQVResultsArray[index].req2Result&lt;R2){ // (r1) is satisfied
-	    				functionResult = 5 * RQVResultsArray[index].req2Result + 5/RQVResultsArray[index].speed;
-					if (avgRates[0]&lt;=2 &amp;&amp; (sensorConfig+1)%2&gt;0) functionResult += 50;
-    					if (avgRates[1]&lt;=2 &amp;&amp; (sensorConfig+1)%4&gt;1) functionResult += 50;
-    					if (avgRates[2]&lt;=2 &amp;&amp; (sensorConfig+1)%8&gt;3) functionResult += 50;
+	    			if (RQVResultsArray[index].req1Result&gt;R1 &amp;&amp; RQVResultsArray[index].req2Result&lt;R2){ // (r1) is satisfied
+	    				functionResult = 1 * RQVResultsArray[index].req2Result + 200000/RQVResultsArray[index].speed;
+						if (avgRates[0]&lt;=2000 &amp;&amp; (sensorConfig+1)%2&gt;0) functionResult += 5000;
+    					if (avgRates[1]&lt;=2000 &amp;&amp; (sensorConfig+1)%4&gt;1) functionResult += 5000;
+    					if (avgRates[2]&lt;=2000 &amp;&amp; (sensorConfig+1)%8&gt;3) functionResult += 5000;
 	    				if (functionResult&lt;bestConfigurationResult){// a new best configuration has been found
 	    					bestConfigurationResult = functionResult;
 	    					bestConfiguration = RQVResultsArray[index];

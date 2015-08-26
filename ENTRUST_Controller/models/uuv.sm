@@ -28,8 +28,8 @@ const int SENSOR3_MOD_RESULT = 3;
 
 
 //Formulae
-formula sensor1SwitchCost = (mod(CSC,SENSOR1_MOD)>SENSOR1_MOD_RESULT) & (mod(PSC,SENSOR1_MOD)<=SENSOR1_MOD_RESULT) ? 15 : (mod(CSC,SENSOR1_MOD)<=SENSOR1_MOD_RESULT) & (mod(PSC,SENSOR1_MOD)>SENSOR1_MOD_RESULT) ? 2.0 : 0;
-formula sensor2SwitchCost = (mod(CSC,SENSOR2_MOD)>SENSOR2_MOD_RESULT) & (mod(PSC,SENSOR2_MOD)<=SENSOR2_MOD_RESULT) ? 10 : (mod(CSC,SENSOR2_MOD)<=SENSOR2_MOD_RESULT) & (mod(PSC,SENSOR2_MOD)>SENSOR2_MOD_RESULT) ? 1.5 : 0;
+formula sensor1SwitchCost = (mod(CSC,SENSOR1_MOD)>SENSOR1_MOD_RESULT) & (mod(PSC,SENSOR1_MOD)<=SENSOR1_MOD_RESULT) ? 10 : (mod(CSC,SENSOR1_MOD)<=SENSOR1_MOD_RESULT) & (mod(PSC,SENSOR1_MOD)>SENSOR1_MOD_RESULT) ? 2.0 : 0;
+formula sensor2SwitchCost = (mod(CSC,SENSOR2_MOD)>SENSOR2_MOD_RESULT) & (mod(PSC,SENSOR2_MOD)<=SENSOR2_MOD_RESULT) ?  8 : (mod(CSC,SENSOR2_MOD)<=SENSOR2_MOD_RESULT) & (mod(PSC,SENSOR2_MOD)>SENSOR2_MOD_RESULT) ? 1.5 : 0;
 formula sensor3SwitchCost = (mod(CSC,SENSOR3_MOD)>SENSOR3_MOD_RESULT) & (mod(PSC,SENSOR3_MOD)<=SENSOR3_MOD_RESULT) ?  5 : (mod(CSC,SENSOR3_MOD)<=SENSOR3_MOD_RESULT) & (mod(PSC,SENSOR3_MOD)>SENSOR3_MOD_RESULT) ? 1.0 : 0;
 
 formula sensor1Enabled =  mod(CSC,SENSOR1_MOD)>SENSOR1_MOD_RESULT;
@@ -66,8 +66,8 @@ endrewards
 
 rewards "energy"
 	[readS1] true : 3;
-	[readS2] true : 2;
-	[readS3] true : 1;
+	[readS2] true : 2.4;
+	[readS3] true : 2.1;
 	[switchS1] true : sensor1SwitchCost;
 	[switchS2] true : sensor2SwitchCost;
 	[switchS3] true : sensor3SwitchCost;

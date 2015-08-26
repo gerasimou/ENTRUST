@@ -15,7 +15,7 @@ public class PrismPlugin extends Synchronizer{
     private Analyser analyser;
 
     /** Signal(s)*/
-	private int calculate_probability, receive_probability;
+	private int startRQV, finishRQV;
    
     
    /**
@@ -28,11 +28,11 @@ public class PrismPlugin extends Synchronizer{
 		this.engine   = engine;
 		
 		//get signals
-		calculate_probability = engine.getChannel("calculate_probability");
-		receive_probability = engine.getChannel("receive_probability");
+		startRQV = engine.getChannel("calculate_probability");
+		finishRQV = engine.getChannel("receive_probability");
 
 		//register signals
-		engine.register(calculate_probability, this, "avgRates", "currentConfiguration", "&RQVResultsArray");		
+		engine.register(startRQV, this, "avgRates", "currentConfiguration", "&RQVResultsArray");		
     }
 
     
@@ -40,7 +40,7 @@ public class PrismPlugin extends Synchronizer{
     @Override
     public void receive(int channelId, HashMap<String, Object> data) {
     	
-		if (channelId == calculate_probability){
+		if (channelId == startRQV){
 		    HashMap<Integer, Integer> avgRates = (HashMap<Integer, Integer>)data.get("avgRates");
 
 		    double R1 = avgRates.get(0)/ManagingSystemUUV.MULTIPLIER_RATES;
@@ -65,8 +65,8 @@ public class PrismPlugin extends Synchronizer{
 				((UppaalType)RQV.get("req2Result")).setValue(results[i].getReq2Result());
 		    }
 		    
-			plan(results);
-		    engine.send(receive_probability, this);
+		    plan(results);
+		    engine.send(finishRQV, this);
 		}
     }
     
@@ -74,7 +74,18 @@ public class PrismPlugin extends Synchronizer{
     private void plan(RQVResult[] results){
     	int maxR1 = 0;
     	int maxR2 = 0;
+    	double bestCost = Double.MAX_VALUE;
+    	RQVResult bestResult = null;
     	for (RQVResult result :results){
+    		int r1 =  result.getReq1Result();
+    		int r2 =  result.getReq2Result();
+    		if (r1>=2000 && r2<=12000 ){
+    			double cost = r2 + 10000.0/result.speed;
+    			if (cost < bestCost){
+    				bestCost = cost;
+    				bestResult = result;
+    			}
+    		}
     		if (result.getReq1Result() > maxR1){
     			maxR1 = result.getReq1Result();
     		}
@@ -82,8 +93,7 @@ public class PrismPlugin extends Synchronizer{
     			maxR2 = result.getReq2Result();
     		}
     	}
-//    	System.out.println(maxR1 +"\t"+ maxR2);
-    	
+    	System.out.println(maxR1 +"\t"+ maxR2 +"\t"+ bestResult.toString());
     }
 
 }

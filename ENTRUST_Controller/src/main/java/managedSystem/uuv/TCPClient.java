@@ -17,7 +17,7 @@ public class TCPClient{
 	private PrintWriter 	out ;
 	private BufferedReader reader;	
 	
-	private int messagesSent = 0;
+//	private int messagesSent = 0;
 	
 	
 	public TCPClient(String ipAddress, int port) throws UnknownHostException, IOException, InterruptedException{
@@ -31,9 +31,9 @@ public class TCPClient{
 	}
 	
 	
-	public void send(String msg) {
+	public String send(String msg) {
 		try{
-			System.out.println(messagesSent++ +") Sent:\t" + msg);	
+//			System.out.println(messagesSent++ +") Sent:\t" + msg);	
 			   	
 			 out.println (msg);
 			 out.flush();
@@ -41,11 +41,16 @@ public class TCPClient{
 	    	 String response = "";
 		    	 
 	    	 if ( (response = reader.readLine()) != null){
-	    		 System.out.println("\tResponse: " + response);        
+	    		 return response;
+//	    		 System.out.println("\tResponse: " + response);        
 	    	 }
 		}
 		catch (IOException e){
 			e.printStackTrace();
 		}
+//		finally{
+//			return null;
+//		}
+		return null;
 	}
 }

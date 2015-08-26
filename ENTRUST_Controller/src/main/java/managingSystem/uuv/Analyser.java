@@ -100,9 +100,12 @@ public class Analyser {
 				
 				int index 	= ((CSC-1)*21)+(s-20);
 
-				double p1 	= estimateP(s/10.0, 3.5, 1.5,95);
-				double p2 	= estimateP(s/10.0, 3.0, 2.0,90);
-				double p3 	= estimateP(s/10.0, 2.5, 2.5,85);
+				double p1 	= estimateP2(s/10.0, 5);
+				double p2 	= estimateP2(s/10.0, 7);
+				double p3 	= estimateP2(s/10.0, 11);
+//				double p1 	= estimateP(s/10.0, 3.5, 1.5,95);
+//				double p2 	= estimateP(s/10.0, 3.0, 2.0,90);
+//				double p3 	= estimateP(s/10.0, 2.5, 2.5,85);
 				
 				//Generate a correct PRISM model									
 				String modelString = realiseProbabilisticModel(r1, r2, r3, p1, p2, p3, CSC, PSC, s/10.0);
@@ -144,7 +147,9 @@ public class Analyser {
     	return model.toString();
     }
 	
-	
+	private static double estimateP2(double speed, double alpha){
+		return 100 - alpha * speed;
+	}
 	
 	private static double estimateP(double speed, double speedThreshold, double alpha, double beta){
 		if (speed <= speedThreshold){
@@ -159,7 +164,7 @@ public class Analyser {
 		
 	
 	
-	@SuppressWarnings("unused")
+	@Deprecated
 	public void plan(double r1, double r2, double r3){
     	RQVResult bestConfiguration = null; // Hint: the best configuration is the one with the lowest utility function
     	double    bestConfigurationResult = Integer.MAX_VALUE;
