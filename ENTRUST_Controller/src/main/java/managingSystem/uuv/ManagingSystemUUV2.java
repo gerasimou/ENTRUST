@@ -10,11 +10,10 @@ import java.util.Arrays;
 
 import activforms.engine.ActivFORMSEngine;
 import auxiliary.Utility;
-import managedSystem.uuv.UUV;
 import managingSystem.uuv.Effector;
 import managingSystem.uuv.Probe;
 
-public class ManagingSystemUUV {
+public class ManagingSystemUUV2 {
 
 	/** Multiplier for use in ActiveForms (no use of doubles, hence converted to integers)*/
 	public static final double MULTIPLIER 		= 100;
@@ -24,13 +23,13 @@ public class ManagingSystemUUV {
 	private ActivFORMSEngine engine;
 
 	/** PRISM plugin*/
-	private PrismPlugin prismPlugin;
+	private PrismPlugin2 prismPlugin;
 
 	/** Probe handle*/
-	private Probe probe;
+	private Probe2 probe;
  
 	/** Effector handle*/
-	private Effector effector;
+	private Effector2 effector;
 
 	/** Communication handles*/
     private ServerSocket serverSocket;		// 	= new ServerSocket(portNumber);
@@ -39,22 +38,13 @@ public class ManagingSystemUUV {
     private BufferedReader in;				//	= new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
     /** new UUV configuration */
-	int [] newConfiguration = new int[NUM_OF_SENSORS+1];
-	
-	
-	/** Response Time stuff */
-	StringBuilder responseTimes = new StringBuilder();
-	long before;
-	long after;
-	
-	public final static int NUM_OF_SENSORS				= 6;
-	public final static int NUM_OF_SENSOR_COMBINATIONS 	= (int)Math.pow(2, NUM_OF_SENSORS);
+	int [] newConfiguration = new int[4];
 	
 	
 	/**
 	 * Managing System constructor
 	 */
-	public ManagingSystemUUV() {
+	public ManagingSystemUUV2() {
 		
 		//initialise ActiveFORMS engine
 	    try {
@@ -62,15 +52,15 @@ public class ManagingSystemUUV {
 		    this.engine.setRealTimeUnit(1000);
 
 		    //init probe
-		    this.probe = new Probe(engine, this);
+		    this.probe = new Probe2(engine, this);
 //		    resetNewConfiguration();
 		    
 		    //init effector
-		    this.effector = new Effector(engine, this);
+		    this.effector = new Effector2(engine, this);
 		    effector.setNewConfigurationArray(newConfiguration);
 		    
 		    //init PRISM plugin
-		    this.prismPlugin = new PrismPlugin(engine);
+		    this.prismPlugin = new PrismPlugin2(engine);
 		    
 		    //start the engine
 		    engine.start();
@@ -86,6 +76,7 @@ public class ManagingSystemUUV {
 	 * @throws IOException
 	 */
     public void startListening() throws IOException{
+//    	probe.sendAverageRates(5, 4, 4);
 		 int portNumber = 56567;
 		 serverSocket 	= new ServerSocket(portNumber);
 		 System.out.println("Managing system ready - awaiting requests\n");
@@ -94,14 +85,11 @@ public class ManagingSystemUUV {
 		 out 			= new PrintWriter(clientSocket.getOutputStream(), true);
 		 in				= new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 		 System.out.println("Connection established");
-		 
-		 while (true){
-			 try{
 
-				 String input = in.readLine();
-				 before = System.currentTimeMillis();
-				
-				 if (input.toLowerCase().equals("done"))
+		 while (true){
+			 String input = in.readLine();
+			 try{
+				if (input.toLowerCase().equals("done"))
 					break;
 			 
 				 String inputs[] = input.split(",");
@@ -109,55 +97,18 @@ public class ManagingSystemUUV {
 				 double r1  = Double.parseDouble(inputs[0]);
 				 double r2  = Double.parseDouble(inputs[1]);
 				 double r3  = Double.parseDouble(inputs[2]);
-				 double r4  = Double.parseDouble(inputs[3]);
-				 double r5  = Double.parseDouble(inputs[4]);
-				 double r6  = Double.parseDouble(inputs[5]);
-//				 double r7  = Double.parseDouble(inputs[6]);
-//				 double r8  = Double.parseDouble(inputs[7]);
-				 System.out.println("{Rates}: " + r1 +","+ r2 +","+ r3 +","+ r4 +","+ r5 +","+ r6);// +","+ r7 +","+ r8);
+				 System.out.println("{Rates}: " + r1 +","+ r2 +","+ r3);
 
-				 probe.sendAverageRates(r1, r2, r3, r4, r5, r6);//, r7, r8);
-				 
+				 probe.sendAverageRates(r1,r2,r3);
+//				 returnResult(newConfiguration);
 			 }
 			 catch (Exception e){
-				 Utility.exportToFile("data/UUV/responseTimes.csv", responseTimes.toString(), true);
 				 e.printStackTrace();
 				 System.exit(-1);
 			 }
 		 }
 		 out.println("Done");
 		 System.exit(0);
-    }
-    
-    
-    
-	/**
-	 * Run managing system given an input
-	 * @throws IOException
-	 */
-    public void run(String input) throws IOException{
-    	before = System.currentTimeMillis();
-				
-		 if (input.toLowerCase().equals("done"))
-			return;
-			 
-		 String inputs[] = input.split(",");
-
-		 double r1  = Double.parseDouble(inputs[0]);
-		 double r2  = Double.parseDouble(inputs[1]);
-		 double r3  = Double.parseDouble(inputs[2]);
-		 double r4  = Double.parseDouble(inputs[3]);
-		 double r5  = Double.parseDouble(inputs[4]);
-		 double r6  = Double.parseDouble(inputs[5]);
-//				 double r7  = Double.parseDouble(inputs[6]);
-//				 double r8  = Double.parseDouble(inputs[7]);
-//				 System.out.println("{Rates}: " + r1 +","+ r2 +","+ r3);// +","+ r4 +","+ r5 +","+ r6 +","+ r7 +","+ r8);
-
-		 probe.sendAverageRates(r1, r2, r3
-//				 				);
-//		 						, r4);
-		 						,r4, r5, r6);
-		 						//,r4, r5, r6, r7, r8);
     }
     
     
@@ -170,24 +121,16 @@ public class ManagingSystemUUV {
 
     	for (int index=0; index<newConfiguration.length; index++){
     		int tempResult = newConfiguration[index];
-    		if (index==NUM_OF_SENSORS && tempResult!=-1)
-    			result += tempResult/ManagingSystemUUV.MULTIPLIER;
+    		if (index==3 && tempResult!=-1)
+    			result += tempResult/ManagingSystemUUV2.MULTIPLIER;
     		else
     			result += tempResult +",";
     	}
 
     	System.out.printf("{New Config}:\t%s\n\n", result);
 //    	Utility.exportToFile("sendToManagedSystem.txt", result, true);
-    	after 			= System.currentTimeMillis();
-		responseTimes.append((after - before) +"\n");
-		 Utility.exportToFile("data/UUV/responseTimes.csv", responseTimes.toString(), true);
-
-		
-//		out.println(result);
-//    	out.flush();
-
-		/** jar */
-		 System.exit(1);
+    	out.println(result);
+    	out.flush();
     }
 	
 	
