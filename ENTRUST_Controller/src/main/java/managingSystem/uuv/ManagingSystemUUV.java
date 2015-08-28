@@ -58,7 +58,7 @@ public class ManagingSystemUUV {
 		
 		//initialise ActiveFORMS engine
 	    try {
-			this.engine = new ActivFORMSEngine(Utility.getProperty("ACTIVFORMS_MODEL_FILE"), 9999);
+			this.engine = new ActivFORMSEngine(Utility.getProperty("ACTIVFORMS_MODEL_FILE"), 9998);
 		    this.engine.setRealTimeUnit(1000);
 
 		    //init probe
@@ -156,6 +156,7 @@ public class ManagingSystemUUV {
 		 probe.sendAverageRates(r1, r2, r3
 //				 				);
 //		 						, r4);
+//				 				,r4, r5);
 		 						,r4, r5, r6);
 		 						//,r4, r5, r6, r7, r8);
     }
@@ -180,14 +181,14 @@ public class ManagingSystemUUV {
 //    	Utility.exportToFile("sendToManagedSystem.txt", result, true);
     	after 			= System.currentTimeMillis();
 		responseTimes.append((after - before) +"\n");
-		 Utility.exportToFile("data/UUV/responseTimes.csv", responseTimes.toString(), true);
+		 Utility.exportToFile("data/responseTimes.csv", responseTimes.toString(), true);
 
 		
-//		out.println(result);
-//    	out.flush();
+		out.println(result);
+    	out.flush();
 
 		/** jar */
-		 System.exit(1);
+//		 System.exit(1);
     }
 	
 	

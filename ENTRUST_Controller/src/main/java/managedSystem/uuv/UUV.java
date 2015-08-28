@@ -26,8 +26,8 @@ public class UUV {
 //									"5,4,4,4",	"5,4,4,4",	"5,4,4,4", 
 //								  };
 
-	/** 6 Sensors */
-	static String sensorRates[] = { "5,4,4,4,4,4",	"5,4,4,4,4,4",	"5,4,4,4,4,4",
+	/** 5 Sensors */
+//	static String sensorRates[] = { "5,4,4,4,4",	"5,4,4,4,4",	"5,4,4,4,4",
 //									"5,4,2,4,4,4",	"5,4,2,4,4,4",	"5,4,2,4,4,4",
 //									"5,4,4,4,4,4",	"5,4,4,4,4,4",	"5,4,4,4,4,4", 
 //									"5,2,4,4,4,4",	"5,2,4,4,4,4",	"5,2,4,4,4,4",		
@@ -36,6 +36,19 @@ public class UUV {
 //									"5,4,4,4,4,4",	"5,4,4,4,4,4",	"5,4,4,4,4,4", 
 //									"5,1,1,4,4,4",	"5,1,1,4,4,4",	"5,1,1,4,4,4",	
 //									"5,4,4,4,4,4",	"5,4,4,4,4,4",	"5,4,4,4,4,4", 
+//								  };
+	
+	
+	/** 6 Sensors */
+	static String sensorRates[] = { "5,4,4,4,4,4",	"5,4,4,4,4,4",	"5,4,4,4,4,4",
+									"5,4,2,4,4,4",	"5,4,2,4,4,4",	"5,4,2,4,4,4",
+									"5,4,4,4,4,4",	"5,4,4,4,4,4",	"5,4,4,4,4,4", 
+									"5,2,4,4,4,4",	"5,2,4,4,4,4",	"5,2,4,4,4,4",		
+									"5,4,4,4,4,4",	"5,4,4,4,4,4",	"5,4,4,4,4,4", 
+									"5,4,3,4,4,4",	"5,4,3,4,4,4",	"5,4,3,4,4,4",									
+									"5,4,4,4,4,4",	"5,4,4,4,4,4",	"5,4,4,4,4,4", 
+									"5,1,1,4,4,4",	"5,1,1,4,4,4",	"5,1,1,4,4,4",	
+									"5,4,4,4,4,4",	"5,4,4,4,4,4",	"5,4,4,4,4,4", 
 								  };
 
 	/** 8 Sensors */
@@ -60,16 +73,19 @@ public class UUV {
 			
 			TCPClient tcpClient = new TCPClient("127.0.0.1", 56567);
 			
-			for (String rates : sensorRates){
-//				Thread.sleep(2000);
-				now		  =	System.currentTimeMillis(); 
-				timeStamp = System.currentTimeMillis() - startTime; 
-				System.out.print((timeStamp/1000.0) +"("+messagesSent++ +")\tRates:\t" + rates);	
-
-				String configuration = tcpClient.send(rates);				
-				System.out.println("\t\tConfiguration:\t" + configuration);	
-			}
-			
+			for (int run=0; run<10; run++){
+				for (String rates : sensorRates){
+					now		  =	System.currentTimeMillis(); 
+					timeStamp = System.currentTimeMillis() - startTime; 
+					System.out.print((timeStamp/1000.0) +"("+messagesSent++ +")\tRates:\t" + rates);	
+	
+					String configuration = tcpClient.send(rates);				
+					System.out.println("\t\tConfiguration:\t" + configuration);	
+					Thread.sleep(5000);
+				}
+				
+				Thread.sleep(20000);
+			}			
 //			String lastRate = sensorRates[sensorRates.length-1];
 //			
 //			while (true){

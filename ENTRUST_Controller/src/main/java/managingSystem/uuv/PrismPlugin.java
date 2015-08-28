@@ -40,7 +40,7 @@ public class PrismPlugin extends Synchronizer{
     
     @Override
     public void receive(int channelId, HashMap<String, Object> data) {
-    	System.out.println("PrismPlugin.receive()");
+//    	System.out.println("PrismPlugin.receive()");
 		if (channelId == startRQV){
 		    HashMap<Integer, Integer> avgRates = (HashMap<Integer, Integer>)data.get("avgRates");
 
@@ -62,6 +62,7 @@ public class PrismPlugin extends Synchronizer{
 		    RQVResult[] results = analyser.doAnalysis(R1, R2, R3
 //		    										, PSC);
 //													, R4, PSC);
+//		    										, R4, R5, PSC);
 		    										, R4, R5, R6, PSC);
 													//, R4, R5, R6, R7, R8, PSC);
 		    

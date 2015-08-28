@@ -97,6 +97,7 @@ public class Analyser {
 	public RQVResult[] doAnalysis(double r1, double r2, double r3
 //									, int PSC){
 //									, double r4, int PSC){
+//									, double r4, double r5, int PSC){						
 									, double r4, double r5, double r6, int PSC){
 									//, double r4, double r5, double r6, double r7, double r8, int PSC){
 		
@@ -126,7 +127,7 @@ public class Analyser {
 				prism.loadModel(modelString);
 
 				//run PRISM
-				System.out.println(index);
+//				System.out.println(index);
 				List<Double> prismResult = prism.runPrism();
 				double req1result = prismResult.get(0);
 				double req2result = prismResult.get(1);
