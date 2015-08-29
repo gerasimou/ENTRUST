@@ -22,6 +22,8 @@ public class SBSMain
     	SBS sbs;
 
     	try {
+    		Thread.sleep(10000);
+    		
         	sbs = new SBS();
         	Thread sbsThread = new Thread(sbs, "SBS");
         	sbsThread.start();

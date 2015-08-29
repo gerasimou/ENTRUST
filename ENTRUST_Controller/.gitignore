@@ -1,3 +1,6 @@
 /bin/
 /target/
 output_Prism.txt
+#src/main/java/managingSystem/fx/
+#src/main/java/managedSystem/fx/
+
