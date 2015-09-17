@@ -90,4 +90,19 @@ public class PrismPlugin extends Synchronizer{
 		    engine.send(finishRQV, this);
 		}
     }    
+//    
+//	private void export(RQVResult[] results) {
+//		StringBuilder output = new StringBuilder();
+//		for (RQVResult result : results) {
+//			int s1 = result.sensor1;
+//			int s2 = result.sensor2;
+//			int s3 = result.sensor3;
+//			int speed = result.speed;
+//			int r1 = result.req1Result;
+//			int r2 = result.req2Result;
+//			String str = "{{" + s1 + "," + s2 + "," + s3 + "}," + speed + "," + r1 + "," + r2 + "},\n";
+//			output.append(str);
+//		}
+//		Utility.exportToFile("data.txt", output.toString(), false);
+//	}
 }

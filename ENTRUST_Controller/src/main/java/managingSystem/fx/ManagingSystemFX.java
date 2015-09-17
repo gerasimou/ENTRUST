@@ -69,7 +69,7 @@ public class ManagingSystemFX{
 		//init system characteristics
 	    //TODO initialised programmatically
 	    this.NUM_OF_OPERATIONS		= 6;
-	    this.NUM_OF_SERVICES		= 5;
+	    this.NUM_OF_SERVICES		= 3;
 
 		try {
 			//initialise the SBS system

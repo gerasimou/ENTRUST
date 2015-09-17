@@ -53,6 +53,7 @@ public class Analyser {
     /** ouput file */
     private String fileName;
 
+    private StringBuilder results = new StringBuilder();
     
     
     /**
@@ -127,6 +128,10 @@ public class Analyser {
                 				//run PRISM
                 				List<Double> prismResult = prism.runPrism();
                 				
+                				String id = indexList0 +"-"+ indexList1 +"-"+ indexList2 +"-"+ indexList3 +"-"+ indexList4 +"-"+ indexList5; 
+                				String[] arrayStr = new String[]{id,prismResult.get(0).toString(), prismResult.get(1).toString(), prismResult.get(2).toString()};
+                				appendToResultArray(arrayStr);
+                				
                 				RQVResultsArray[index++] = new RQVResult(new int[]{indexList0, indexList1, indexList2, indexList3, indexList4, indexList5}, 
                 														 prismResult.get(0), prismResult.get(1), prismResult.get(2));
                 				
@@ -142,6 +147,7 @@ public class Analyser {
     		}//for op2
     	}//for op1
 
+    	Utility.exportToFile("FXresults.csv", results.toString(), false);
     	return RQVResultsArray;
     }//runQV
     
@@ -172,4 +178,11 @@ public class Analyser {
 		return this.NUM_OF_SERVICES;
 	}
 
+	
+	private void appendToResultArray(String[] resultArray){
+		for (int i=0; i<resultArray.length-1; i++){
+			results.append(resultArray[i].toString() +",");
+		}
+		results.append(resultArray[resultArray.length-1] +"\n");
+	}
 }
