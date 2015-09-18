@@ -16,6 +16,7 @@
 
 package controller;
 
+import java.io.PrintWriter;
 import java.util.HashMap;
 
 import activforms.engine.ActivFORMSEngine;
@@ -29,6 +30,9 @@ public class Effector extends Synchronizer{
     /** Managing system handler*/
     private ENTRUST entrustController;
         
+	/** Communication handle(s)*/
+    private PrintWriter out;			
+
     /** Signal(s)*/
     int executorSignal1, executorSignaln;
 
@@ -37,10 +41,11 @@ public class Effector extends Synchronizer{
      * @param engine
      * @param entrustController
      */
-    public Effector(ActivFORMSEngine engine, ENTRUST entrustController){
+    public Effector(ActivFORMSEngine engine, ENTRUST entrustController, PrintWriter out){
     	//assign handlers
     	this.engine 			= engine;
 		this.entrustController	= entrustController;
+		this.out				= out;
 	
 		//get signal(s) ID
 		executorSignal1		= engine.getChannel("executorSignal1");

@@ -91,11 +91,10 @@ public class Sensor extends Synchronizer {
 	 * Listen for a message from the managed system
 	 * @throws IOException
 	 */
-    public void startListening(int port){
-    	int portNumber = port;
+    public void startListening(int portNumber){
 		 try{
 			 serverSocket 	= new ServerSocket(portNumber);
-			 System.out.println("Managing system ready - awaiting requests\n");
+			 System.out.println("ENTRUST controller ready - awaiting requests\n");
 	
 			 clientSocket	= serverSocket.accept();
 			 out 			= new PrintWriter(clientSocket.getOutputStream(), true);
@@ -122,4 +121,14 @@ public class Sensor extends Synchronizer {
 			 System.exit(0);
 		 }
     }
+    
+    
+    /**
+     * Return output stream for use by the effector
+     * @return
+     */
+    protected PrintWriter getOutputStream(){
+    	return this.out;
+    }
+
 }

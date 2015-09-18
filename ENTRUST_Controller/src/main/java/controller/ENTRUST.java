@@ -51,7 +51,7 @@ public class ENTRUST {
 		    this.sensor = new Sensor(engine);
 		    
 		    //init effector
-		    this.effector = new Effector(engine, this);
+		    this.effector = new Effector(engine, this, sensor.getOutputStream());
 		    
 		    //init verification engine
 		    this.verificationEngine = new VerificationEngine(engine);

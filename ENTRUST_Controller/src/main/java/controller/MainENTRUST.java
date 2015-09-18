@@ -1,7 +1,7 @@
 package controller;
 
 
-public class MainX {
+public class MainENTRUST {
 
 	public static void main(String[] args) {
 		try {

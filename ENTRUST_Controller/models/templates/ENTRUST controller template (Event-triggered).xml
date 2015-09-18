@@ -373,7 +373,8 @@ void executorCleanup(){
 	<system>// Place template instantiations here
 
 // List one or more processes to be composed into a system.
-system Sensor, Monitor, Analyzer, RQV, Planner, Executor, Effector;</system>
+//system Sensor, Monitor, Analyzer, RQV, Planner, Executor, Effector;
+system Monitor, Planner, Executor;</system>
 	<queries>
 		<query>
 			<formula>A[] not deadlock
