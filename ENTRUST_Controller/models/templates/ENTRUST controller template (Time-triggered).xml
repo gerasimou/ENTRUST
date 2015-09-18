@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_2.dtd'>
+<nta>
+	<declaration>
+chan sensorSignal1, sensorSignaln, sensor;
+chan executorSignal1, executorSignaln;
+chan verify, verifDone;
+chan startPlanning, startExecuting, planExecuted;
+
+
+void reset(clock &amp;t){
+    t = 0;
+}
+</declaration>
+	<template>
+		<name>Sensor</name>
+		<declaration>
+
+</declaration>
+		<location id="id0" x="-93" y="-42">
+			<committed/>
+		</location>
+		<location id="id1" x="42" y="-42">
+			<committed/>
+		</location>
+		<location id="id2" x="-221" y="-42" color="#00ff00">
+		</location>
+		<init ref="id2"/>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="-186" y="-68">sensor?</label>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id2"/>
+			<nail x="24" y="0"/>
+			<nail x="-208" y="0"/>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id1"/>
+			<label kind="synchronisation" x="-76" y="-68">sensorSignal1!</label>
+		</transition>
+	</template>
+	<template>
+		<name>Effector</name>
+		<location id="id3" x="0" y="0">
+		</location>
+		<init ref="id3"/>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id3"/>
+			<label kind="synchronisation" x="-51" y="59">planExecuted?</label>
+			<nail x="76" y="51"/>
+			<nail x="-76" y="51"/>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id3"/>
+			<label kind="synchronisation" x="-144" y="-76">executorSignal1?</label>
+			<nail x="-34" y="-51"/>
+			<nail x="-136" y="-51"/>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id3"/>
+			<label kind="synchronisation" x="25" y="-76">executorSignaln?</label>
+			<nail x="34" y="-51"/>
+			<nail x="136" y="-51"/>
+		</transition>
+	</template>
+	<template>
+		<name>RQV</name>
+		<declaration>void selectData(){
+
+}</declaration>
+		<location id="id4" x="128" y="88">
+			<urgent/>
+		</location>
+		<location id="id5" x="232" y="0">
+			<urgent/>
+		</location>
+		<location id="id6" x="-32" y="0">
+			<name x="-48" y="-40">Waiting</name>
+		</location>
+		<init ref="id6"/>
+		<transition>
+			<source ref="id5"/>
+			<target ref="id4"/>
+			<label kind="assignment" x="144" y="64">selectData()</label>
+			<nail x="232" y="88"/>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id6"/>
+			<label kind="synchronisation" x="-24" y="63">verifDone!</label>
+			<nail x="-32" y="88"/>
+		</transition>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id5"/>
+			<label kind="synchronisation" x="32" y="-24">verify?</label>
+		</transition>
+	</template>
+	<template>
+		<name>Monitor</name>
+		<declaration>clock t;
+const int Period = 10;
+
+bool analysisReq;
+
+void monitorCleanup(){
+
+}
+
+bool analysisRequired(){
+    return analysisReq;
+}
+
+void processData(){
+    // set analysisReq to true or false based on whether analysis is required   
+    analysisReq = true;
+}</declaration>
+		<location id="id7" x="-493" y="34">
+			<name x="-476" y="17">Probe</name>
+			<committed/>
+		</location>
+		<location id="id8" x="-374" y="170">
+			<name x="-365" y="136">MonitorFinished</name>
+			<committed/>
+		</location>
+		<location id="id9" x="-136" y="170">
+			<name x="-229" y="136">StartAnalysis</name>
+			<committed/>
+		</location>
+		<location id="id10" x="-136" y="34">
+			<name x="-161" y="-25">CheckM</name>
+			<committed/>
+		</location>
+		<location id="id11" x="-323" y="34">
+			<name x="-331" y="-25">ProcessSensorData</name>
+			<committed/>
+		</location>
+		<location id="id12" x="-646" y="34">
+			<name x="-663" y="-8">WaitM</name>
+			<label kind="invariant" x="-731" y="8">t &lt;= Period</label>
+		</location>
+		<init ref="id12"/>
+		<transition>
+			<source ref="id7"/>
+			<target ref="id11"/>
+			<label kind="synchronisation" x="-459" y="42">sensorSignaln?</label>
+			<nail x="-476" y="68"/>
+			<nail x="-348" y="68"/>
+		</transition>
+		<transition>
+			<source ref="id12"/>
+			<target ref="id7"/>
+			<label kind="guard" x="-603" y="-8">t==Period</label>
+			<label kind="synchronisation" x="-603" y="8">sensor!</label>
+		</transition>
+		<transition>
+			<source ref="id10"/>
+			<target ref="id8"/>
+			<label kind="guard" x="-493" y="85">!analysisRequired()</label>
+			<nail x="-374" y="119"/>
+		</transition>
+		<transition>
+			<source ref="id8"/>
+			<target ref="id12"/>
+			<label kind="assignment" x="-629" y="144">monitorCleanup(), reset(t)</label>
+			<nail x="-646" y="170"/>
+		</transition>
+		<transition>
+			<source ref="id10"/>
+			<target ref="id9"/>
+			<label kind="guard" x="-272" y="93">analysisRequired()</label>
+		</transition>
+		<transition>
+			<source ref="id9"/>
+			<target ref="id8"/>
+		</transition>
+		<transition>
+			<source ref="id11"/>
+			<target ref="id10"/>
+			<label kind="assignment" x="-306" y="8">processData()</label>
+		</transition>
+		<transition>
+			<source ref="id7"/>
+			<target ref="id11"/>
+			<label kind="synchronisation" x="-459" y="-25">sensorSignal1?</label>
+			<nail x="-476" y="0"/>
+			<nail x="-348" y="0"/>
+		</transition>
+	</template>
+	<template>
+		<name>Analyzer</name>
+		<declaration>clock t;
+const int Period = 11;
+bool adaptationReq;
+
+void analyse(){
+    // Set adaptationReq to true or false based on whether adaptation is required		
+    adaptationReq = true;
+}
+
+bool adaptationRequired(){
+    return adaptationReq;
+}
+
+void analyserCleanup(){
+}</declaration>
+		<location id="id13" x="-510" y="-34">
+			<name x="-493" y="-76">AnalysisFinished</name>
+			<committed/>
+		</location>
+		<location id="id14" x="-348" y="-34">
+			<name x="-357" y="-76">Adapt</name>
+			<committed/>
+		</location>
+		<location id="id15" x="-144" y="-34">
+			<name x="-204" y="-76">CheckA</name>
+			<committed/>
+		</location>
+		<location id="id16" x="0" y="-170">
+			<name x="-51" y="-204">EndVerif</name>
+			<urgent/>
+		</location>
+		<location id="id17" x="-297" y="-170">
+			<name x="-329" y="-210">StartVerif</name>
+			<committed/>
+		</location>
+		<location id="id18" x="-510" y="-170" color="#00ff00">
+			<name x="-518" y="-212">WaitA</name>
+			<label kind="invariant" x="-586" y="-195">t&lt;=Period</label>
+		</location>
+		<location id="id19" x="0" y="-34">
+			<name x="-59" y="-85">Analyse</name>
+			<committed/>
+		</location>
+		<init ref="id18"/>
+		<transition>
+			<source ref="id13"/>
+			<target ref="id18"/>
+			<label kind="assignment" x="-501" y="-136">analyserCleanup(), reset(t)</label>
+		</transition>
+		<transition>
+			<source ref="id14"/>
+			<target ref="id13"/>
+			<label kind="synchronisation" x="-476" y="-59">startPlanning!</label>
+		</transition>
+		<transition>
+			<source ref="id15"/>
+			<target ref="id13"/>
+			<label kind="guard" x="-306" y="-127">!adaptationRequired()</label>
+			<nail x="-144" y="-102"/>
+			<nail x="-493" y="-102"/>
+		</transition>
+		<transition>
+			<source ref="id15"/>
+			<target ref="id14"/>
+			<label kind="guard" x="-314" y="-59">adaptationRequired()</label>
+		</transition>
+		<transition>
+			<source ref="id19"/>
+			<target ref="id15"/>
+			<label kind="assignment" x="-110" y="-59">analyse()</label>
+		</transition>
+		<transition>
+			<source ref="id16"/>
+			<target ref="id19"/>
+			<label kind="synchronisation" x="-85" y="-119">verifDone?</label>
+		</transition>
+		<transition>
+			<source ref="id17"/>
+			<target ref="id16"/>
+			<label kind="synchronisation" x="-161" y="-195">verify!</label>
+		</transition>
+		<transition>
+			<source ref="id18"/>
+			<target ref="id17"/>
+			<label kind="guard" x="-459" y="-195">t==Period</label>
+		</transition>
+	</template>
+	<template>
+		<name>Planner</name>
+		<declaration>void plannerCleanup(){
+   
+}
+
+</declaration>
+		<location id="id20" x="374" y="42" color="#ffff00">
+			<committed/>
+		</location>
+		<location id="id21" x="374" y="255" color="#ffff00">
+			<committed/>
+		</location>
+		<location id="id22" x="178" y="255">
+			<name x="186" y="221">PlanCreated</name>
+			<committed/>
+		</location>
+		<location id="id23" x="178" y="42">
+			<name x="178" y="8">Plan</name>
+			<committed/>
+		</location>
+		<location id="id24" x="178" y="127" color="#00ff00">
+			<name x="186" y="93">WaitP</name>
+		</location>
+		<init ref="id24"/>
+		<transition color="#ffa500">
+			<source ref="id20"/>
+			<target ref="id21"/>
+		</transition>
+		<transition>
+			<source ref="id23"/>
+			<target ref="id20"/>
+		</transition>
+		<transition>
+			<source ref="id21"/>
+			<target ref="id22"/>
+		</transition>
+		<transition>
+			<source ref="id22"/>
+			<target ref="id24"/>
+			<label kind="synchronisation" x="186" y="169">startExecuting!</label>
+			<label kind="assignment" x="186" y="186">plannerCleanup()</label>
+		</transition>
+		<transition>
+			<source ref="id24"/>
+			<target ref="id23"/>
+			<label kind="synchronisation" x="186" y="51">startPlanning?</label>
+		</transition>
+	</template>
+	<template>
+		<name>Executor</name>
+		<declaration>
+void executorInit(){
+
+}
+
+void executorCleanup(){
+
+}</declaration>
+		<location id="id25" x="136" y="34" color="#ffff00">
+			<committed/>
+		</location>
+		<location id="id26" x="-17" y="-102">
+			<name x="-27" y="-136">Execute</name>
+			<committed/>
+		</location>
+		<location id="id27" x="136" y="161" color="#ffff00">
+			<committed/>
+		</location>
+		<location id="id28" x="-17" y="161">
+			<name x="-8" y="127">PlanExecuted</name>
+			<committed/>
+		</location>
+		<location id="id29" x="136" y="-102" color="#ffff00">
+			<committed/>
+		</location>
+		<location id="id30" x="-17" y="25">
+			<name x="-8" y="-8">WaitE</name>
+		</location>
+		<init ref="id30"/>
+		<transition color="#ffa500">
+			<source ref="id25"/>
+			<target ref="id27"/>
+			<label kind="synchronisation" x="144" y="85">executorSignaln!</label>
+		</transition>
+		<transition>
+			<source ref="id27"/>
+			<target ref="id28"/>
+		</transition>
+		<transition>
+			<source ref="id26"/>
+			<target ref="id29"/>
+		</transition>
+		<transition>
+			<source ref="id28"/>
+			<target ref="id30"/>
+			<label kind="synchronisation" x="-8" y="59">planExecuted!</label>
+			<label kind="assignment" x="-8" y="76">executorCleanup()</label>
+		</transition>
+		<transition color="#ffa500">
+			<source ref="id29"/>
+			<target ref="id25"/>
+			<label kind="synchronisation" x="144" y="-51">executorSignal1!</label>
+		</transition>
+		<transition>
+			<source ref="id30"/>
+			<target ref="id26"/>
+			<label kind="synchronisation" x="-8" y="-85">startExecuting?</label>
+			<label kind="assignment" x="-8" y="-69">executorInit()</label>
+		</transition>
+	</template>
+	<system>// Place template instantiations here
+
+// List one or more processes to be composed into a system.
+system Sensor, Monitor, Analyzer, RQV, Planner, Executor, Effector;</system>
+	<queries>
+		<query>
+			<formula>A[] not deadlock
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>Monitor.StartAnalysis --&gt; Analyzer.Analyse
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>Analyzer.StartVerif --&gt; Analyzer.EndVerif
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>Analyzer.Adapt --&gt; Planner.PlanCreated
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>Planner.PlanCreated --&gt; Executor.PlanExecuted
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>Monitor.ProcessSensorData --&gt; Monitor.MonitorFinished
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>Analyzer.Analyse --&gt; Analyzer.AnalysisFinished
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>Planner.Plan --&gt; Planner.PlanCreated
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>Executor.Execute --&gt; Executor.PlanExecuted
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>Analyzer.Adapt --&gt; sConfig!= newConfig
+			</formula>
+			<comment>
+			</comment>
+		</query>
+	</queries>
+</nta>

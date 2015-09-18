@@ -14,7 +14,7 @@ import java.util.Set;
 
 public class Utility {
 	
-	private static String fileName = "resources/configFX.properties";
+	private static String fileName = "resources/config.properties";
 	private static Properties properties;
 	
 	static{
@@ -39,6 +39,7 @@ public class Utility {
 			e.printStackTrace();
 		}
 	}
+
 	
 	public static Set<Entry<Object, Object>> getPropertiesEntrySet(){
 		return properties.entrySet();
@@ -103,6 +104,7 @@ public class Utility {
 			return model.toString();
 		} catch (IOException e) {
 			e.printStackTrace();
+			System.exit(-1);
 		}
 		return null;
 	}
