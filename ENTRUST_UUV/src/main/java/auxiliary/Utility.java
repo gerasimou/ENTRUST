@@ -14,7 +14,7 @@ import java.util.Set;
 
 public class Utility {
 	
-	private static String fileName = "resources/config.properties";
+	private static String fileName = "resources/configUUV.properties";
 	private static Properties properties;
 	
 	static{

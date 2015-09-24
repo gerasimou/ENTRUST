@@ -16,6 +16,8 @@
 
 package controller;
 
+import java.io.PrintWriter;
+
 import activforms.engine.ActivFORMSEngine;
 import auxiliary.Utility;
 
@@ -48,7 +50,7 @@ public class ENTRUST {
 		    this.engine.setRealTimeUnit(1000);
 
 		    //init sensor
-		    this.sensor = new Sensor(engine);
+		    this.sensor = new Sensor(engine, this);
 		    
 		    //init effector
 		    this.effector = new Effector(engine, this, sensor.getOutputStream());
@@ -73,5 +75,14 @@ public class ENTRUST {
 		//TODO
 		int portNumber = 56567;
 		sensor.startListening(portNumber);
+	}
+	
+	
+    /**
+     * Set output stream (after sensor is connected to the managed system)
+     * @param out
+     */
+	protected void assignOutputStream(PrintWriter out){
+		effector.assignOutputStream(out);
 	}
 }

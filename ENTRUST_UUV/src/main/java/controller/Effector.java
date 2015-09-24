@@ -31,7 +31,7 @@ public class Effector extends Synchronizer{
     private ActivFORMSEngine engine;
 
     /** Managing system handler*/
-    private ENTRUST entrustController;
+    private ENTRUST entrust;
     
 	/** Communication handle(s)*/
     private PrintWriter out;			
@@ -50,10 +50,10 @@ public class Effector extends Synchronizer{
      * @param engine
      * @param entrustController
      */
-    public Effector(ActivFORMSEngine engine, ENTRUST entrustController, PrintWriter out){
+    public Effector(ActivFORMSEngine engine, ENTRUST entrust, PrintWriter out){
     	//assign handlers
     	this.engine 			= engine;
-		this.entrustController	= entrustController;
+    	this.entrust			= entrust;
 		this.out				= out;
 	
 		//get signal(s) ID
@@ -73,11 +73,21 @@ public class Effector extends Synchronizer{
 		engine.register(noAnalysisRequired, this, "currentConfiguration");
 		
 		//reset configuration
+		newConfiguration = new int[4];
     	Arrays.fill(newConfiguration, -1);
     }
 
 
+    /**
+     * Set output stream (after sensor is connected to the managed system)
+     * @param out
+     */
+	protected void assignOutputStream(PrintWriter out){
+		this.out = out;
+	}
 
+    
+    
     /**
      * Function executed when Effector receives a signal (one of the registered signals).
      * Upon receiving such signal, the Effector must realise the appropriate action 
@@ -99,6 +109,7 @@ public class Effector extends Synchronizer{
 		else if (channelId == changeSpeed){
 		    int newSpeed = (Integer) data.get("newSpeed");
 		    newConfiguration[3] = newSpeed;
+		    System.out.println("\t Speed: " + newSpeed);
 		}
 		else if (channelId == planExecuted){
 			returnResult(newConfiguration);

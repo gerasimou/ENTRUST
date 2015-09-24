@@ -58,7 +58,7 @@ public class VerificationEngine extends Synchronizer{
      **/
     @Override
     public void receive(int channelId, HashMap<String, Object> data) {
-    	System.out.println(this.getClass().getSimpleName() + ".receive()");
+//    	System.out.println(this.getClass().getSimpleName() + ".receive()");
     	
 		if (channelId == verify){
 			
@@ -81,6 +81,7 @@ public class VerificationEngine extends Synchronizer{
 		    HashMap<Integer, HashMap<String, Object>> array = (HashMap<Integer, HashMap<String, Object>>)data.get("&RQVResultsArray");
 		    HashMap<String, Object> RQV;
 		    for(int i = 0; i < results.length; i++){
+			    try{
 				RQV = array.get(i);
 				((UppaalType)((HashMap)RQV.get("sensors")).get(0)).setValue(results[i].getSensor1());
 				((UppaalType)((HashMap)RQV.get("sensors")).get(1)).setValue(results[i].getSensor2());
@@ -88,7 +89,14 @@ public class VerificationEngine extends Synchronizer{
 				((UppaalType)RQV.get("speed")).setValue(results[i].getSpeed());
 				((UppaalType)RQV.get("req1Result")).setValue(results[i].getReq1Result());
 				((UppaalType)RQV.get("req2Result")).setValue(results[i].getReq2Result());
+			    }
+			    catch (NullPointerException e){
+			    	System.err.println(i);
+			    	e.printStackTrace();
+			    	System.exit(-1);
+			    }
 		    }
+		    
 		    engine.send(verifDone, this);			
 		}
     }

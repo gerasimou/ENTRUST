@@ -2,8 +2,8 @@
 <!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_2.dtd'>
 <nta>
 	<declaration>// Place global declarations here.
-const int SENSORS = 4;
-const int NUM_OF_SENSOR_CONFIGS	= 15; //possible sensor configurations
+const int SENSORS = 3;
+const int NUM_OF_SENSOR_CONFIGS	= 7; //possible sensor configurations
 
 //Structure that keeps the result after RQV (i.e., expected number of accurate measurements + expected power consumption)
 typedef struct{
@@ -28,7 +28,7 @@ int newSpeed, sensorId;
 int uuvSpeed = 25, count[sensor_id], empty[sensor_id], mCount[sensor_id], avgRates[sensor_id], currentAvgRates[sensor_id], sId;
 
 
-chan monitor, startRQV, finishRQV, setAverageRates, startAnalysis, startPlanning, startExecuting;
+chan monitor, verify, verifDone, setAverageRates, startAnalysis, startPlanning, startExecuting;
 
 const int MAX_PLAN = SENSORS + 1;
 
@@ -366,12 +366,12 @@ void analyserCleanup(){
 		<transition>
 			<source ref="id18"/>
 			<target ref="id21"/>
-			<label kind="synchronisation" x="-85" y="-119">finishRQV?</label>
+			<label kind="synchronisation" x="-85" y="-119">verifDone?</label>
 		</transition>
 		<transition>
 			<source ref="id19"/>
 			<target ref="id18"/>
-			<label kind="synchronisation" x="-204" y="-195">startRQV!</label>
+			<label kind="synchronisation" x="-204" y="-195">verify!</label>
 		</transition>
 		<transition>
 			<source ref="id20"/>

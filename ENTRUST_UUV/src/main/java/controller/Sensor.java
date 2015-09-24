@@ -31,6 +31,9 @@ public class Sensor extends Synchronizer {
     /** ActivForms engine*/
 	private ActivFORMSEngine engine;
     
+    /** Managing system handler*/
+    private ENTRUST entrust;
+
     /** Signal(s)*/
 	private int setAverageRates;
 	
@@ -47,9 +50,10 @@ public class Sensor extends Synchronizer {
      * @param engine
      * @param mainX
      */
-	public Sensor(ActivFORMSEngine engine){
+	public Sensor(ActivFORMSEngine engine, ENTRUST entrust){
     	//assign handles
-		this.engine = engine;
+		this.engine 	= engine;
+		this.entrust	= entrust;
 
 		//get signal(s) ID
 		setAverageRates = engine.getChannel("setAverageRates");
@@ -68,9 +72,9 @@ public class Sensor extends Synchronizer {
 		String [] dataExpectedByMonitor = new String[3];
 		
 		//fill in the String array
-		dataExpectedByMonitor[0] = "avgRates[0]=" + (int)(((double)arguments[0]) * ENTRUST.MULTIPLIER_RATES);
-		dataExpectedByMonitor[1] = "avgRates[1]=" + (int)(((double)arguments[1]) * ENTRUST.MULTIPLIER_RATES);
-		dataExpectedByMonitor[2] = "avgRates[2]=" + (int)(((double)arguments[2]) * ENTRUST.MULTIPLIER_RATES);
+		dataExpectedByMonitor[0] = "avgRates[0]=" + (int)((Double.parseDouble(arguments[0].toString())) * ENTRUST.MULTIPLIER_RATES);
+		dataExpectedByMonitor[1] = "avgRates[1]=" + (int)((Double.parseDouble(arguments[1].toString())) * ENTRUST.MULTIPLIER_RATES);
+		dataExpectedByMonitor[2] = "avgRates[2]=" + (int)((Double.parseDouble(arguments[2].toString())) * ENTRUST.MULTIPLIER_RATES);
 
 		//send the data to the monitor
 		engine.send(setAverageRates,this, dataExpectedByMonitor);
@@ -100,25 +104,30 @@ public class Sensor extends Synchronizer {
 			 clientSocket	= serverSocket.accept();
 			 out 			= new PrintWriter(clientSocket.getOutputStream(), true);
 			 in				= new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+			 
+			 //assign output stream
+			 entrust.assignOutputStream(out);
+			 
 			 System.out.println("Connection established");
 	
 			 while (true){
 				 String input = in.readLine();
-					if (input.toLowerCase().equals("STOP"))
-						break;
-				 
-					 //process the input
-					 Object inputs[] = input.split(",");
-					
-					 //send data to monitor
-					 sendDataToMonitor(inputs);
-				 }
+				 if (input.toUpperCase().equals("STOP"))
+					break;
+			 
+				 //process the input
+				 Object inputs[] = input.split(",");
+				
+				 //send data to monitor
+				 sendDataToMonitor(inputs);
+			 }
 		 }
 		 catch (Exception e){
 			 e.printStackTrace();
 		 }
 		 finally{
 			 out.println("Done");
+			 System.out.println("\n=============\nDone\n=============");
 			 System.exit(0);
 		 }
     }

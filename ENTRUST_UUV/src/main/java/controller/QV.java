@@ -59,8 +59,8 @@ public class QV {
 		//init system characteristics 
 	    NUM_OF_SPEED_CONFIGS	= 21; // [0,21], discrete steps
 	    NUM_OF_SENSORS			= 3;
-	    NUM_OF_SENSOR_CONFIGS	= (int) (Math.pow(2,NUM_OF_SENSORS)-1); //possible sensor configurations
-	    NUM_OF_CONFIGURATIONS	= NUM_OF_SENSOR_CONFIGS * NUM_OF_SPEED_CONFIGS;
+	    NUM_OF_SENSOR_CONFIGS	= (int) (Math.pow(2,NUM_OF_SENSORS)); //possible sensor configurations
+	    NUM_OF_CONFIGURATIONS	= (NUM_OF_SENSOR_CONFIGS-1) * NUM_OF_SPEED_CONFIGS; //discard configuration in which all sensors are switch off
 
 		try{
 			//Read  model and properties parameters
@@ -98,7 +98,7 @@ public class QV {
      */
 	public RQVResult[] runQV(Object ... parameters){
 		//For all configurations run QV and populate RQVResultArray
-		for (int CSC=1; CSC<NUM_OF_CONFIGURATIONS; CSC++){
+		for (int CSC=1; CSC<NUM_OF_SENSOR_CONFIGS; CSC++){
 			for (int s=20; s<=40; s++){
 
 				int index 	= ((CSC-1)*21)+(s-20);
@@ -155,7 +155,7 @@ public class QV {
      * @return a correct PRISM model instance as a String
      */
     private String realiseProbabilisticModel(Object ... parameters){
-    	StringBuilder model = new StringBuilder();
+    	StringBuilder model = new StringBuilder(modelAsString + "\n\n//Variables\n");
 
     	//process the given parameters
 		model.append("const double r1  = "+ parameters[0].toString() +";\n");
@@ -164,8 +164,8 @@ public class QV {
 		model.append("const double p1  = "+ parameters[3].toString() +";\n");
 		model.append("const double p2  = "+ parameters[4].toString() +";\n");
 		model.append("const double p3  = "+ parameters[5].toString() +";\n");
-		model.append("const int    CSC = "+ parameters[6].toString() +";\n");
-		model.append("const int    PSC = "+ parameters[7].toString() +";\n");
+		model.append("const int    PSC = "+ parameters[6].toString() +";\n");
+		model.append("const int    CSC = "+ parameters[7].toString() +";\n");
 		model.append("const double s   = "+ parameters[8].toString() +";\n\n");
     	
     	return model.toString();
