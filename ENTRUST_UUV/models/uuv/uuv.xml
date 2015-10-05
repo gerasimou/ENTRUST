@@ -46,8 +46,6 @@ int stepCount;
 
 const int R1 = 2000;
 const int R2 = 12000;
-//const int NUM_OF_SENSORS = 3;
-//const int NUM_OF_SPEED_CONFIGS = 50; // [0,50], discrete steps
 const int NUM_OF_SPEED_CONFIGS = 21; // [20,40], discrete steps
 
 RQVResult RQVResultsArray[NUM_OF_SENSOR_CONFIGS * NUM_OF_SPEED_CONFIGS];

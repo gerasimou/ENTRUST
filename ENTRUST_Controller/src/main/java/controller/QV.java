@@ -122,7 +122,7 @@ public class QV {
      * @return a correct PRISM model instance as a String
      */
     private String realiseProbabilisticModel(Object ... parameters){
-    	StringBuilder model = new StringBuilder();
+    	StringBuilder model = new StringBuilder(modelAsString + "\n\n//Variables\n");
 
     	//process the given parameters
     	//...

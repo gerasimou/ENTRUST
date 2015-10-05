@@ -39,8 +39,8 @@ public class Analyser {
 	String modelAsString;
 
 	/** System QoS requirement(s) */
-    private final double R1;
-    private final double R2;
+//    private final double R1;
+//    private final double R2;
 
     /** System characteristics*/
     private final int NUM_OF_SENSORS		;
@@ -72,8 +72,8 @@ public class Analyser {
 		this.modelAsString = Utility.readFile(modelFileName);		
 
 		//load system QoS requirements
-		this.R1 = Double.parseDouble(Utility.getProperty("R1"));
-		this.R2 = Double.parseDouble(Utility.getProperty("R2"));
+//		this.R1 = Double.parseDouble(Utility.getProperty("R1"));
+//		this.R2 = Double.parseDouble(Utility.getProperty("R2"));
 
 		//init the output file
 		this.fileName = Utility.getProperty("RQV_OUTPUT_FILE");
@@ -200,7 +200,7 @@ public class Analyser {
     	for (int sensorConfig=0; sensorConfig<NUM_OF_SENSOR_CONFIGS; sensorConfig++){
     		for (int speedConfig=0; speedConfig<NUM_OF_SPEED_CONFIGS; speedConfig++){
     			index = (sensorConfig*NUM_OF_SPEED_CONFIGS) + speedConfig;
-    			if ( (RQVResultsArray[index].getReq1Result()>R1) && (RQVResultsArray[index].getReq1Result()<R2) ) { // (r1) & (r2) are satisfied
+    			if ( (RQVResultsArray[index].getReq1Result()>20) && (RQVResultsArray[index].getReq1Result()<100) ) { // (r1) & (r2) are satisfied
     				functionResult = 5 * RQVResultsArray[index].getReq2Result() + 5/RQVResultsArray[index].getSpeed();
     				//increase the utility value for a configuration that includes a failed sensor    				
     				if (r1<=2.5 && (sensorConfig+1)%2>0) functionResult += 50;

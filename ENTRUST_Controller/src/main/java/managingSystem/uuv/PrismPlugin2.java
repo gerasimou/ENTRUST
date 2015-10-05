@@ -58,7 +58,6 @@ public class PrismPlugin2 extends Synchronizer{
 		    RQVResult[] results = null;//analyser.doAnalysis(R1, R2, R3, PSC);
 		    
 		    HashMap<Integer, HashMap<String, Object>> array = (HashMap<Integer, HashMap<String, Object>>)data.get("&RQVResultsArray");
-
 		    HashMap<String, Object> RQV;
 		    for(int i = 0; i < results.length; i++){
 				RQV = array.get(i);

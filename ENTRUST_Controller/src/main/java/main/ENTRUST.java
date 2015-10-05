@@ -2,24 +2,25 @@ package main;
 
 import managedSystem.fx.SBS;
 import managingSystem.fx.ManagingSystemFX;
+import managingSystem.uuv.ManagingSystemUUV2;
 
 public class ENTRUST {
 
 	public static void main(String[] args) {
 		try {
 //			ManagingSystemUUV managingSystemUUV = new ManagingSystemUUV();
-//			ManagingSystemUUV2 managingSystemUUV = new ManagingSystemUUV2();
-//			managingSystemUUV.startListening();
+			ManagingSystemUUV2 managingSystemUUV = new ManagingSystemUUV2();
+			managingSystemUUV.startListening();
 			
-			SBS 			 sbsFX				= new SBS();
-			ManagingSystemFX managingSystemFX 	= new ManagingSystemFX(sbsFX);
+//			SBS 			 sbsFX				= new SBS();
+//			ManagingSystemFX managingSystemFX 	= new ManagingSystemFX(sbsFX);
 			
-			for (int run=0; run<2; run++){
-				managingSystemFX.runOnce();
-				while(!managingSystemFX.runCarryOn.get());
+//			for (int run=0; run<2; run++){
+//				managingSystemFX.runOnce();
+//				while(!managingSystemFX.runCarryOn.get());
 //				Knowledge.updateService("MW1", 0.05);
-			}
-			System.exit(-1);
+//			}
+//			System.exit(-1);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
