@@ -3,9 +3,9 @@
   
   	<!--  Project specific -->
   	<groupId>org</groupId>
-  	<artifactId>ENTRUST_Controller</artifactId>
+  	<artifactId>ENTRUST_UUV</artifactId>
   	<version>0.0.1-SNAPSHOT</version>
-  	<name>ENTRUST_Controller</name>
+  	<name>ENTRUST_UUV</name>
   	<packaging>jar</packaging>
   	<url>http://maven.apache.org</url>
 
@@ -48,7 +48,7 @@
   	
  	<!-- Build  -->  
 	<build>
-  		<finalName>ENTRUST_Controller</finalName>
+  		<finalName>ENTRUST_UUV</finalName>
 
 		
   		<plugins>
