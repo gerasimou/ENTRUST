@@ -15,7 +15,7 @@ so that the following QoS requirements are satisfied at all times:
 | R3   | If requirements R1 and R2 are satisfied by multiple configurations, the UUV should use one of these configurations that minimises energy consumption and maximises UUV speed.
 | R4   | **(failsafe)** If requirements R1 and R2 cannot be satisfied, the UUV speed must be reduced to 0m/s, so that the UUV does not advance until its sensors recover or new instructions are provided by a human operator.  
 
-For additional information, please see http://www-users.cs.york.ac.uk/~simos/ENTRUST/#uuv
+For additional information, please see the [ENTRUST webpage](http://www-users.cs.york.ac.uk/~simos/ENTRUST/#uuv)
 ***
     
 **This is a Maven Eclipse project**. Simply import the project into Eclipse and run main.MainEntrust.
