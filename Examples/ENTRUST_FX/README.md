@@ -1,22 +1,23 @@
-ENTRUST
+Applying ENTRUST to a business-critical service-based system
 =======
-ENTRUST (ENgineering of TRUstworthy Self-adaptive sofTware) is the first tool-supported methodology for the engineering of high-integrity self-adaptive software systems and the dynamic generation of their assurance cases. 
+ An FX customer (called a trader) can use the system in two operation modes. In the *expert*  mode, FX executes a loop that analyses market activity, identifies patterns that satisfy the trader's objectives, and automatically carries out trades. Thus, the *Market watch* service extracts real-time exchange rates (bid/ask price) of selected currency pairs. This data is used by a *Technical analysis* service that evaluates the current trading conditions, predicts future price movement, and decides if the trader's objectives are: (i) "satisfied" (causing the invocation of an *Order* service to carry out a trade); (ii) "unsatisfied" (resulting in a new *Market watch* invocation); or (iii) "unsatisfied with high variance" (triggering an *Alarm* service invocation to notify the trader about discrepancies/opportunities not covered by the trading objectives). In the *normal* mode, FX assesses the economic outlook of a country using a *Fundamental analysis* service that collects, analyses and evaluates information such as news reports, economic data and political events, and provides an assessment on the country's currency. If satisfied with this assessment, the trader can use the *Order* service to sell or buy currency, in which case a *Notification* service confirms the completion of the trade.
 
-ENTRUST includes methods for the development of verifiable controllers for self-adaptive systems, for the generation of design-time and runtime assurance evidence, and for the runtime instantiation of an assurance argument pattern devised specifically for these systems.
+Multiple service-providers could support concrete implementations that provide the functionality required by the *n=6* services in the FX system. Each  service comprises an interface with which it can be invoked at runtime as well as a service-level-agreement (SLA), a  contract that defines various QoS characteristics, e.g., reliability, performance (response time), and cost, that both parties (service provider and FX system, as service consumer) are obliged to comply with.
 
-ENTRUST is a joint work carried out by the departments of Computer Science, University of York, UK and Linnaeus University, SWE.
+The FX system should dynamically select third-party implementations for each of the *n &#8805; 1* services for which in-house implementations are not available, in order to meet the following QoS requirements:
+                
 
-Further information about ENTRUST, can be found [here] (http://www-users.cs.york.ac.uk/~simos/ENTRUST).
+| ID        | Description 
+| ------------- |:-------------|
+| R1   | Workflow executions must complete successfully with probability at least 0.9|
+| R2   | The total response time per workflow execution should be at maximum 5s|
+| R3   | If requirements R1 and R2 are satisfied by multiple configurations, the system should use one of these configurations that minimises both cost and response time.|
+| R4   | **(failsafe)** If requirements R1 and R2 cannot be satisfied, the order service must be disabled, so that FX system cannot make any order using obsolete data (e.g., old exchange rates).|  
 
-
-###Prerequisites
-ENTRUST self-adaptive systems use verifiable controller and stochastic models, and formal assurance cases. The current version of ENTRUST is realised using the following technologies:
-
-1. **Controller models** are specified as a network of interacting timed automata and are assessed at design-time for their correctness using [UPPAAL] (http://www.uppaal.org). At runtime, these models are executed by a [reusable virtual machine] (http://homepage.lnu.se/staff/daweaa/ActivFORMS/ActivFORMS.htm) (in ENTRUST_*/repo/com/activForms).
-
-2. **Stochastic models** are parametric stochastic Markovian models and are specified in the [PRISM language] (http://www.prismmodelchecker.org/manual/ThePRISMLanguage/Introduction). At runtime, these models are verified using the probabilistic model checker [PRISM](http://www.prismmodelchecker.org) (in ENTRUST_*/repo/org/modelchecker/PRISM).
-
-3. **Assurance cases** are developed using the [Goal Structuring Notation](http://www.goalstructuringnotation.info), a community standard widely used in industry for developing assurance cases (in ENTRUST_*/resources). 
+For additional information, please see the [ENTRUST webpage](http://www-users.cs.york.ac.uk/~simos/ENTRUST/#FX)
+***
+    
+**This is a Maven Eclipse project**. Simply import the project into Eclipse and run main.MainEntrust.
 
 --
    
