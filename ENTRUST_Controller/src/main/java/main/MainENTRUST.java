@@ -1,5 +1,6 @@
-package controller;
+package main;
 
+import controller.ENTRUST;
 
 public class MainENTRUST {
 
