@@ -12,16 +12,12 @@ Further information about ENTRUST, can be found [here] (http://www-users.cs.york
 ###Prerequisites
 ENTRUST self-adaptive systems use verifiable controller and stochastic models, and formal assurance cases. The current version of ENTRUST is realised using the following technologies:
 
-1. **Controller models** are specified as a network of interacting timed automata and are assessed at design-time for their correctness using [UPPAAL] (http://www.uppaal.org). At runtime, these models are executed by a [reusable virtual machine] (http://homepage.lnu.se/staff/daweaa/ActivFORMS/ActivFORMS.htm).
+1. **Controller models** are specified as a network of interacting timed automata and are assessed at design-time for their correctness using [UPPAAL] (http://www.uppaal.org). At runtime, these models are executed by a [reusable virtual machine] (http://homepage.lnu.se/staff/daweaa/ActivFORMS/ActivFORMS.htm) (in ENTRUST_*/repo/com/activForms).
 
-2. **Stochastic models** are parametric stochastic Markovian models and are specified in the [PRISM language] (http://www.prismmodelchecker.org/manual/ThePRISMLanguage/Introduction). At runtime, these models are verified using the probabilistic model checker [PRISM](http://www.prismmodelchecker.org).
+2. **Stochastic models** are parametric stochastic Markovian models and are specified in the [PRISM language] (http://www.prismmodelchecker.org/manual/ThePRISMLanguage/Introduction). At runtime, these models are verified using the probabilistic model checker [PRISM](http://www.prismmodelchecker.org) (in ENTRUST_*/repo/org/modelchecker/PRISM).
 
-3. **Assurance cases** are developed using the [Goal Structuring Notation](http://www.goalstructuringnotation.info), a community standard widely used in industry for developing assurance cases. 
+3. **Assurance cases** are developed using the [Goal Structuring Notation](http://www.goalstructuringnotation.info), a community standard widely used in industry for developing assurance cases (in ENTRUST_*/resources). 
 
-**Installation instructions**
 
-Simulator
 
-ActivForms
-
-Prism
+Should you have any comments, suggestions or questions, please email us at simos-at-cs.york.ac.uk
