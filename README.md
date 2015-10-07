@@ -18,6 +18,7 @@ ENTRUST self-adaptive systems use verifiable controller and stochastic models, a
 
 3. **Assurance cases** are developed using the [Goal Structuring Notation](http://www.goalstructuringnotation.info), a community standard widely used in industry for developing assurance cases (in ENTRUST_*/resources). 
 
-
-
+--
+   
+   
 Should you have any comments, suggestions or questions, please email us at simos-at-cs.york.ac.uk
