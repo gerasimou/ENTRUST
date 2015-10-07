@@ -38,7 +38,7 @@ public class QV {
 	/** Model string*/
 	String modelAsString;
 
-    /** ouput file */
+    /** output file */
     String fileName;
 
     /** Structure that keeps the result after RQV (i.e., reliability, cost, and response time) */

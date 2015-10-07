@@ -27,7 +27,7 @@ public class VerificationEngine extends Synchronizer{
     /** ActivForms engine*/
 	private ActivFORMSEngine engine;
     
-    /** Analyser */
+    /** QV */
     private QV qv;
 
     /** Signal(s)*/
@@ -35,7 +35,7 @@ public class VerificationEngine extends Synchronizer{
    
     
    /**
-    * Constructor: create a new PrismPlugin instance 
+    * Constructor: create a new VerificationEngine instance 
     * @param engine
     */
     public VerificationEngine(ActivFORMSEngine engine){
