@@ -1,0 +1,6 @@
+/bin/
+/target/
+*output_Prism*
+#src/main/java/managingSystem/fx/
+#src/main/java/managedSystem/fx/
+
