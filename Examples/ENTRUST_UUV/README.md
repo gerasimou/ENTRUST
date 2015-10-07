@@ -13,7 +13,11 @@ so that the following QoS requirements are satisfied at all times:
 | R1   | The UUV should take at least 20 measurements of sufficient accuracy for every 10 metres of mission distance|
 | R2   | The energy consumption of the sensors should not exceed 120 Joules per 10 surveyed metres|
 | R3   | If requirements R1 and R2 are satisfied by multiple configurations, the UUV should use one of these configurations that minimises energy consumption and maximises UUV speed.
-| R4   | **(failsafe)**If requirements R1 and R2 cannot be satisfied, the UUV speed must be reduced to 0m/s, so that the UUV does not advance until its sensors recover or new instructions are provided by a human operator.
+| R4   | **(failsafe)** If requirements R1 and R2 cannot be satisfied, the UUV speed must be reduced to 0m/s, so that the UUV does not advance until its sensors recover or new instructions are provided by a human operator.  
+
+***
+    
+**This is a Maven Eclipse project**. Simply import the project into Eclipse and run main.MainEntrust.
 
 --
    
