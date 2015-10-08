@@ -18,6 +18,17 @@ ENTRUST self-adaptive systems use verifiable controller and stochastic models, a
 
 3. **Assurance cases** are developed using the [Goal Structuring Notation](http://www.goalstructuringnotation.info), a community standard widely used in industry for developing assurance cases (in ENTRUST_*/resources). 
 
+
+
+###Repository Structure
+* __Controller__: A generic (abstract) ENTRUST controller including the necessary classes and instructions for instatiating an applicaiton-specific ENTRUST controller
+* __Examples__: Two application-specific ENTRUST controllers
+  * __ENTRUST_FX__: Applying ENTRUST to a business-critical e-finance service-based system
+  * __ENTRUST_UUV__: Applying ENTRUST to a mission-critical embedded system from the unmanned vehicle domain
+
+All directories (controller and examples) are Maven Eclipse projects.
+
+
 --
    
    
