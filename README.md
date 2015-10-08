@@ -21,10 +21,10 @@ ENTRUST self-adaptive systems use verifiable controller and stochastic models, a
 
 
 ###Repository Structure
-* __Controller__: A generic (abstract) ENTRUST controller including the necessary classes and instructions for instatiating an applicaiton-specific ENTRUST controller
+* __Controller__: A generic (abstract) ENTRUST controller including the necessary classes and instructions for developing an applicaiton-specific ENTRUST controller
 * __Examples__: Two application-specific ENTRUST controllers
-  * __ENTRUST_FX__: Applying ENTRUST to a business-critical e-finance service-based system
-  * __ENTRUST_UUV__: Applying ENTRUST to a mission-critical embedded system from the unmanned vehicle domain
+  * __ENTRUST_FX__: An ENTRUST controller applied to a business-critical e-finance service-based system
+  * __ENTRUST_UUV__: An ENTRUST controller applied to a mission-critical embedded system from the unmanned vehicle domain
 
 All directories (controller and examples) are Maven Eclipse projects.
 
