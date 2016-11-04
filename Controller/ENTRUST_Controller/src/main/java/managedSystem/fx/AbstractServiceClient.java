@@ -89,6 +89,14 @@ public abstract class AbstractServiceClient {
 		actualReliability = newReliability;
 	}
 	
+	public void setCost(double cost){
+		costPerInvocation = cost;
+	}
+	
+	public void setResponseTime(double responseTime){
+		timePerInvocation = responseTime;
+	}
+	
 	/** Returns service cost per invocation */
 	public double getCostPerInvocation(){
 		return this.costPerInvocation;

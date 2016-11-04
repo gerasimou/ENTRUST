@@ -186,7 +186,7 @@ public class SBS implements Runnable{
 			activeServices.append(serviceClient.getID() + ",");
 		}
 		activeServices.append("]");
-    	System.err.printf("Active Services:\t %s\n\n", activeServices.toString());
+    	System.out.printf("Active Services:\t %s\n\n", activeServices.toString());
     }
 
 }

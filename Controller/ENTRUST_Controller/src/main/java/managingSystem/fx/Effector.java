@@ -52,7 +52,7 @@ public class Effector extends Synchronizer{
 		if (channelId == changeService){
 		    int serviceId = (Integer) data.get("serviceId");
 		    int serviceType = (Integer) data.get("serviceType");
-	    	System.out.println("\tEffector: Service " + serviceType +":"+ newConfiguration[serviceType-1] +"=>"+ (serviceId-1) );
+//	    	System.out.println("\tEffector: Service " + serviceType +":"+ newConfiguration[serviceType-1] +"=>"+ (serviceId-1) );
 
 		    // Service should be changed here
 		    newConfiguration[serviceType-1] = serviceId-1;

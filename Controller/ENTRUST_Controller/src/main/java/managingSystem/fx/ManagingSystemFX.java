@@ -21,8 +21,8 @@ public class ManagingSystemFX{
 	public static final double MULTIPLIER_RELIABILITY = 1000;
 	public static final double MULTIPLIER 			  = 100;
 	
-	/** Probe handle*/
-	private Probe probe;
+	/** Sensor handle*/
+	private Sensor sensor;
  
 	/** Effector handle*/
 	private Effector effector;
@@ -37,7 +37,7 @@ public class ManagingSystemFX{
 	private ActivFORMSEngine engine;
 	
 	/** PRISM plugin*/
-	private PrismPlugin prismPlugin;
+	private VerificationEngine prismPlugin;
     
     /** configurationd data*/
 	int [] newConfiguration = new int[4];
@@ -56,7 +56,7 @@ public class ManagingSystemFX{
     public static int NUM_OF_SERVICES;	
 
     /** flag for run loop to carry on*/
-     public AtomicBoolean runCarryOn = new AtomicBoolean(false);
+     public AtomicBoolean carryOn = new AtomicBoolean(false);
     
 	
 	/**
@@ -69,7 +69,7 @@ public class ManagingSystemFX{
 		//init system characteristics
 	    //TODO initialised programmatically
 	    this.NUM_OF_OPERATIONS		= 6;
-	    this.NUM_OF_SERVICES		= 3;
+	    this.NUM_OF_SERVICES		= 2;
 
 		try {
 			//initialise the SBS system
@@ -81,13 +81,13 @@ public class ManagingSystemFX{
 		    this.engine.setRealTimeUnit(1000);
 
 		    //init probe
-		    this.probe = new Probe(engine, this);
+		    this.sensor = new Sensor(engine, this);
 		    
 		    //init effector
 		    this.effector = new Effector(engine, this);
 		    
 		    //init PRISM plugin
-		    this.prismPlugin = new PrismPlugin(engine);
+		    this.prismPlugin = new VerificationEngine(engine);
 		    
 		    //setup system QoS requirements
 		    //TODO: application specific --> need to be FX compatible
@@ -124,11 +124,11 @@ public class ManagingSystemFX{
 
 					//TODO: FX
 					int[][] servicesReliability = getServicesReliability();
-					runCarryOn.set(false);
-					probe.sendAverageRates(servicesReliability, NUM_OF_OPERATIONS, NUM_OF_SERVICES);
+					carryOn.set(false);
+					sensor.sendAverageRates(servicesReliability, NUM_OF_OPERATIONS, NUM_OF_SERVICES);
 					
 					 //wait until the first configuration is established
-					 while (!runCarryOn.get());
+					 while (!carryOn.get());
 					 
 					//wake up (start) SBS
 					 if (firstTime){
@@ -160,12 +160,12 @@ public class ManagingSystemFX{
 	
 	public void runOnce() {
        	long startTime  = System.currentTimeMillis(); 	//time that the simulation started. i.e., now
-		runCarryOn.set(false);
-		System.err.println("{t:0 \tManagingSystem.run()");
+		carryOn.set(false);
+//		System.err.println("{t:0 \tManagingSystem.run()");
 
 		int[][] servicesReliability = getServicesReliability();
 
-		probe.sendAverageRates(servicesReliability, NUM_OF_OPERATIONS, NUM_OF_SERVICES);				
+		sensor.sendAverageRates(servicesReliability, NUM_OF_OPERATIONS, NUM_OF_SERVICES);				
 			
 	}
 	
@@ -191,7 +191,7 @@ public class ManagingSystemFX{
     		sbs.setActiveServicesList(newConfiguration);
     	}
     	sbs.printActiveServices();
-    	runCarryOn.set(true);
+    	carryOn.set(true);
     }    
     
     
@@ -223,7 +223,7 @@ public class ManagingSystemFX{
 				 String inputs[] = input.split(",");
 
 				 //TODO: FX
-				 probe.sendAverageRates(new int[][]{}, -1 , -1);
+				 sensor.sendAverageRates(new int[][]{}, -1 , -1);
 //				 returnResult(newConfiguration);
 			 }
 			 catch (Exception e){

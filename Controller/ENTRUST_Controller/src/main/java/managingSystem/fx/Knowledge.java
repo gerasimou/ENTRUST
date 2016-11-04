@@ -48,17 +48,28 @@ public class Knowledge {
 	
 	
 	
-	public static void updateService (String serviceID, double newReliability){
+	public static void updateServiceReliability (String serviceID, double newReliability){
 		for (List<AbstractServiceClient> servicesList : operationsList){
 			for (AbstractServiceClient service : servicesList){
 				if (service.getID().equals(serviceID)){
 					service.setReliability(newReliability);
-					System.out.println(service.getFeatures());
+//					System.out.println(Arrays.toString(service.getFeatures()));
 				}
 			}
 		}
 	}
-	
+
+	public static void updateServiceResponseTime (String serviceID, double newResponseTime){
+		for (List<AbstractServiceClient> servicesList : operationsList){
+			for (AbstractServiceClient service : servicesList){
+				if (service.getID().equals(serviceID)){
+					service.setResponseTime(newResponseTime);
+//					System.out.println(Arrays.toString(service.getFeatures()));
+				}
+			}
+		}
+	}
+
 	
 	public static void updateServices (String[] inputServicesParameters){
 		for (int index=0; index<inputServicesParameters.length-1; index+=2){

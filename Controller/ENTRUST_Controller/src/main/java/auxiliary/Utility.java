@@ -12,16 +12,17 @@ import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
 
+import main.MainENTRUST;
+
 public class Utility {
 	
-	private static String fileName = "resources/config.properties";
 	private static Properties properties;
 	
 	static{
 		try {
 			if (properties == null){
 				properties = new Properties();
-				properties.load(new FileInputStream(fileName));
+				properties.load(new FileInputStream(MainENTRUST.getConfigFile()));
 			}
 		} 
 		catch (IOException e) {
