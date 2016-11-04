@@ -25,7 +25,7 @@ import prism.PrismAPI;
 
 
 
-public class Analyser {
+public class QV {
 	
 	/** PRISM instance */
 	PrismAPI prism;
@@ -59,7 +59,7 @@ public class Analyser {
     /**
      * Constructor
      */
-    public Analyser(){		
+    public QV(){		
 		//Read  model and properties parameters
 		this.modelFileName 		= Utility.getProperty("MODEL_FILE");
 		this.propertiesFileName	= Utility.getProperty("PROPERTIES_FILE");

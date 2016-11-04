@@ -5,11 +5,14 @@ import java.util.HashMap;
 import activforms.engine.ActivFORMSEngine;
 import activforms.engine.Synchronizer;
 import activforms.types.UppaalType;
+import auxiliary.Utility;
+import cern.colt.Arrays;
+import main.MainENTRUST;
 
-public class PrismPlugin extends Synchronizer{
+public class VerificationEngine extends Synchronizer{
     
 	/** Analyser handle*/
-    private Analyser analyser;
+    private QV qv;
     
     /** Engine handle*/
     private ActivFORMSEngine engine;
@@ -23,9 +26,9 @@ public class PrismPlugin extends Synchronizer{
      * Constructor: Create a PrismPlugin instance
      * @param engine
      */
-    public PrismPlugin(ActivFORMSEngine engine){
+    public VerificationEngine(ActivFORMSEngine engine){
     	//new analyser instance
-		this.analyser 	= new Analyser();
+		this.qv 	= new QV();
 		
 		//assign engine instance
 		this.engine 	= engine;
@@ -47,11 +50,10 @@ public class PrismPlugin extends Synchronizer{
     	
 		if (channelId == startRQV){
 		    HashMap<Integer, HashMap<Integer,Integer>> avgFRates = (HashMap<Integer, HashMap<Integer,Integer>>)data.get("avgFRates");
-	    	System.out.print("\tPrismPlugin.receive()\t");
-	    	System.out.println("\t\t" + avgFRates);
+//	    	System.out.print(this.getClass().getSimpleName() + ".receive()\t\t" + avgFRates);
 
-		    int servicesPerOperation    = analyser.getNumOfServicesPerOperation();
-		    int[][] servicesReliability = new int[analyser.getNumOfOperations()][servicesPerOperation];
+		    int servicesPerOperation    = qv.getNumOfServicesPerOperation();
+		    int[][] servicesReliability = new int[qv.getNumOfOperations()][servicesPerOperation];
 		    int row=-1;
 		    for (int i=0; i<avgFRates.size(); i++){
 		    	
@@ -64,7 +66,7 @@ public class PrismPlugin extends Synchronizer{
 		    	
 		    }//for
 
-		    RQVResult [] results = analyser.runQV(servicesReliability);
+		    RQVResult [] results = qv.runQV(servicesReliability);
 		    
 		    HashMap<Integer, HashMap<String, Object>> RQVResultsArray = (HashMap<Integer, HashMap<String, Object>>)data.get("&RQVResultsArray");
 		    HashMap<String, Object> RQV;
@@ -87,22 +89,21 @@ public class PrismPlugin extends Synchronizer{
 		    
 		    //return output to ActivFORMS
 //		    System.out.println("Sending RQV results");
+		    export(results);
 		    engine.send(finishRQV, this);
 		}
     }    
 //    
-//	private void export(RQVResult[] results) {
-//		StringBuilder output = new StringBuilder();
-//		for (RQVResult result : results) {
-//			int s1 = result.sensor1;
-//			int s2 = result.sensor2;
-//			int s3 = result.sensor3;
-//			int speed = result.speed;
-//			int r1 = result.req1Result;
-//			int r2 = result.req2Result;
-//			String str = "{{" + s1 + "," + s2 + "," + s3 + "}," + speed + "," + r1 + "," + r2 + "},\n";
-//			output.append(str);
-//		}
-//		Utility.exportToFile("data.txt", output.toString(), false);
-//	}
+	private void export(RQVResult[] results) {
+		StringBuilder output = new StringBuilder();
+		for (RQVResult result : results) {
+			int config[] = result.sConfig;
+			int r1 = result.req1Result;
+			int r2 = result.req2Result;
+			int r3 = result.req3Result;
+			String str = Arrays.toString(config) +","+ r1 + "," + r2 + "," + r3 +"\n"; 
+			output.append(str);
+		}
+		Utility.exportToFile(MainENTRUST.event+".csv", output.toString(), false);
+	}
 }

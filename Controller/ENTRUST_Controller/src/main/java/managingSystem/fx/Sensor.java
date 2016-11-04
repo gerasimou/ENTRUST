@@ -5,7 +5,7 @@ import java.util.HashMap;
 import activforms.engine.ActivFORMSEngine;
 import activforms.engine.Synchronizer;
 
-public class Probe extends Synchronizer {
+public class Sensor extends Synchronizer {
     
 	/** ActivFORMS engine*/
     private ActivFORMSEngine engine;
@@ -22,7 +22,7 @@ public class Probe extends Synchronizer {
      * @param engine
      * @param mainX
      */
-    public Probe(ActivFORMSEngine engine, ManagingSystemFX  managingSystem){
+    public Sensor(ActivFORMSEngine engine, ManagingSystemFX  managingSystem){
     	//assign handles
 		this.engine = engine;
 		//this.managingSystem	= managingSystem;
