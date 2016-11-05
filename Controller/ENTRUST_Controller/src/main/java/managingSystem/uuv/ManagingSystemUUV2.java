@@ -11,7 +11,7 @@ import java.util.Arrays;
 import activforms.engine.ActivFORMSEngine;
 import auxiliary.Utility;
 import managingSystem.uuv.Effector;
-import managingSystem.uuv.Probe;
+import managingSystem.uuv.Sensor;
 
 public class ManagingSystemUUV2 {
 
@@ -23,10 +23,10 @@ public class ManagingSystemUUV2 {
 	private ActivFORMSEngine engine;
 
 	/** PRISM plugin*/
-	private PrismPlugin2 prismPlugin;
+	private VerificationEngine2 verificationEngine;
 
 	/** Probe handle*/
-	private Probe2 probe;
+	private Sensor2 sensor;
  
 	/** Effector handle*/
 	private Effector2 effector;
@@ -52,7 +52,7 @@ public class ManagingSystemUUV2 {
 		    this.engine.setRealTimeUnit(1000);
 
 		    //init probe
-		    this.probe = new Probe2(engine, this);
+		    this.sensor = new Sensor2(engine, this);
 //		    resetNewConfiguration();
 		    
 		    //init effector
@@ -60,7 +60,7 @@ public class ManagingSystemUUV2 {
 		    effector.setNewConfigurationArray(newConfiguration);
 		    
 		    //init PRISM plugin
-		    this.prismPlugin = new PrismPlugin2(engine);
+		    this.verificationEngine = new VerificationEngine2(engine);
 		    
 		    //start the engine
 		    engine.start();
@@ -99,7 +99,7 @@ public class ManagingSystemUUV2 {
 				 double r3  = Double.parseDouble(inputs[2]);
 				 System.out.println("{Rates}: " + r1 +","+ r2 +","+ r3);
 
-				 probe.sendAverageRates(r1,r2,r3);
+				 sensor.sendAverageRates(r1,r2,r3);
 //				 returnResult(newConfiguration);
 			 }
 			 catch (Exception e){

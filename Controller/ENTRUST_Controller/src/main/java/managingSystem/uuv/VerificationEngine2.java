@@ -7,13 +7,13 @@ import activforms.engine.Synchronizer;
 import activforms.types.UppaalType;
 //import mainX.MainX;
 
-public class PrismPlugin2 extends Synchronizer{
+public class VerificationEngine2 extends Synchronizer{
     
     /** ActivForms engine*/
 	private ActivFORMSEngine engine;
     
     /** Analyser */
-    private Analyser analyser;
+    private QV qv;
 
     /** Signal(s)*/
 	private int startRQV, finishRQV;
@@ -23,9 +23,9 @@ public class PrismPlugin2 extends Synchronizer{
     * Constructor: create a new PrismPlugin instance 
     * @param engine
     */
-    public PrismPlugin2(ActivFORMSEngine engine){
+    public VerificationEngine2(ActivFORMSEngine engine){
     	//assign handles
-		this.analyser = new Analyser();
+		this.qv = new QV();
 		this.engine   = engine;
 		
 		//get signals

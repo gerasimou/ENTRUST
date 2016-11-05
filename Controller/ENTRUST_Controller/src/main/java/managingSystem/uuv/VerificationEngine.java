@@ -7,13 +7,13 @@ import activforms.engine.Synchronizer;
 import activforms.types.UppaalType;
 import auxiliary.Utility;
 
-public class PrismPlugin extends Synchronizer{
+public class VerificationEngine extends Synchronizer{
     
     /** ActivForms engine*/
 	private ActivFORMSEngine engine;
     
     /** Analyser */
-    private Analyser analyser;
+    private QV qv;
 
     /** Signal(s)*/
 	private int startRQV, finishRQV;
@@ -23,9 +23,9 @@ public class PrismPlugin extends Synchronizer{
     * Constructor: create a new PrismPlugin instance 
     * @param engine
     */
-    public PrismPlugin(ActivFORMSEngine engine){
+    public VerificationEngine(ActivFORMSEngine engine){
     	//assign handles
-		this.analyser = new Analyser();
+		this.qv = new QV();
 		this.engine   = engine;
 		
 		//get signals
@@ -59,7 +59,7 @@ public class PrismPlugin extends Synchronizer{
 		    System.out.println("Running RQV -R1:" + R1 + " R2:" + R2 + " R3:" + R3 + " PSC:" + PSC);
 		    
 		    //run QV
-		    RQVResult[] results = analyser.doAnalysis(R1, R2, R3
+		    RQVResult[] results = qv.doAnalysis(R1, R2, R3
 //		    										, PSC);
 //													, R4, PSC);
 //		    										, R4, R5, PSC);

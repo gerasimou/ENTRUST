@@ -12,7 +12,7 @@ import activforms.engine.ActivFORMSEngine;
 import auxiliary.Utility;
 import managedSystem.uuv.UUV;
 import managingSystem.uuv.Effector;
-import managingSystem.uuv.Probe;
+import managingSystem.uuv.Sensor;
 
 public class ManagingSystemUUV {
 
@@ -24,10 +24,10 @@ public class ManagingSystemUUV {
 	private ActivFORMSEngine engine;
 
 	/** PRISM plugin*/
-	private PrismPlugin prismPlugin;
+	private VerificationEngine verificationEngine;
 
 	/** Probe handle*/
-	private Probe probe;
+	private Sensor sensor;
  
 	/** Effector handle*/
 	private Effector effector;
@@ -62,7 +62,7 @@ public class ManagingSystemUUV {
 		    this.engine.setRealTimeUnit(1000);
 
 		    //init probe
-		    this.probe = new Probe(engine, this);
+		    this.sensor = new Sensor(engine, this);
 //		    resetNewConfiguration();
 		    
 		    //init effector
@@ -70,7 +70,7 @@ public class ManagingSystemUUV {
 		    effector.setNewConfigurationArray(newConfiguration);
 		    
 		    //init PRISM plugin
-		    this.prismPlugin = new PrismPlugin(engine);
+		    this.verificationEngine = new VerificationEngine(engine);
 		    
 		    //start the engine
 		    engine.start();
@@ -116,7 +116,7 @@ public class ManagingSystemUUV {
 //				 double r8  = Double.parseDouble(inputs[7]);
 				 System.out.println("{Rates}: " + r1 +","+ r2 +","+ r3 +","+ r4 +","+ r5 +","+ r6);// +","+ r7 +","+ r8);
 
-				 probe.sendAverageRates(r1, r2, r3, r4, r5, r6);//, r7, r8);
+				 sensor.sendAverageRates(r1, r2, r3, r4, r5, r6);//, r7, r8);
 				 
 			 }
 			 catch (Exception e){
@@ -153,7 +153,7 @@ public class ManagingSystemUUV {
 //				 double r8  = Double.parseDouble(inputs[7]);
 //				 System.out.println("{Rates}: " + r1 +","+ r2 +","+ r3);// +","+ r4 +","+ r5 +","+ r6 +","+ r7 +","+ r8);
 
-		 probe.sendAverageRates(r1, r2, r3
+		 sensor.sendAverageRates(r1, r2, r3
 //				 				);
 //		 						, r4);
 //				 				,r4, r5);

@@ -37,7 +37,7 @@ public class ManagingSystemFX{
 	private ActivFORMSEngine engine;
 	
 	/** PRISM plugin*/
-	private VerificationEngine prismPlugin;
+	private VerificationEngine verificationEngine;
     
     /** configurationd data*/
 	int [] newConfiguration = new int[4];
@@ -87,7 +87,7 @@ public class ManagingSystemFX{
 		    this.effector = new Effector(engine, this);
 		    
 		    //init PRISM plugin
-		    this.prismPlugin = new VerificationEngine(engine);
+		    this.verificationEngine = new VerificationEngine(engine);
 		    
 		    //setup system QoS requirements
 		    //TODO: application specific --> need to be FX compatible
