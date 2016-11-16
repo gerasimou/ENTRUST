@@ -1,17 +1,23 @@
 package uuv;
 
-public class UUV {
+public class UUV implements Runnable{
+	int portNumber = -1;
+	
+	public UUV(int portNumber){
+		this.portNumber = portNumber;
+	}
+	
 	
 	/** 3 Sensors */
-	static String sensorRates[] = { "5,4,4",	"5,4,4",	"5,4,4",
-//									"5,4,2",	"5,4,2",	"5,4,2",
-//									"5,4,4", 	"5,4,4",	"5,4,4",
-//									"5,2,4",	"5,2,4",	"5,2,4",  
-//									"5,4,4", 	"5,4,4",	"5,4,4",
+	static String sensorRates[] = { "5,4,4",//	"5,4,4",	"5,4,4",
+									"5,4,1",//	"5,4,2",	"5,4,2",
+									"5,4,4",// 	"5,4,4",	"5,4,4",
+									"5,2,4",//	"5,2,4",	"5,2,4",  
+									"5,4,4",// 	"5,4,4",	"5,4,4",
 //									"5,4,3",	"5,4,3",	"5,4,3",									
 //									"5,4,4", 	"5,4,4",	"5,4,4",
-//									"5,1,1",	"5,1,1",	"5,1,1",
-//									"5,4,4", 	"5,4,4",	"5,4,4",
+									"5,1,1",	"5,1,1",	"5,1,1",
+									"5,4,4",// 	"5,4,4",	"5,4,4",
 								  };	
 	
 	/** 4 Sensors */
@@ -65,19 +71,21 @@ public class UUV {
 
 	
 	public static void main(String[] args) {	
+			new UUV(-1).run();
+	}
+	
+	
+	public void run(){
 		try{
 			long startTime = System.currentTimeMillis();
-			long now;
 			long timeStamp;
 			int messagesSent = 0;
-			
-			TCPClient tcpClient = new TCPClient("127.0.0.1", 56567);
-
+			TCPClient tcpClient = new TCPClient("127.0.0.1", portNumber);
+		
 			for (String rates : sensorRates){
-				now		  =	System.currentTimeMillis(); 
 				timeStamp = System.currentTimeMillis() - startTime; 
 				System.out.print((timeStamp/1000.0) +"("+messagesSent++ +")\tRates:\t" + rates);	
-
+		
 				String configuration = tcpClient.send(rates);				
 				System.out.println("\t\tConfiguration:\t" + configuration);	
 				Thread.sleep(1000);

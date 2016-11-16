@@ -21,6 +21,7 @@ import java.util.HashMap;
 import activforms.engine.ActivFORMSEngine;
 import activforms.engine.Synchronizer;
 import activforms.types.UppaalType;
+import auxiliary.Utility;
 
 public class VerificationEngine extends Synchronizer{
     
@@ -75,7 +76,10 @@ public class VerificationEngine extends Synchronizer{
 		    parameters[3] 		= Integer.parseInt(binaryString, 2);
 			
 			//Run QV
+//		    long before = System.currentTimeMillis();
 			RQVResult[] results = qv.runQV(parameters);
+//			long after = System.currentTimeMillis();
+//			Utility.exportToFile("CPU_QV_time.txt", ((after-before)/1000.0)+"", true);
 			
 			//When done, send the results to MAPE virtual machine
 		    HashMap<Integer, HashMap<String, Object>> array = (HashMap<Integer, HashMap<String, Object>>)data.get("&RQVResultsArray");

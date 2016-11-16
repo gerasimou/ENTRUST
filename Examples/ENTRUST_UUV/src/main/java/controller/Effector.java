@@ -24,14 +24,12 @@ import java.util.HashMap;
 
 import activforms.engine.ActivFORMSEngine;
 import activforms.engine.Synchronizer;
+import auxiliary.Utility;
 
 public class Effector extends Synchronizer{
 
 	/** ActivFORMS engine*/
     private ActivFORMSEngine engine;
-
-    /** Managing system handler*/
-    private ENTRUST entrust;
     
 	/** Communication handle(s)*/
     private PrintWriter out;			
@@ -50,10 +48,9 @@ public class Effector extends Synchronizer{
      * @param engine
      * @param entrustController
      */
-    public Effector(ActivFORMSEngine engine, ENTRUST entrust, PrintWriter out){
+    public Effector(ActivFORMSEngine engine, PrintWriter out){
     	//assign handlers
     	this.engine 			= engine;
-    	this.entrust			= entrust;
 		this.out				= out;
 	
 		//get signal(s) ID
@@ -82,7 +79,7 @@ public class Effector extends Synchronizer{
      * Set output stream (after sensor is connected to the managed system)
      * @param out
      */
-	protected void assignOutputStream(PrintWriter out){
+	protected void setOutputStream(PrintWriter out){
 		this.out = out;
 	}
 
@@ -95,21 +92,21 @@ public class Effector extends Synchronizer{
      */
     @Override
     public void receive(int channelId, HashMap<String, Object> data) {
-    	System.out.println(this.getClass().getSimpleName() + ".receive()\t\t" + data.get("currentConfiguration"));
+//    	System.out.println(this.getClass().getSimpleName() + ".receive()\t\t" + data.get("currentConfiguration"));
     	if (channelId == onSensor){
 		    int sensorId = (Integer) data.get("sensorId");
 		    newConfiguration[sensorId] = 1;
-		    System.out.println("\t Sensor " + sensorId +": ON");
+//		    System.out.println("\t Sensor " + sensorId +": ON");
 		}
 		else if (channelId == offSensor){
 		    int sensorId = (Integer) data.get("sensorId");
 		    newConfiguration[sensorId] = 0;
-		    System.out.println("\t Sensor " + sensorId +": OFF");
+//		    System.out.println("\t Sensor " + sensorId +": OFF");
 		}
 		else if (channelId == changeSpeed){
 		    int newSpeed = (Integer) data.get("newSpeed");
 		    newConfiguration[3] = newSpeed;
-		    System.out.println("\t Speed: " + newSpeed);
+//		    System.out.println("\t Speed: " + newSpeed);
 		}
 		else if (channelId == planExecuted){
 			returnResult(newConfiguration);

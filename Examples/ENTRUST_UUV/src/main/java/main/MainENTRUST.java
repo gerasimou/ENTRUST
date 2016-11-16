@@ -1,14 +1,23 @@
 package main;
 
 import controller.ENTRUST;
+import uuv.UUV;
 
 public class MainENTRUST {
 
 	public static void main(String[] args) {
 		try {
-			ENTRUST entrust = new ENTRUST();
+			int portNumber = 56567;
+
+			Thread entrust	= new Thread(new ENTRUST(portNumber), "Entrust" );
+			Thread uuv		= new Thread(new UUV(portNumber),     "UUV");
+			
 			entrust.start();
-			System.exit(-1);
+			uuv.start();
+			
+			entrust.join();
+			uuv.join();
+
 		}
 		catch (Exception e) {
 			e.printStackTrace();
