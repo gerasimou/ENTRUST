@@ -22,7 +22,7 @@ public class Utility {
 		try {
 			if (properties == null){
 				properties = new Properties();
-				properties.load(new FileInputStream(MainENTRUST.getConfigFile()));
+				properties.load(new FileInputStream(MainENTRUST.configFile));
 			}
 		} 
 		catch (IOException e) {
