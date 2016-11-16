@@ -20,9 +20,10 @@ import java.io.PrintWriter;
 
 import activforms.engine.ActivFORMSEngine;
 import auxiliary.Utility;
+import controller.ENTRUST.OutputWriterAssignment;
 import fx.SBS;
 
-public class ENTRUST {
+public class ENTRUST implements Runnable{
 
 	/** Multiplier for use in ActiveForms (no use of doubles, hence converted to integers)*/
 	public static final double MULTIPLIER 				= 100;
@@ -43,23 +44,23 @@ public class ENTRUST {
 	
     /** System characteristics*/
     public final static int NUM_OF_OPERATIONS 	= 6;
-    public final static int NUM_OF_SERVICES		= 3;	
+    public final static int NUM_OF_SERVICES		= 2;	
 
 
 	/**
 	 * Managing System constructor
 	 */
-	public ENTRUST() {		
+	public ENTRUST(int portNumber) {		
 	    try {
 			//initialise ActiveFORMS engine (MAPE virtual machine)
 			this.engine = new ActivFORMSEngine(Utility.getProperty("ACTIVFORMS_MODEL_FILE"), 9999);
 		    this.engine.setRealTimeUnit(1000);
 
 		    //init sensor
-		    this.sensor = new Sensor(engine, this);
+		    this.sensor = new Sensor(engine, portNumber);
 		    
 		    //init effector
-		    this.effector = new Effector(engine, this, sensor.getOutputStream());
+		    this.effector = new Effector(engine, sensor.getOutputStream());
 		    
 		    //init verification engine
 		    this.verificationEngine = new VerificationEngine(engine);
@@ -78,21 +79,30 @@ public class ENTRUST {
 	
 	
 	/**
-	 * Start the ENTRUST controller
+	 * Run the ENTRUST controller
 	 */
-	public void start(){
-		//if communication with the managed system occurs through sockets, give the port number
-		//TODO
-		int portNumber = 56567;
-		sensor.startListening(portNumber);
+	public void run(){
+		new Thread(new OutputWriterAssignment()).start();
+		sensor.startListening();
 	}
 	
 	
-    /**
-     * Set output stream (after sensor is connected to the managed system)
-     * @param out
-     */
-	protected void assignOutputStream(PrintWriter out){
-		effector.assignOutputStream(out);
+	class OutputWriterAssignment implements Runnable{
+		@Override
+		public void run() {
+			PrintWriter out = null;
+			
+			try {
+				do{
+					out = sensor.getOutputStream();
+					Thread.sleep(500);
+				}
+				while (out == null);
+				effector.setOutputStream(out);
+			} 
+			catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}		
 	}
 }

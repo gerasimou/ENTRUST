@@ -17,8 +17,6 @@
 package controller;
 
 import java.io.PrintWriter;
-import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.Arrays;
 import java.util.HashMap;
 
@@ -30,9 +28,6 @@ public class Effector extends Synchronizer{
 	/** ActivFORMS engine*/
     private ActivFORMSEngine engine;
 
-    /** Managing system handler*/
-    private ENTRUST entrust;
-    
 	/** Communication handle(s)*/
     private PrintWriter out;			
 
@@ -50,10 +45,9 @@ public class Effector extends Synchronizer{
      * @param engine
      * @param entrustController
      */
-    public Effector(ActivFORMSEngine engine, ENTRUST entrust, PrintWriter out){
+    public Effector(ActivFORMSEngine engine, PrintWriter out){
     	//assign handlers
     	this.engine 			= engine;
-    	this.entrust			= entrust;
 		this.out				= out;
 	
 		//get signal(s) ID
@@ -78,11 +72,10 @@ public class Effector extends Synchronizer{
      * Set output stream (after sensor is connected to the managed system)
      * @param out
      */
-	protected void assignOutputStream(PrintWriter out){
+	protected void setOutputStream(PrintWriter out){
 		this.out = out;
 	}
 
-    
     
     /**
      * Function executed when Effector receives a signal (one of the registered signals).
@@ -116,10 +109,15 @@ public class Effector extends Synchronizer{
     public void returnResult(int [] newConfiguration){
     	String result = Arrays.toString(newConfiguration);
 
-    	if (newConfiguration != null){
-    		System.out.printf("{New Config}:\t%s\n\n", result);
-    		out.println(result);
-    		out.flush();
+    	try{
+	    	if (newConfiguration != null){
+	    		System.out.printf("{New Config}:\t%s\n\n", result);
+	    		out.println(result);
+	    		out.flush();
+	    	}
+    	}
+    	catch (NullPointerException e){
+    		System.err.println("PrintWriter is NULL");
     	}
     }
 

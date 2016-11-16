@@ -2,7 +2,7 @@
 <!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_2.dtd'>
 <nta>
 	<declaration>// Service Configuration
-const int MAX_NUM = 3;
+const int MAX_NUM = 2;
 typedef int[1, MAX_NUM] s_id;
 const int MAX_TYPE = 6;
 typedef int [1, MAX_TYPE] s_type;
@@ -55,7 +55,7 @@ chan invokeOp[s_type][s_id], invoke[s_type], result, successful;
 int avgFRates[s_type][s_id], currentAvgFRates[s_type][s_id];
 
 // Probe
-chan setAverageRates, verify, verifDone;
+chan newServicesCharacteristics, verify, verifDone;
 broadcast chan noPlanningRequired, noAnalysisRequired, planExecuted;
 chan tryAgain, serviceTimeout, workflowStarted, serviceStarted;
 
@@ -564,7 +564,7 @@ MAX_TESTS</label>
 		</transition>
 	</template>
 	<template>
-		<name>Probe</name>
+		<name>Sensor</name>
 		<declaration>clock x;
 const int WAIT_TIME = 9;
 
@@ -596,12 +596,12 @@ void sendMeasurements(){
 			<source ref="id38"/>
 			<target ref="id37"/>
 			<label kind="guard" x="-144" y="-96">x &gt;= WAIT_TIME</label>
-			<label kind="synchronisation" x="-144" y="-80">setAverageRates!</label>
+			<label kind="synchronisation" x="-144" y="-80">newServicesCharacteristics!</label>
 			<label kind="assignment" x="-152" y="-64">sendMeasurements()</label>
 		</transition>
 	</template>
 	<template>
-		<name>RD_Probe</name>
+		<name>RD_Sensor</name>
 		<declaration>const int steps = 1;
 
 typedef int[0, steps] FR;
@@ -683,7 +683,7 @@ currentAvgFRates[NS][1] = ns1;currentAvgFRates[NS][2] = ns2;
 		<transition>
 			<source ref="id41"/>
 			<target ref="id42"/>
-			<label kind="synchronisation" x="187" y="-102">setAverageRates!</label>
+			<label kind="synchronisation" x="187" y="-102">newServicesCharacteristics!</label>
 			<nail x="442" y="34"/>
 			<nail x="442" y="-68"/>
 			<nail x="68" y="-68"/>
@@ -785,7 +785,7 @@ void monitorCleanup(){
 		<transition>
 			<source ref="id49"/>
 			<target ref="id48"/>
-			<label kind="synchronisation" x="-548" y="6">setAverageRates?</label>
+			<label kind="synchronisation" x="-548" y="6">newServicesCharacteristics?</label>
 		</transition>
 	</template>
 	<template>
@@ -975,7 +975,7 @@ void setReqResults(int req1, int req2){
 		<transition>
 			<source ref="id57"/>
 			<target ref="id58"/>
-			<label kind="assignment" x="246" y="42">setReqResults(req1, req2)</label>
+			<label kind="assignment" x="246" y="42">setReqResults(0,0)</label>
 			<nail x="238" y="85"/>
 		</transition>
 		<transition>
@@ -986,13 +986,13 @@ void setReqResults(int req1, int req2){
 		<transition>
 			<source ref="id58"/>
 			<target ref="id60"/>
-			<label kind="synchronisation" x="0" y="59">finishRQV!</label>
+			<label kind="synchronisation" x="0" y="59">verifDone!</label>
 			<nail x="-34" y="85"/>
 		</transition>
 		<transition>
 			<source ref="id60"/>
 			<target ref="id59"/>
-			<label kind="synchronisation" x="0" y="-25">startRQV?</label>
+			<label kind="synchronisation" x="0" y="-25">verify?</label>
 		</transition>
 	</template>
 	<template>

@@ -139,8 +139,7 @@ public class QV {
 								double req1result 			= prismResult.get(1);
 								double req2result 			= prismResult.get(2);
 				
-								//4) store configuration results
-                				
+								//4) store configuration results        				
                 				RQVResultsArray[index++] = new RQVResult(new int[]{indexList0, indexList1, indexList2, indexList3, indexList4, indexList5}, 
                 														req0result, req1result, req2result);
                 			}//for op6                			

@@ -34,11 +34,8 @@ public class Sensor extends Synchronizer {
     /** ActivForms engine*/
 	private ActivFORMSEngine engine;
     
-    /** Managing system handler*/
-    private ENTRUST entrust;
-
     /** Signal(s)*/
-	private int setAverageRates;
+	private int newServicesCharacteristics;
 	
 	/** Communication handles*/
     private ServerSocket serverSocket;
@@ -46,6 +43,7 @@ public class Sensor extends Synchronizer {
     private PrintWriter out;			
     private BufferedReader in;
 
+    private int portNumber = -1;
 
     
     /**
@@ -53,13 +51,13 @@ public class Sensor extends Synchronizer {
      * @param engine
      * @param mainX
      */
-	public Sensor(ActivFORMSEngine engine, ENTRUST entrust){
+	public Sensor(ActivFORMSEngine engine, int portNumber){
     	//assign handles
 		this.engine 	= engine;
-		this.entrust	= entrust;
+		this.portNumber = portNumber;
 
 		//get signal(s) ID
-		setAverageRates = engine.getChannel("setAverageRates");
+		newServicesCharacteristics = engine.getChannel("newServicesCharacteristics");
     }
     
 	
@@ -83,7 +81,7 @@ public class Sensor extends Synchronizer {
 		}
 
 		//send the data to the monitor
-		engine.send(setAverageRates,this, dataExpectedByMonitor);
+		engine.send(newServicesCharacteristics,this, dataExpectedByMonitor);
     }
 
 
@@ -102,19 +100,17 @@ public class Sensor extends Synchronizer {
 	 * Listen for a message from the managed system
 	 * @throws IOException
 	 */
-    public void startListening(int portNumber){
+    public void startListening(){
 		 try{
+			 
+			//create sockets
 			 serverSocket 	= new ServerSocket(portNumber);
-			 System.out.println("ENTRUST controller ready - awaiting requests\n");
-	
 			 clientSocket	= serverSocket.accept();
 			 out 			= new PrintWriter(clientSocket.getOutputStream(), true);
 			 in				= new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 			 
-			 //assign output stream
-			 entrust.assignOutputStream(out);
-			 
-			 System.out.println("Connection established");
+			 System.out.println("ENTRUST controller ready - awaiting requests\n");			 
+//			 System.out.println("Connection established");
 	
 			 while (true){
 				 String input = in.readLine();

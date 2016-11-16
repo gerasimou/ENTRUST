@@ -12,9 +12,11 @@ import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
 
+import main.MainEvaluatorFX;
+
 public class Utility {
 	
-	private static String fileName = "resources/configFX.properties";
+	private static String fileName = MainEvaluatorFX.configFile;
 	private static Properties properties;
 	
 	static{

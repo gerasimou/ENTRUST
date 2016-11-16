@@ -79,7 +79,6 @@ public class VerificationEngine extends Synchronizer{
 
 		    }//for
 	
-		    
 			//Run QV
 			RQVResult[] results = qv.runQV(parameters);
 			
