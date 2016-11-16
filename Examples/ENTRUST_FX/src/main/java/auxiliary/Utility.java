@@ -12,18 +12,17 @@ import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
 
-import main.MainEvaluatorFX;
-
 public class Utility {
 	
-	private static String fileName = MainEvaluatorFX.configFile;
+	private static String configFile;
 	private static Properties properties;
 	
-	static{
+	public static void readConfigFile(String fileName){
+		configFile = fileName;
 		try {
 			if (properties == null){
 				properties = new Properties();
-				properties.load(new FileInputStream(fileName));
+				properties.load(new FileInputStream(configFile));
 			}
 		} 
 		catch (IOException e) {
@@ -31,17 +30,6 @@ public class Utility {
 		}
 	}
 	
-	public static void setup(){
-		try {
-			System.setProperty( "java.library.path", "/Users/sgerasimou/Documents/Prism/prism-4.2.1/lib");
-		    
-			ClassLoader.class.getDeclaredField( "sys_paths" ).set(null, null);
-			ClassLoader.class.getDeclaredField( "sys_paths" ).setAccessible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
 	
 	public static Set<Entry<Object, Object>> getPropertiesEntrySet(){
 		return properties.entrySet();
