@@ -3,11 +3,10 @@ ENTRUST Generic Controller
 
 
 <p align="center">
-  <object data="http://www-users.cs.york.ac.uk/~simos/ENTRUST/images/ENTRUST/entrustInstance.svg" class="image_wrapper" width="60%" type="image/svg+xml"></object>
+  <img src="http://www-users.cs.york.ac.uk/~simos/ENTRUST/images/ENTRUST/entrustInstance.svg">
   <br />
   Architecture of an ENTRUST self-adaptive system.
-</p>
-
+  </p>
 <br />
 
 An ENTRUST controller implements the monitor-analyse- plan-execute (MAPE) steps of the [autonomic computing loop] (http://ieeexplore.ieee.org/xpl/articleDetails.jsp?arnumber=1160055) using verifiable models, i.e., a network of interacting timed automata. These executable models are assessed for their correctness at design-time verifying a set of controller properties and executed at runtime by a [reusable virtual machine](https://people.cs.kuleuven.be/~danny.weyns/software/ActivFORMS/).
