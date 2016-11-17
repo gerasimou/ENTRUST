@@ -4,6 +4,13 @@ ENTRUST (ENgineering of TRUstworthy Self-adaptive sofTware) is the first tool-su
 
 ENTRUST includes methods for the development of verifiable controllers for self-adaptive systems, for the generation of design-time and runtime assurance evidence, and for the runtime instantiation of an assurance argument pattern devised specifically for these systems.
 
+<p align="center">
+  <img src="http://www-users.cs.york.ac.uk/~simos/ENTRUST/images/ENTRUST/entrust.svg">
+  <br />
+  Stages and key artefacts of the ENTRUST methodology.
+  </p>
+<br />
+
 ENTRUST is a joint work carried out by the departments of Computer Science, University of York, UK and Linnaeus University, SWE.
 
 Further information about ENTRUST, can be found [here] (http://www-users.cs.york.ac.uk/~simos/ENTRUST).
