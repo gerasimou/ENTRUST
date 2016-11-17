@@ -87,7 +87,7 @@
 					<!-- MainClass in mainfest make a executable jar -->
 					<archive>
 					  <manifest>
-						<mainClass>main.ENTRUST</mainClass>
+						<mainClass>main.MainEvaluator</mainClass>
 					  </manifest>
 					</archive>
  
